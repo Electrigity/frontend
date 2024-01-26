@@ -7,11 +7,13 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NavbarComponent } from './navbar/navbar.component';
 import {MenuModule} from "primeng/menu";
 import {DropdownModule} from "primeng/dropdown";
+import { DropdownComponent } from './dropdown/dropdown.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    DropdownComponent
   ],
     imports: [
         BrowserModule,
