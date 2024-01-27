@@ -6,21 +6,21 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NavbarComponent } from './navbar/navbar.component';
 import {MenuModule} from "primeng/menu";
-import {DropdownModule} from "primeng/dropdown";
-import { DropdownComponent } from './dropdown/dropdown.component';
+import { PanelMenuComponent } from './dropdown/dropdown.component';
+import {PanelMenuModule} from "primeng/panelmenu";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    DropdownComponent
+    PanelMenuComponent
   ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
         MenuModule,
-        DropdownModule
+        PanelMenuModule
     ],
   providers: [],
   bootstrap: [AppComponent]
