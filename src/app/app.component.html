@@ -1,2 +1,42 @@
-<app-navbar></app-navbar>
-<app-dropdown></app-dropdown>
+<table>
+  <colgroup>
+    <col style="width: 17.5%">
+    <col style="width: 82.5%">
+  </colgroup>
+  <td style="background-color: darkred">
+    <app-navbar></app-navbar>
+  </td>
+  <td style="background-color: blue">
+    <table style="width: 100%">
+      <tr style="background-color: saddlebrown; width: 100%; text-align: right">
+        <app-dropdown></app-dropdown>
+      </tr>
+      <tr style="background-color: yellow; display: flex; padding-top: 100px">
+            <app-text-box class="text-box-1"
+                          [backgroundColor]="'rgb(177, 250, 179)'"
+                          [infoTextColor]="'green'"
+                          [boxTitle]="totalEnergyBoughtBox.title"
+                          [boxInfo]="totalEnergyBoughtBox.powerValue.toFixed(2) + ' KW - ' + totalEnergyBoughtBox.price + ' $'"
+                          [boxDate]="totalEnergyBoughtBox.date"
+            ></app-text-box>
+            <app-text-box class="text-box-2" style="margin-left: 300px"
+                          [backgroundColor]="'lightgrey'"
+                          [infoTextColor]="'midnightblue'"
+                          [boxTitle]="pendingPaymentsBox.title"
+                          [boxInfo]="pendingPaymentsBox.powerValue.toFixed(2) + ' KW - ' + pendingPaymentsBox.price + ' $'"
+                          [boxDate]="pendingPaymentsBox.date"
+            ></app-text-box>
+            <app-text-box class="text-box-3" style="margin-left: 300px"
+                          [backgroundColor]="'lightgrey'"
+                          [infoTextColor]="'midnightblue'"
+                          [boxTitle]="accountBalanceBox.title"
+                          [boxInfo]="accountBalanceBox.balance + ' $'"
+                          [boxDate]="accountBalanceBox.date"
+                          [isAccountBalance]="accountBalanceBox.isAccountBalance"
+            ></app-text-box>
+      </tr>
+    </table>
+
+
+  </td>
+</table>

@@ -8,19 +8,23 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {MenuModule} from "primeng/menu";
 import { PanelMenuComponent } from './dropdown/dropdown.component';
 import {PanelMenuModule} from "primeng/panelmenu";
+import { TextBoxComponent } from './text-box/text-box.component';
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    PanelMenuComponent
+    PanelMenuComponent,
+    TextBoxComponent
   ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
         MenuModule,
-        PanelMenuModule
+        PanelMenuModule,
+        DividerModule
     ],
   providers: [],
   bootstrap: [AppComponent]

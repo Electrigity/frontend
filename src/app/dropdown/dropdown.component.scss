@@ -1,28 +1,35 @@
-.page-up {
-  position: absolute;
-  top: 8px;
-  padding-left: 21%;
-  padding-right: 78%;
-  padding-bottom: 6%;
-}
-
+//.page-up {
+//  position: absolute;
+//  top: 8px;
+//  padding-left: 21%;
+//  padding-right: 78%;
+//  padding-bottom: 6%;
+// // background-color: grey;
+//}
+//
 .icons-component {
-  position: absolute;
-  right: 220px;
-  padding-top: 3%;
+  //position: absolute;
+  //right: 220px;
+  //padding-top: 3%;
 }
-
+//
 .dropdown-component {
-  position: absolute;
-  right: 10px;
-  padding-top: 2%;
-  bottom: 5px;
+  //position: absolute;
+  //right: 10px;
+  //padding-top: 2%;
+  //bottom: 5px;
+  width: 100%;
 }
-
+//
+//.divider {
+//  position: absolute;
+//  top: 80px;
+//}
+//
 #bell {
-  position: absolute;
-  right: 180px;
-  top: 40px;
+  //position: absolute;
+  //right: 180px;
+  //top: 40px;
   font-size: 25px;
   cursor: pointer;
   padding: 0;
@@ -31,9 +38,9 @@
 }
 
 #settings {
-  position: absolute;
-  right: 100px;
-  top: 40px;
+  //position: absolute;
+  //right: 100px;
+  //top: 40px;
   font-size: 25px;
   cursor: pointer;
   padding: 0;
@@ -42,14 +49,15 @@
 }
 
 #logout {
-  position: absolute;
-  right: 20px;
-  top: 40px;
+  //position: absolute;
+  //right: 20px;
+  //top: 40px;
   font-size: 25px;
   cursor: pointer;
   padding: 0;
   border: none;
   background: none;
 }
-
-
+//
+//
+//

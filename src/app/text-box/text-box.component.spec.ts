@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PanelMenuComponent } from './dropdown.component';
+import { TextBoxComponent } from './text-box.component';
 
-describe('DropdownComponent', () => {
-  let component: PanelMenuComponent;
-  let fixture: ComponentFixture<PanelMenuComponent>;
+describe('TextBoxComponent', () => {
+  let component: TextBoxComponent;
+  let fixture: ComponentFixture<TextBoxComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PanelMenuComponent]
+      declarations: [TextBoxComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(PanelMenuComponent);
+    
+    fixture = TestBed.createComponent(TextBoxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
