@@ -10,13 +10,20 @@ import { PanelMenuComponent } from './dropdown/dropdown.component';
 import {PanelMenuModule} from "primeng/panelmenu";
 import { TextBoxComponent } from './text-box/text-box.component';
 import {DividerModule} from "primeng/divider";
+import { TimelineComponent } from '../../projects/appone/src/app/timeline/timeline.component';
+import {TimelineModule} from "primeng/timeline";
+import {ButtonModule} from "primeng/button";
+import {RegistrationComponent} from "../../projects/registration/src/app/registration/registration.component";
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     PanelMenuComponent,
-    TextBoxComponent
+    TextBoxComponent,
+    TimelineComponent
   ],
     imports: [
         BrowserModule,
@@ -24,7 +31,11 @@ import {DividerModule} from "primeng/divider";
         AppRoutingModule,
         MenuModule,
         PanelMenuModule,
-        DividerModule
+        DividerModule,
+        TimelineModule,
+        ButtonModule,
+        RegistrationComponent,
+        FormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]
