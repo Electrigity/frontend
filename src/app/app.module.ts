@@ -15,6 +15,8 @@ import {TimelineModule} from "primeng/timeline";
 import {ButtonModule} from "primeng/button";
 import {RegistrationComponent} from "../../projects/registration/src/app/registration/registration.component";
 import { FormsModule } from '@angular/forms';
+import {BillingComponent} from "../../projects/billing/src/app/billing/billing.component";
+import {CardInfoComponent} from "../../projects/billing/src/app/card-info/card-info.component";
 
 
 @NgModule({
@@ -25,18 +27,20 @@ import { FormsModule } from '@angular/forms';
     TextBoxComponent,
     TimelineComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        MenuModule,
-        PanelMenuModule,
-        DividerModule,
-        TimelineModule,
-        ButtonModule,
-        RegistrationComponent,
-        FormsModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MenuModule,
+    PanelMenuModule,
+    DividerModule,
+    TimelineModule,
+    ButtonModule,
+    RegistrationComponent,
+    FormsModule,
+    BillingComponent,
+    CardInfoComponent
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
