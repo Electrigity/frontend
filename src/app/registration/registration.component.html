@@ -1,0 +1,82 @@
+<body>
+<div id="content">
+  <div class="timeline">
+    <p-timeline [value]="events" layout="horizontal" align="bottom">
+      <ng-template pTemplate="marker" let-event>
+        <i [ngClass]="event.icon"></i>
+      </ng-template>
+      <ng-template pTemplate="content" let-event>
+        {{ event.title }}
+      </ng-template>
+    </p-timeline>
+    </div>
+    <div class="user-details">
+    <h1>User Details</h1>
+
+  <br><br>
+
+  <p-inputGroup>
+    <p-inputGroupAddon styleClass="icon-color">
+      <i class="pi pi-user"></i>
+    </p-inputGroupAddon>
+    <input style="margin-right: 10px;" pInputText placeholder="Username" [(ngModel)]="username">
+    {{'Username must only contain letters and numbers,'}}
+    <br>
+    {{'and must be 6-15 characters long'}}
+  </p-inputGroup>
+
+  <br><br>
+
+  <p-inputGroup>
+    <p-inputGroupAddon styleClass="icon-color">
+      <i class="pi pi-lock"></i>
+    </p-inputGroupAddon>
+    <input style="margin-right: 10px;" type="password" pInputText placeholder="Password" [(ngModel)]="password"/>
+    {{'Password must be 8-16 characters long, and contain one symbol,'}}
+    <br>
+    {{'one number and one lowercase character.'}}
+  </p-inputGroup>
+
+  <br><br>
+
+  <p-inputGroup>
+    <p-inputGroupAddon>
+      <i class="pi pi-calendar"></i>
+    </p-inputGroupAddon>
+    <p-calendar [(ngModel)]="dob" inputId="birth_date" placeholder="Date Of Birth"></p-calendar>
+  </p-inputGroup>
+
+  <br><br>
+
+  <div class="terms-checkbox-container">
+    <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary"></p-checkbox>
+    <p>&nbsp;I have read the
+      <a href="https://www.termsandconditionsgenerator.com/live.php?token=EtiU4bfco6n4RNbfiOayZJGsrXkDoxTJ" target="_blank">
+        Terms & Conditions
+      </a>
+    </p>
+  </div>
+    </div>
+
+  <br><br>
+
+  <div class="buttons" style="width: 100%">
+    <p-button label="Back"></p-button>
+    <p-button (onClick)="OnClick()" label="Next"></p-button>
+  </div>
+
+  <div class="icons">
+    <i class="pi pi-bitcoin" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+    <i class="pi pi-sun" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+    <i class="pi pi-bolt" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+  </div>
+  <div class="right-side">
+    <br><br><br>
+    <h1 style="text-align: center">Registration</h1>
+    <br><br><br><br><br>
+  </div>
+  <div class="img">
+    <img width="300px" height="300px" alt="Logo" src="/assets/file.enc">
+  </div>
+</div>
+</body>

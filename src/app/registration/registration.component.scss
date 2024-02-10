@@ -1,0 +1,72 @@
+body {
+  background-color: #ffffff;
+}
+
+#content{
+  display: grid;
+  grid-template-columns: 3fr 1.3fr;
+  grid-auto-rows: minmax(5px, auto);
+  grid-gap: 4px;
+  height: 97vh;
+}
+
+.right-side {
+  background: #ff745c;
+  grid-column: 2/3;
+  grid-row: 1/8;
+  margin: -10px;
+  margin-right: -16px;
+  margin-bottom: -13px;
+}
+
+.timeline {
+  grid-column: 1/2;
+  margin-right: 15px;
+  grid-row: 1/2;
+}
+
+.img {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  justify-self: center;
+  align-self: center;
+}
+
+.user-details {
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
+
+.icon-color {
+  background-color: #ff745c;
+}
+
+.terms-checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.buttons p-button {
+  margin-right: 10%; /* Adjust the margin as needed */
+}
+
+.buttons p-button:first-child {
+  margin-left: 40%; /* Adjust the margin as needed */
+}
+
+.buttons {
+  grid-column: 1/2;
+  grid-row: 6/7;
+  align-self: center;
+}
+
+.icons{
+  grid-column: 1/2;
+  grid-row: 7/8;
+}
+
+//.user-details {
+//  margin-left: 30%;
+//}
+
+

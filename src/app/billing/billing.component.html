@@ -1,0 +1,36 @@
+<body>
+<div id="content">
+<div class="timeline">
+  <p-timeline [value]="events" layout="horizontal" align="bottom">
+    <ng-template pTemplate="marker" let-event>
+      <i [ngClass]="event.icon"></i>
+    </ng-template>
+    <ng-template pTemplate="content" let-event>
+      {{ event.title }}
+    </ng-template>
+  </p-timeline>
+</div>
+  <div class="app-card-info">
+  <app-card-info></app-card-info>
+  </div>
+  <div class="button1">
+    <p-button label="Back"></p-button>
+    </div>
+  <div class="button2">
+    <p-button label="Confirm 20$ Payment"></p-button>
+  </div>
+<div class="right-side">
+  <br><br><br>
+  <h1 style="text-align: center">Wallet Authentication</h1>
+  <br><br><br><br><br>
+</div>
+  <div class="img">
+    <img width="300px" height="300px" alt="Logo" src="/assets/file.enc">
+  </div>
+  <div class="icons">
+    <i class="pi pi-bitcoin" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+    <i class="pi pi-sun" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+    <i class="pi pi-bolt" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+  </div>
+</div>
+</body>
