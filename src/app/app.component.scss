@@ -1,3 +1,52 @@
-.text-box-1 {
+.home-page {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  //margin: -8px;
+}
 
+.right-part {
+  display: grid;
+  grid-template-rows: 0.5fr 25px 1.2fr 0.5fr 2.5fr 0.7fr;
+  grid-row-gap: 0;
+  background-color: #f6f1f1;
+  margin: -8px;
+}
+
+.dropdown-container {
+  padding-top: 1.5%;
+}
+
+:host ::ng-deep .divider {
+  height: 2px;
+  background-color: black;
+}
+
+.chip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.chip-container {
+  grid-column: 2 / 3;
+}
+
+:host ::ng-deep .purchase-chip {
+  cursor: pointer;
+  transform: scale(1.7);
+  //grid-column: 2 / 3;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 20%;
+  background: linear-gradient(180deg, rgba(90,249,105,1) 23%, rgba(255,255,255,1) 82%);
+}
+
+.text-boxes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  * {
+    width: 90%;
+    justify-self: center;
+  }
 }

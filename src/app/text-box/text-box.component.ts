@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {popNumber} from "rxjs/internal/util/args";
 
 @Component({
   selector: 'app-text-box',
@@ -12,4 +13,5 @@ export class TextBoxComponent {
   @Input() backgroundColor: string = 'rgb(177, 250, 179)';
   @Input() infoTextColor: string = 'green';
   @Input() isAccountBalance: boolean = false;
+  protected readonly popNumber = popNumber;
 }

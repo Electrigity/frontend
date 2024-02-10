@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="title">
+    <p>Payment History</p>
+  </div>
+  <div class="chips">
+    <p-chip
+      label="Complete"
+      icon="pi pi-check-circle"
+      (click)="filterTableByComplete()"
+      [class.chosen-chip]="filterComplete">
+    </p-chip>
+    <p-chip
+      label="Pending"
+      icon="pi pi-clock"
+      (click)="filterTableByPending()"
+      styleClass="third-chip"
+      [class.chosen-chip]="filterPending">
+    </p-chip>
+    <p-chip
+      label="Rejected"
+      icon="pi pi-minus-circle"
+      (click)="filterTableByRejected()"
+      [class.chosen-chip]="filterRejected"
+      >
+    </p-chip>
+  </div>
+</div>

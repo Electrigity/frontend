@@ -1,0 +1,31 @@
+<div class="container">
+  <p-table styleClass="p-datatable-gridlines"
+    [value]="paymentHistory"
+    [paginator]="true"
+    [rows]="4"
+    [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width' : '50rem'}"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:15%">Order ID</th>
+        <th style="width:18.34%">Date</th>
+        <th style="width:16.67%">Energy Traded</th>
+        <th style="width:16.67%">Role</th>
+        <th style="width:16.67%">Other User ID</th>
+        <th style="width:16.67%">Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-entry>
+      <tr>
+        <td>{{ entry.orderId }}</td>
+        <td>{{ entry.orderDate }}</td>
+        <td>{{ entry.energyTraded }}</td>
+        <td>{{ entry.userRole }}</td>
+        <td>{{ entry.otherUserId }}</td>
+        <td>{{ entry.transactionStatus }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

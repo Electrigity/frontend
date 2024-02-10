@@ -1,0 +1,35 @@
+.container {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.title {
+  padding-left: 2.25%;
+  font-weight: 600;
+}
+
+.chips {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  justify-items: center;
+}
+
+//:host ::ng-deep .p-chip {
+//  min-width: 120px;
+//  justify-content: center;
+//  cursor: pointer;
+//}
+
+:host ::ng-deep .p-chip {
+  min-width: 120px;
+  justify-content: center;
+  cursor: pointer;
+  //background-color: red;
+}
+
+:host ::ng-deep .chosen-chip .p-chip {
+  .p-chip-text {
+    color: #2f332f;
+  }
+  background-color: #65ff7f;
+}

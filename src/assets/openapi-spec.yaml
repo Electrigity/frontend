@@ -1,0 +1,388 @@
+openapi: 3.0.3
+
+info:
+  version: 1.0.0
+  title: Electrigity
+  description: A platform that allows peer-to-peer trading of energy produced by photovoltaic cells
+
+tags:
+  - name: "Authentication"
+    description: Endpoints relating to signing up and logging in
+  - name: "Trading"
+    description: Endpoints relating to the available methods of trading
+  - name: "Data Access"
+    description: Endpoints related to database calls (DB is embedded in the blockchain)
+  - name: "Analytics"
+    description: Endpoints that allow visualizing previously collected data
+  - name: "Owner"
+    description: Endpoints accessed by the owner
+
+paths:
+
+  /trade/topup:
+    post:
+      summary: Top up balance
+      tags:
+        - "Trading"
+      description: Top up the user's account with the chosen amount of funds
+      operationId: topUpBalance
+
+      parameters:
+        - name: userId
+          in: query
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+        - name: amount
+          in: query
+          description: Amount to add to user's balance
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successfully added amount to user's account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "402":
+          description: Payment required to process
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "404":
+          description: Transaction failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+  /trade/checkbalance:
+    get:
+      summary: Check account balance
+      tags:
+        - "Data Access"
+      description: Check the remaining funds in a user's account
+      operationId: checkBalance
+
+      parameters:
+        - name: userId
+          in: query
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful HTTP call
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "404":
+          description: Unsuccessful HTTP call
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /trade/buy-from-queue:
+    post:
+      summary: Buy energy from market queue
+      tags:
+        - "Trading"
+      description: Adds the user to the market queue to purchase energy according to the chosen trading strategy
+      operationId: buyFromQueue
+
+      parameters:
+        - name: userId
+          in: query
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+        - name: priceValue
+          in: query
+          description: The price that the user is willing to spend on his or her purchase
+          required: false
+          schema:
+            type: number
+        - name: energyValue
+          in: query
+          description: The amount of energy that the user is willing to buy in kWh
+          required: false
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successfully added amount to user's account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "400":
+          description: One of the query parameters (priceValue or energyValue) is required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  missingParameter:
+                    type: string
+        "404":
+          description: Transaction failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /auth/signup:
+    post:
+      summary: Sign up to application
+      tags:
+        - "Authentication"
+      description: Sign up a user to the application and create a new account
+      operationId: signUpUser
+
+      parameters:
+        - name: username
+          in: query
+          description: Username chosen by the user
+          required: true
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: Household location of the user
+          required: true
+          schema:
+            type: object
+            properties:
+              longitude:
+                type: number
+              latitude:
+                type: number
+        - name: tokenId
+          in: query
+          description: ID of the ERC721 token used for authentication
+          required: true
+          schema:
+            type: object
+            properties:
+              longitude:
+                type: number
+              latitude:
+                type: number
+      responses:
+        "200":
+          description: Successfully created user's account
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  success:
+                    type: boolean
+        "409":
+          description: Username already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "404":
+          description: Account creation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /auth/login:
+    get:
+      summary: Login to application
+      tags:
+        - "Authentication"
+      description: Log in a user to the application through an existing account
+      operationId: loginUser
+
+      parameters:
+        - name: tokenId
+          in: query
+          description: ID of the ERC721 token used during signup
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully logged user in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  success:
+                    type: boolean
+        "401":
+          description: Invalid token ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        "404":
+          description: Login failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /fetch-user-info:
+    get:
+      summary: Retrieve data related to user
+      tags:
+        - "Data Access"
+      description: Fetches information related to the user's profile
+      operationId: fetchUserInfo
+
+      parameters:
+        - name: userId
+          in: query
+          description: ID of the user assigned during signup
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully retrieved user data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  userInfo:
+                    type: object
+                  success:
+                    type: boolean
+        "404":
+          description: Fetch failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /fetch-user-history:
+    get:
+      summary: Retrieve payment history of user
+      tags:
+        - "Data Access"
+      description: Fetches user data related to past and current energy transactions
+      operationId: fetchUserHistory
+
+      parameters:
+        - name: userId
+          in: query
+          description: ID of the user assigned during signup
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully retrieved user data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalEnergyBought:
+                    type: object
+                    properties:
+                      powerValue:
+                        type: number
+                      price:
+                        type: number
+                  pendingPayments:
+                    type: object
+                    properties:
+                      powerValue:
+                        type: number
+                      price:
+                        type: number
+                  accountBalance:
+                    type: number
+                  paymentHistory:
+                    type: object
+                    properties:
+                      orderId:
+                        type: number
+                      orderDate:
+                        type: number
+                      energyTraded:
+                        type: number
+                      userRole:
+                        enum:
+                          - PRODUCER
+                          - CONSUMER
+                      otherUserId:
+                        type: string
+                      transactionStatus:
+                        enum:
+                          - SUCCESS
+                          - PENDING
+                          - REJECTED
+                  success:
+                    type: boolean
+        "404":
+          description: Fetch failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+

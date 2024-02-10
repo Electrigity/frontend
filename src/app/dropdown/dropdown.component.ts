@@ -10,7 +10,10 @@ export class PanelMenuComponent {
   username : string = "bitcoinking69"
   userDisplay : MenuItem = {
     label : this.username,
-    icon: 'pi pi-user'
+    icon: 'pi pi-user',
+    style: {
+      'font-size': '85%'
+    }
   }
   /*changeUsername : MenuItem = {
     label: "Change Username",

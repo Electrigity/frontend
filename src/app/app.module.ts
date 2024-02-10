@@ -10,22 +10,34 @@ import { PanelMenuComponent } from './dropdown/dropdown.component';
 import {PanelMenuModule} from "primeng/panelmenu";
 import { TextBoxComponent } from './text-box/text-box.component';
 import {DividerModule} from "primeng/divider";
+import { BuilderIoComponent } from './builder-io/builder-io.component';
+import { TableFilterComponent } from './table-filter/table-filter.component';
+import {ChipModule} from "primeng/chip";
+import { TableHistoryComponent } from './table-history/table-history.component';
+import {TableModule} from "primeng/table";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     PanelMenuComponent,
-    TextBoxComponent
+    TextBoxComponent,
+    BuilderIoComponent,
+    TableFilterComponent,
+    TableHistoryComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        MenuModule,
-        PanelMenuModule,
-        DividerModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MenuModule,
+    PanelMenuModule,
+    DividerModule,
+    ChipModule,
+    TableModule,
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
