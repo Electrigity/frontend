@@ -14,8 +14,9 @@ body {
   background: #ff745c;
   grid-column: 2/3;
   grid-row: 1/7;
-  margin: -13px;
-  margin-right: -36px;
+  margin: -10px;
+  margin-right: -16px;
+  margin-bottom: -13px;
 }
 .timeline {
   grid-column: 1/2;
@@ -48,6 +49,6 @@ body {
 
 .icons {
   grid-column: 1/2;
-  grid-row: 7/8;
-  align-self: start;
+  grid-row: 6/7;
+  align-self: end;
 }

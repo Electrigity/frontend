@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
+import {UsernameService} from "../username.service";
 
 @Component({
   selector: 'app-registration',
@@ -6,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent {
+  constructor(private router: Router, private usernameService: UsernameService) { }
   username : string = '';
   password : string = '';
   dob : Date = new Date();
@@ -45,13 +48,7 @@ export class RegistrationComponent {
 
     return age;
   }
-  OnClick(){
-    // console.log(this.username)
-    // console.log(this.password)
-    // console.log(this.isValidUsername(this.username))
-    // console.log(this.userList)
-    console.log(this.dob)
-    console.log(this.usersMap)
+  OnClickNext(){
     if(this.username.length == 0 || this.password.length == 0) {
       alert("Please input the required fields.")
     }
@@ -78,7 +75,12 @@ export class RegistrationComponent {
     if(this.isValidUsername(this.username) && this.isValidPassword(this.password) && this.checked
       && !this.usersMap.has(this.username) && this.calculateAge(this.dob) >= 16) {
       this.usersMap.set(this.username, this.password)
-      //Go to billing page
+      this.usernameService.setUsername(this.username);
+      this.router.navigate(['/billing']);
     }
+  }
+
+  OnClickBack() {
+
   }
 }
