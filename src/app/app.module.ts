@@ -15,6 +15,7 @@ import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {CalendarModule} from "primeng/calendar";
 import {FormsModule} from "@angular/forms";
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {FormsModule} from "@angular/forms";
     TimelineComponent,
     RegistrationComponent,
     CardInfoComponent,
-    BillingComponent
+    BillingComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

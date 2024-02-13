@@ -81,6 +81,6 @@ export class RegistrationComponent {
   }
 
   OnClickBack() {
-
+    this.router.navigate(['/login']);
   }
 }
