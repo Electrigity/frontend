@@ -16,7 +16,9 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {CalendarModule} from "primeng/calendar";
 import {FormsModule} from "@angular/forms";
 import { LoginComponent } from './login/login.component';
-
+import { ValentineComponent } from './valentine/valentine.component';
+import { SearchService } from './search.service';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,10 +26,12 @@ import { LoginComponent } from './login/login.component';
     RegistrationComponent,
     CardInfoComponent,
     BillingComponent,
-    LoginComponent
+    LoginComponent,
+    ValentineComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     TimelineModule,
@@ -38,7 +42,7 @@ import { LoginComponent } from './login/login.component';
     CalendarModule,
     FormsModule
   ],
-  providers: [],
+  providers: [SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
