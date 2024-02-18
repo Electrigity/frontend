@@ -7,8 +7,9 @@
 
 .dropdown-component {
   grid-column: 31 / 36;
-  width: 85%;
+  width: 10rem;
 }
+
 
 .icons-component {
   grid-column: 27 / 30;
@@ -17,7 +18,7 @@
 }
 
 #bell {
-  font-size: 18px;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
   border: none;
@@ -25,7 +26,7 @@
 }
 
 #settings {
-  font-size: 18px;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
   border: none;
@@ -33,7 +34,7 @@
 }
 
 #logout {
-  font-size: 18px;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
   border: none;

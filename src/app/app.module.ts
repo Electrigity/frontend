@@ -16,6 +16,7 @@ import {ChipModule} from "primeng/chip";
 import { TableHistoryComponent } from './table-history/table-history.component';
 import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
+import { SearchOptionsComponent } from './search-options/search-options.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {HttpClientModule} from "@angular/common/http";
     TextBoxComponent,
     BuilderIoComponent,
     TableFilterComponent,
-    TableHistoryComponent
+    TableHistoryComponent,
+    SearchOptionsComponent
   ],
   imports: [
     BrowserModule,

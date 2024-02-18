@@ -12,7 +12,7 @@ export class PanelMenuComponent {
     label : this.username,
     icon: 'pi pi-user',
     style: {
-      'font-size': '85%'
+      'font-size': '85%',
     }
   }
   /*changeUsername : MenuItem = {

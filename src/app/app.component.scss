@@ -1,7 +1,12 @@
 .home-page {
   display: grid;
   grid-template-columns: 1fr 5fr;
-  //margin: -8px;
+}
+
+.left-part {
+  //background-color: #ff745c;
+  //margin-left: -0.6rem;
+  //margin-bottom: -0.5rem;
 }
 
 .right-part {
@@ -10,6 +15,7 @@
   grid-row-gap: 0;
   background-color: #f6f1f1;
   margin: -8px;
+  height: 100vh;
 }
 
 .dropdown-container {
@@ -49,4 +55,9 @@
     width: 90%;
     justify-self: center;
   }
+}
+
+.table-component {
+  width: 95%;
+  justify-self: center;
 }
