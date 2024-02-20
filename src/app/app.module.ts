@@ -16,6 +16,11 @@ import {ChipModule} from "primeng/chip";
 import { TableHistoryComponent } from './table-history/table-history.component';
 import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
+import { NotificationComponent } from './notification/notification.component';
+import {OrderListModule} from "primeng/orderlist";
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MessagesModule} from "primeng/messages";
+import { PopupComponent } from './popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,9 @@ import {HttpClientModule} from "@angular/common/http";
     TextBoxComponent,
     BuilderIoComponent,
     TableFilterComponent,
-    TableHistoryComponent
+    TableHistoryComponent,
+    NotificationComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +43,10 @@ import {HttpClientModule} from "@angular/common/http";
     DividerModule,
     ChipModule,
     TableModule,
-    HttpClientModule
+    HttpClientModule,
+    OrderListModule,
+    DragDropModule,
+    MessagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

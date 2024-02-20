@@ -1,0 +1,22 @@
+#content {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(150px, auto);
+  grid-gap: 4px;
+  height: 97vh;
+}
+
+.card {
+  grid-row: 1/2;
+}
+
+.window__container {
+  display: block;
+  position: absolute;
+  right: 102px;
+  top: 100px;
+  min-width: 360px;
+  height: 528px;
+  z-index: 10000;
+  background: red;
+}

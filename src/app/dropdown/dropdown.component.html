@@ -1,6 +1,9 @@
 <div class="page-up">
   <div class="icons-component">
-    <button onclick="alert('Notifications Section')" class="pi pi-bell" id="bell"></button>
+    <button onclick="openPopup()" class="pi pi-bell" id="bell"></button>
+    <div *ngIf="open" class="popup-container">
+      <app-notification></app-notification>
+    </div>
     <button onclick="alert('Settings Section')" class="pi pi-cog" id="settings"></button>
     <button onclick="alert('Log-out Section')" class="pi pi-sign-out" id="logout"></button>
   </div>
