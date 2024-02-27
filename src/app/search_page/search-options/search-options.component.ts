@@ -59,10 +59,12 @@ export class SearchOptionsComponent {
             'Fusce molestie massa eu dapibus cursus.' +
             'In tellus mauris, posuere ut cursus a, dictum sit amet est.' +
             'Nam magna orci, convallis nec.'
-          const htmlContent = '<p>' + text + '</p>' +
-            '<div style="display: flex; justify-content: center">' +
-            '<button style="cursor: pointer">Trade</button>' +
-            '</div>'
+          const htmlContent = `
+          <p>${text}</p>
+          <div style="display: flex; justify-content: center">
+            <button style="cursor: pointer">Trade</button>
+          </div>
+          `
           const fragment = document.createRange().createContextualFragment(htmlContent);
           let popup = new Popup()
             // @ts-ignore

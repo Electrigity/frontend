@@ -1,7 +1,6 @@
-import {Component, Injectable, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, OnChanges, SimpleChanges} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TableService} from "../services/table.service";
-import {filter} from "rxjs";
 
 @Component({
   selector: 'app-table-history',
@@ -60,7 +59,7 @@ export class TableHistoryComponent implements OnChanges{
     this.getPaymentHistoryJson()
   }
   getPaymentHistoryJson() {
-    this.http.get('/assets/test.json', {responseType: 'json'})
+    this.http.get('/assets/table-data.json', {responseType: 'json'})
       .subscribe((data: any) => {
         this.fullPaymentHistory = data;
         this.paymentHistory = this.fullPaymentHistory;

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BuilderIoComponent } from './builder-io.component';
+import { SearchPageComponent } from './search-page.component';
 
-describe('BuilderIoComponent', () => {
-  let component: BuilderIoComponent;
-  let fixture: ComponentFixture<BuilderIoComponent>;
+describe('SearchPageComponent', () => {
+  let component: SearchPageComponent;
+  let fixture: ComponentFixture<SearchPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BuilderIoComponent]
+      declarations: [SearchPageComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BuilderIoComponent);
+    fixture = TestBed.createComponent(SearchPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

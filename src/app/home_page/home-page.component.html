@@ -1,0 +1,46 @@
+<div class="home-page">
+  <div class="left-part">
+    <app-navbar></app-navbar>
+  </div>
+  <div class="right-part">
+    <div class="dropdown-container">
+      <app-dropdown></app-dropdown>
+    </div>
+    <p-divider styleClass="divider" layout="horizontal" type="solid"></p-divider>
+    <div class="text-boxes">
+      <app-text-box class="text-box-1"
+                    [backgroundColor]="'rgb(177, 250, 179)'"
+                    [infoTextColor]="'green'"
+                    [boxTitle]="totalEnergyBoughtBox.title"
+                    [boxInfo]="totalEnergyBoughtBox.powerValue.toFixed(2) + ' KW - ' + totalEnergyBoughtBox.price + ' $'"
+                    [boxDate]="totalEnergyBoughtBox.date"
+      ></app-text-box>
+      <app-text-box class="text-box-2"
+                    [backgroundColor]="'lightgrey'"
+                    [infoTextColor]="'midnightblue'"
+                    [boxTitle]="pendingPaymentsBox.title"
+                    [boxInfo]="pendingPaymentsBox.powerValue.toFixed(2) + ' KW - ' + pendingPaymentsBox.price + ' $'"
+                    [boxDate]="pendingPaymentsBox.date"
+      ></app-text-box>
+      <app-text-box class="text-box-3"
+                    [backgroundColor]="'lightgrey'"
+                    [infoTextColor]="'midnightblue'"
+                    [boxTitle]="accountBalanceBox.title"
+                    [boxInfo]="accountBalanceBox.balance + ' $'"
+                    [boxDate]="accountBalanceBox.date"
+                    [isAccountBalance]="accountBalanceBox.isAccountBalance"
+      ></app-text-box>
+    </div>
+    <div>
+      <app-table-filter></app-table-filter>
+    </div>
+    <div class="table-component">
+      <app-table-history></app-table-history>
+    </div>
+    <div class="chip-grid">
+      <div class="chip-container">
+        <p-chip label="Purchase Now" icon="pi pi-shopping-cart" styleClass="purchase-chip"></p-chip>
+      </div>
+    </div>
+  </div>
+</div>
