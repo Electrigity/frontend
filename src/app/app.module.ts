@@ -16,6 +16,7 @@ import { TableHistoryComponent } from './home_page/table-history/table-history.c
 import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
 import { SearchOptionsComponent } from './search_page/search-options/search-options.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SearchOptionsComponent } from './search_page/search-options/search-opti
     TableFilterComponent,
     TableHistoryComponent,
     SearchOptionsComponent,
-    routingComponents
+    routingComponents,
+    RegistrationComponent,
   ],
   imports: [
     AppRoutingModule,

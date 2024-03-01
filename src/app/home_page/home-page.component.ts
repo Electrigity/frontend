@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home-page',
@@ -7,6 +8,9 @@ import { Component } from '@angular/core';
 })
 export class HomePageComponent {
   title = 'Electrigity';
+
+  constructor(private router: Router) {
+  }
 
   totalEnergyBoughtBox = {
     'title': 'Total Energy Bought',
@@ -26,4 +30,13 @@ export class HomePageComponent {
     'date': '',
     'isAccountBalance' : true
   }
+
+  ngOnInit() {
+    const currentUser = localStorage.getItem("currentUser")
+
+    if(currentUser == null) {
+      this.router.navigate(['/login'])
+    }
+  }
+
 }
