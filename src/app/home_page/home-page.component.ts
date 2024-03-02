@@ -39,4 +39,5 @@ export class HomePageComponent {
     }
   }
 
+    protected readonly localStorage = localStorage;
 }

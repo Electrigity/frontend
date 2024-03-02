@@ -20,11 +20,7 @@ export class PanelMenuComponent {
       'font-size': '85%',
     }
   }
-  /*changeUsername : MenuItem = {
-    label: "Change Username",
-    icon: 'pi pi-pencil',
-    items: [this.userDisplay]
-  }*/
+
 
   items : PanelMenuModule[] = [this.userDisplay]
 
@@ -32,4 +28,6 @@ export class PanelMenuComponent {
     localStorage.removeItem("currentUser")
     this.router.navigate(['/login'])
   }
+
+  protected readonly localStorage = localStorage;
 }

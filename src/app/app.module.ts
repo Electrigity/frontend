@@ -17,6 +17,14 @@ import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
 import { SearchOptionsComponent } from './search_page/search-options/search-options.component';
 import { RegistrationComponent } from './registration/registration.component';
+import {TimelineModule} from "primeng/timeline";
+import {ButtonModule} from "primeng/button";
+import {CheckboxModule} from "primeng/checkbox";
+import {InputGroupModule} from "primeng/inputgroup";
+import {InputGroupAddonModule} from "primeng/inputgroupaddon";
+import {CalendarModule} from "primeng/calendar";
+import {FormsModule} from "@angular/forms";
+import {CardInfoComponent} from "./registration/card-info/card-info.component";
 
 @NgModule({
   declarations: [
@@ -27,8 +35,8 @@ import { RegistrationComponent } from './registration/registration.component';
     TableFilterComponent,
     TableHistoryComponent,
     SearchOptionsComponent,
-    routingComponents,
-    RegistrationComponent,
+    CardInfoComponent,
+    routingComponents
   ],
   imports: [
     AppRoutingModule,
@@ -40,7 +48,14 @@ import { RegistrationComponent } from './registration/registration.component';
     DividerModule,
     ChipModule,
     TableModule,
-    HttpClientModule
+    HttpClientModule,
+    ButtonModule,
+    CheckboxModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    CalendarModule,
+    TimelineModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
