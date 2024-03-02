@@ -16,6 +16,8 @@ import { TableHistoryComponent } from './home_page/table-history/table-history.c
 import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
 import { SearchOptionsComponent } from './search_page/search-options/search-options.component';
+import {InputGroupModule} from "primeng/inputgroup";
+import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { SearchOptionsComponent } from './search_page/search-options/search-opti
     DividerModule,
     ChipModule,
     TableModule,
-    HttpClientModule
+    HttpClientModule,
+    InputGroupModule,
+    InputGroupAddonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

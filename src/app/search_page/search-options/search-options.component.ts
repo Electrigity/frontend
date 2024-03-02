@@ -13,16 +13,13 @@ export class SearchOptionsComponent {
   private userCoordinates!: Object;
   private otherUsersCoordinates!: Object[];
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     const myAPIKey = '355084142fcc42eea656c31df0d782ac';
     const mapStyle = 'https://maps.geoapify.com/v1/styles/positron/style.json';
-
     this.http.get('/assets/map-data.json', {responseType: 'json'})
       .subscribe((data: any) => {
         this.userCoordinates = data['userCoordinates']

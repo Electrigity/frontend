@@ -5,10 +5,12 @@
   },
   "otherUsersCoordinates": [
     {
+      "username": "adnan2002",
       "longitude": 35.496609,
       "latitude": 33.886746
     },
     {
+      "username": "adnan02",
       "longitude": 35.504912,
       "latitude": 33.890291
     },
@@ -17,10 +19,13 @@
       "latitude": 33.884430
     },
     {
+      "username": "karim2",
+      "username": "ali02",
       "longitude": 35.500509,
       "latitude": 33.879239
     },
     {
+      "username": "anas2003",
       "longitude": 35.516780,
       "latitude": 33.893053
     }
