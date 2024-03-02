@@ -1,0 +1,162 @@
+[
+  {
+    "orderId": 44,
+    "orderDate": "1989-05-11T20:22:46.044Z",
+    "energyTraded": 28,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb021840",
+    "transactionStatus": "REJECTED"
+  },
+  {
+    "orderId": 427,
+    "orderDate": "2012-12-10T14:59:10.735Z",
+    "energyTraded": 39,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb021841",
+    "transactionStatus": "PENDING"
+  },
+  {
+    "orderId": 486,
+    "orderDate": "2015-11-03T23:56:05.308Z",
+    "energyTraded": 1,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb021842",
+    "transactionStatus": "REJECTED"
+  },
+  {
+    "orderId": 326,
+    "orderDate": "1982-10-09T21:21:07.575Z",
+    "energyTraded": 46,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb021843",
+    "transactionStatus": "SUCCESS"
+  },
+  {
+    "orderId": 367,
+    "orderDate": "2002-12-19T17:02:51.117Z",
+    "energyTraded": 34,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb021844",
+    "transactionStatus": "PENDING"
+  },
+  {
+    "orderId": 609,
+    "orderDate": "1994-01-28T01:31:11.379Z",
+    "energyTraded": 5,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb021845",
+    "transactionStatus": "PENDING"
+  },
+  {
+    "orderId": 901,
+    "orderDate": "2018-09-05T16:06:45.640Z",
+    "energyTraded": 49,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb021846",
+    "transactionStatus": "SUCCESS"
+  },
+  {
+    "orderId": 9,
+    "orderDate": "2001-09-12T06:20:10.109Z",
+    "energyTraded": 43,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb021847",
+    "transactionStatus": "SUCCESS"
+  },
+  {
+    "orderId": 576,
+    "orderDate": "2020-11-16T00:04:26.995Z",
+    "energyTraded": 34,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb021848",
+    "transactionStatus": "PENDING"
+  },
+  {
+    "orderId": 534,
+    "orderDate": "1972-06-03T09:42:13.529Z",
+    "energyTraded": 13,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb021849",
+    "transactionStatus": "SUCCESS"
+  },
+  {
+    "orderId": 743,
+    "orderDate": "2011-10-18T09:35:37.812Z",
+    "energyTraded": 9,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb02184a",
+    "transactionStatus": "PENDING"
+  },
+  {
+    "orderId": 230,
+    "orderDate": "1975-11-09T14:31:03.376Z",
+    "energyTraded": 11,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb02184b",
+    "transactionStatus": "REJECTED"
+  },
+  {
+    "orderId": 696,
+    "orderDate": "2024-01-07T04:31:02.924Z",
+    "energyTraded": 47,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb02184c",
+    "transactionStatus": "PENDING"
+  },
+  {
+    "orderId": 514,
+    "orderDate": "1973-01-11T08:04:16.138Z",
+    "energyTraded": 41,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb02184d",
+    "transactionStatus": "SUCCESS"
+  },
+  {
+    "orderId": 753,
+    "orderDate": "1989-12-19T05:42:50.403Z",
+    "energyTraded": 16,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb02184e",
+    "transactionStatus": "REJECTED"
+  },
+  {
+    "orderId": 722,
+    "orderDate": "2016-02-22T13:46:23.816Z",
+    "energyTraded": 14,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb02184f",
+    "transactionStatus": "SUCCESS"
+  },
+  {
+    "orderId": 513,
+    "orderDate": "2013-04-12T11:38:40.559Z",
+    "energyTraded": 5,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb021850",
+    "transactionStatus": "REJECTED"
+  },
+  {
+    "orderId": 920,
+    "orderDate": "2001-04-01T21:35:48.839Z",
+    "energyTraded": 49,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb021851",
+    "transactionStatus": "REJECTED"
+  },
+  {
+    "orderId": 319,
+    "orderDate": "1975-02-24T11:40:46.581Z",
+    "energyTraded": 47,
+    "userRole": "CONSUMER",
+    "otherUserId": "65c66a3921f258c5fb021852",
+    "transactionStatus": "PENDING"
+  },
+  {
+    "orderId": 586,
+    "orderDate": "2005-01-28T00:30:11.032Z",
+    "energyTraded": 37,
+    "userRole": "PRODUCER",
+    "otherUserId": "65c66a3921f258c5fb021853",
+    "transactionStatus": "SUCCESS"
+  }
+]

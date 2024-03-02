@@ -1,0 +1,14 @@
+<div [ngClass]="{'box': true, account : isAccountBalance}" [style.background-color]="backgroundColor">
+  <p class="box-title">{{boxTitle}}</p>
+  <i *ngIf="isAccountBalance" class="pi pi-money-bill" [style.padding-left]="'15px'"></i>
+  <p class="box-info" [style.color]="infoTextColor">{{boxInfo}}</p>
+  <p class="box-date">{{boxDate}}</p>
+  <div *ngIf="isAccountBalance" class="icons">
+    <button style="border: none; background-color: transparent; cursor: pointer">
+      <i class="pi pi-plus-circle" style="color: darkblue;"></i>
+    </button>
+    <button style="border: none; background-color: transparent; cursor: pointer">
+      <i class="pi pi-trash" style="color: #e01e1e"></i>
+    </button>
+  </div>
+</div>

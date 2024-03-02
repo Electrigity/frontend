@@ -8,10 +8,19 @@ import {MenuItem} from "primeng/api";
 })
 export class NavbarComponent {
   appTitle: string = 'ELECTRIGITY';
+
+  homeMenuItem: MenuItem = {
+    label: 'Home',
+    icon: 'pi pi-home',
+    styleClass: 'widget',
+    routerLink: '/home'
+  }
+
   searchMenuItem: MenuItem = {
     label: 'Search',
     icon: 'pi pi-search',
-    styleClass: 'widget'
+    styleClass: 'widget',
+    routerLink: '/search-options'
   }
   operatorMenuItem: MenuItem = {
     label: 'Operator',
@@ -23,5 +32,10 @@ export class NavbarComponent {
     icon: 'pi pi-question-circle',
     styleClass: 'widget'
   }
-  items: MenuItem[] = [this.searchMenuItem, this.operatorMenuItem, this.questionsMenuitem]
+  items: MenuItem[] = [
+    this.homeMenuItem,
+    this.searchMenuItem,
+    this.operatorMenuItem,
+    this.questionsMenuitem
+  ]
 }

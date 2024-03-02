@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DropdownComponent } from './dropdown.component';
+import { TableHistoryComponent } from './table-history.component';
 
-describe('DropdownComponent', () => {
-  let component: DropdownComponent;
-  let fixture: ComponentFixture<DropdownComponent>;
+describe('TableHistoryComponent', () => {
+  let component: TableHistoryComponent;
+  let fixture: ComponentFixture<TableHistoryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DropdownComponent]
+      declarations: [TableHistoryComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DropdownComponent);
+    fixture = TestBed.createComponent(TableHistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

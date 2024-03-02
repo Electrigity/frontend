@@ -1,0 +1,28 @@
+{
+  "userCoordinates": {
+    "longitude": 35.504694,
+    "latitude": 33.885055
+  },
+  "otherUsersCoordinates": [
+    {
+      "longitude": 35.496609,
+      "latitude": 33.886746
+    },
+    {
+      "longitude": 35.504912,
+      "latitude": 33.890291
+    },
+    {
+      "longitude": 35.508173,
+      "latitude": 33.884430
+    },
+    {
+      "longitude": 35.500509,
+      "latitude": 33.879239
+    },
+    {
+      "longitude": 35.516780,
+      "latitude": 33.893053
+    }
+  ]
+}
