@@ -8,10 +8,13 @@ import {HttpClient} from "@angular/common/http";
   styleUrl: './search-options.component.scss'
 })
 export class SearchOptionsComponent {
+  username! : string;
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
   private userCoordinates!: Object;
   private otherUsersCoordinates!: Object[];
+  private map! : Map
+
 
   constructor(private http: HttpClient) {}
 
@@ -35,21 +38,21 @@ export class SearchOptionsComponent {
           zoom: 14
         };
 
-        const map = new Map({
+        this.map = new Map({
           container: this.mapContainer.nativeElement,
           style: `${mapStyle}?apiKey=${myAPIKey}`,
           center: [initialState.lng, initialState.lat],
           zoom: initialState.zoom,
         });
 
-        map.addControl(new NavigationControl());
+        this.map.addControl(new NavigationControl());
 
         new Marker({
           color: '#ff745c',
         })
           // @ts-ignore
           .setLngLat([this.userCoordinates.longitude, this.userCoordinates.latitude])
-          .addTo(map)
+          .addTo(this.map)
 
         for (const userCoords of this.otherUsersCoordinates) {
           let text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
@@ -73,7 +76,7 @@ export class SearchOptionsComponent {
           })
             // @ts-ignore
             .setLngLat([userCoords.longitude, userCoords.latitude])
-            .addTo(map)
+            .addTo(this.map)
 
           marker.setPopup(popup)
 
@@ -83,7 +86,7 @@ export class SearchOptionsComponent {
               marker.getPopup().remove()
             } else {
               console.log('Popup toggled')
-              marker.getPopup().addTo(map)
+              marker.getPopup().addTo(this.map)
               marker.togglePopup()
             }
           });
@@ -91,7 +94,22 @@ export class SearchOptionsComponent {
         }
       })
 
-
   }
+  SearchUsername() {
+        for(const user of this.otherUsersCoordinates) {
+          //@ts-ignore
+          let username = user.username;
+          if(this.username == username) {
+            console.log(this.username)
+            this.map.flyTo({
+              // @ts-ignore
+              center: [user.longitude, user.latitude],
+              zoom: 16
+            });
+          }
+        }
+  }
+
+
 
 }

@@ -18,6 +18,8 @@ import {HttpClientModule} from "@angular/common/http";
 import { SearchOptionsComponent } from './search_page/search-options/search-options.component';
 import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
+import {ButtonModule} from "primeng/button";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
     TableModule,
     HttpClientModule,
     InputGroupModule,
-    InputGroupAddonModule
+    InputGroupAddonModule,
+    ButtonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
