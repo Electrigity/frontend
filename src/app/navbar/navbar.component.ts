@@ -59,9 +59,10 @@ export class NavbarComponent {
     styleClass:  'widget'
   }
   questionsMenuitem: MenuItem = {
-    label: 'Questions',
+    label: 'FAQ',
     icon: 'pi pi-question-circle',
-    styleClass: 'widget'
+    styleClass: 'widget',
+    routerLink: '/questions'
   }
 
   items: MenuItem[] = [

@@ -20,6 +20,7 @@ import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {ButtonModule} from "primeng/button";
 import {FormsModule} from "@angular/forms";
+import { QuestionsPageComponent } from './questions-page/questions-page.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {FormsModule} from "@angular/forms";
     TableFilterComponent,
     TableHistoryComponent,
     SearchOptionsComponent,
-    routingComponents
+    routingComponents,
+    QuestionsPageComponent
   ],
   imports: [
     AppRoutingModule,
