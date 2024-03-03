@@ -3,6 +3,6 @@
       <img alt="Logo" src="/assets/file.enc" class="logo-img">
       <div class="logo-text">{{appTitle}}</div>
     </div>
-    <p-menu [model]="items" styleClass="menu"></p-menu>
+    <p-menu [model]="items" styleClass="menu" [ngClass]="{'selected-menu': selectedMenuItem}"></p-menu>
 </div>
 
