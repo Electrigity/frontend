@@ -82,10 +82,8 @@ export class SearchOptionsComponent {
 
           marker.getElement().addEventListener('click', () => {
             if (marker.getPopup().isOpen()) {
-              console.log('Popup removing')
               marker.getPopup().remove()
             } else {
-              console.log('Popup toggled')
               marker.getPopup().addTo(map)
               marker.togglePopup()
             }

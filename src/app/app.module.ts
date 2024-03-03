@@ -25,6 +25,8 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {CalendarModule} from "primeng/calendar";
 import {FormsModule} from "@angular/forms";
 import {CardInfoComponent} from "./registration/card-info/card-info.component";
+import {NotificationComponent} from "./home_page/notification/notification.component";
+import {MessagesModule} from "primeng/messages";
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import {CardInfoComponent} from "./registration/card-info/card-info.component";
     TableHistoryComponent,
     SearchOptionsComponent,
     CardInfoComponent,
+    NotificationComponent,
     routingComponents
   ],
   imports: [
@@ -55,7 +58,8 @@ import {CardInfoComponent} from "./registration/card-info/card-info.component";
     InputGroupAddonModule,
     CalendarModule,
     TimelineModule,
-    FormsModule
+    FormsModule,
+    MessagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

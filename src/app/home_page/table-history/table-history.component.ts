@@ -63,7 +63,6 @@ export class TableHistoryComponent implements OnChanges{
       .subscribe((data: any) => {
         this.fullPaymentHistory = data;
         this.paymentHistory = this.fullPaymentHistory;
-        console.log(this.fullPaymentHistory)
       })
   }
   getCompletePayments() {

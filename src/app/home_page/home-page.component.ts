@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
+import {NotificationsService} from "./services/notifications.service";
 
 @Component({
   selector: 'app-home-page',
@@ -8,8 +9,33 @@ import {Router} from "@angular/router";
 })
 export class HomePageComponent {
   title = 'Electrigity';
+  toggledNotifications: boolean = false;
+  @ViewChild('notificationsRef') notificationsRef!: ElementRef<HTMLElement>
+  private firstClick: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private _notificationsService: NotificationsService
+  ) {
+    _notificationsService.showNotifications$.subscribe(
+      toggled => {
+        this.toggledNotifications = toggled;
+      }
+    )
+    document.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement; // Get the clicked element
+
+      if(this._notificationsService.isFirstClick()) {
+        _notificationsService.toggleNotifications();
+        _notificationsService.toggleFirstClick();
+      }
+      if (this.toggledNotifications && !this.notificationsRef.nativeElement.contains(target)) {
+        _notificationsService.toggleFirstClick();
+        console.log('Clicked outside')
+      }
+    });
+
+
   }
 
   totalEnergyBoughtBox = {
