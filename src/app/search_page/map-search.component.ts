@@ -1,17 +1,20 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {Map, Marker, NavigationControl, Popup} from 'maplibre-gl';
 import {HttpClient} from "@angular/common/http";
+import {MapUser} from "./models/MapUser";
 
 @Component({
   selector: 'app-search-options',
-  templateUrl: './search-options.component.html',
-  styleUrl: './search-options.component.scss'
+  templateUrl: './map-search.component.html',
+  styleUrl: './map-search.component.scss'
 })
-export class SearchOptionsComponent {
+export class MapSearchComponent {
+  username! : string;
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
   private userCoordinates!: Object;
-  private otherUsersCoordinates!: Object[];
+  private otherUsersCoordinates!: MapUser[];
+  private map! : Map
 
   constructor(private http: HttpClient) {
   }
@@ -38,21 +41,21 @@ export class SearchOptionsComponent {
           zoom: 14
         };
 
-        const map = new Map({
+        this.map = new Map({
           container: this.mapContainer.nativeElement,
           style: `${mapStyle}?apiKey=${myAPIKey}`,
           center: [initialState.lng, initialState.lat],
           zoom: initialState.zoom,
         });
 
-        map.addControl(new NavigationControl());
+        this.map.addControl(new NavigationControl());
 
         new Marker({
           color: '#ff745c',
         })
           // @ts-ignore
           .setLngLat([this.userCoordinates.longitude, this.userCoordinates.latitude])
-          .addTo(map)
+          .addTo(this.map)
 
         for (const userCoords of this.otherUsersCoordinates) {
           let text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
@@ -60,33 +63,40 @@ export class SearchOptionsComponent {
             'In tellus mauris, posuere ut cursus a, dictum sit amet est.' +
             'Nam magna orci, convallis nec.'
           const htmlContent = `
-          <p>${text}</p>
-          <div style="display: flex; justify-content: center">
-            <button style="cursor: pointer">Trade</button>
+          <div style="width: 10rem;">
+            <p style="font-weight: bold; text-decoration: underline">${userCoords.username}</p>
+            <p>Current status:
+                <span style="color: #5c77ff">${userCoords.status == "BUYING" ? "Buying" : "Selling"}</span>
+            </p>
+            <p>Energy amount: ${userCoords.energy} kWh</p>
+            <p>Transaction valid until: ${userCoords.validUntil}</p>
+            <p><span style="color: green">Price:</span> \$${userCoords.price}</p>
+            <div style="display: flex; justify-content: center">
+              <button style="cursor: pointer; background: #5c77ff; color: whitesmoke">
+              ${userCoords.status == "SELLING" ? `Buy from ${userCoords.username}` : `Sell to ${userCoords.username}`}
+              </button>
+            </div>
           </div>
+
           `
           const fragment = document.createRange().createContextualFragment(htmlContent);
           let popup = new Popup()
-            // @ts-ignore
             .setLngLat([userCoords.longitude, userCoords.latitude])
             .setDOMContent(fragment)
 
           let marker = new Marker({
             color: '#5c77ff',
           })
-            // @ts-ignore
             .setLngLat([userCoords.longitude, userCoords.latitude])
-            .addTo(map)
+            .addTo(this.map)
 
           marker.setPopup(popup)
 
           marker.getElement().addEventListener('click', () => {
             if (marker.getPopup().isOpen()) {
-              console.log('Popup removing')
               marker.getPopup().remove()
             } else {
-              console.log('Popup toggled')
-              marker.getPopup().addTo(map)
+              marker.getPopup().addTo(this.map)
               marker.togglePopup()
             }
           });
@@ -95,6 +105,21 @@ export class SearchOptionsComponent {
       })
 
 
+  }
+
+  searchByUsername() {
+    for(const user of this.otherUsersCoordinates) {
+      //@ts-ignore
+      let username = user.username;
+      if(this.username == username) {
+        console.log(this.username)
+        this.map.flyTo({
+          // @ts-ignore
+          center: [user.longitude, user.latitude],
+          zoom: 16
+        });
+      }
+    }
   }
 
 }

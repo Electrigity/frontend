@@ -15,7 +15,7 @@ import {ChipModule} from "primeng/chip";
 import { TableHistoryComponent } from './home_page/table-history/table-history.component';
 import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
-import { SearchOptionsComponent } from './search_page/search-options/search-options.component';
+import { MapSearchComponent } from './search_page/map-search.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {TimelineModule} from "primeng/timeline";
 import {ButtonModule} from "primeng/button";
@@ -25,6 +25,8 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
 import {CalendarModule} from "primeng/calendar";
 import {FormsModule} from "@angular/forms";
 import {CardInfoComponent} from "./registration/card-info/card-info.component";
+import {NotificationComponent} from "./home_page/notification/notification.component";
+import {MessagesModule} from "primeng/messages";
 
 @NgModule({
   declarations: [
@@ -34,8 +36,9 @@ import {CardInfoComponent} from "./registration/card-info/card-info.component";
     TextBoxComponent,
     TableFilterComponent,
     TableHistoryComponent,
-    SearchOptionsComponent,
+    MapSearchComponent,
     CardInfoComponent,
+    NotificationComponent,
     routingComponents
   ],
   imports: [
@@ -55,7 +58,8 @@ import {CardInfoComponent} from "./registration/card-info/card-info.component";
     InputGroupAddonModule,
     CalendarModule,
     TimelineModule,
-    FormsModule
+    FormsModule,
+    MessagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

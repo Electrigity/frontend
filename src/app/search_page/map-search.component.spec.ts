@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchOptionsComponent } from './search-options.component';
+import { MapSearchComponent } from './map-search.component';
 
 describe('SearchOptionsComponent', () => {
-  let component: SearchOptionsComponent;
-  let fixture: ComponentFixture<SearchOptionsComponent>;
+  let component: MapSearchComponent;
+  let fixture: ComponentFixture<MapSearchComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SearchOptionsComponent]
+      declarations: [MapSearchComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(SearchOptionsComponent);
+
+    fixture = TestBed.createComponent(MapSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

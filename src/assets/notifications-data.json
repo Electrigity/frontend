@@ -1,0 +1,32 @@
+[
+  {
+    "trader": "bitcoinking69",
+    "energy": 45,
+    "status": "success"
+  },
+  {
+    "trader": "fypteam2023",
+    "energy": 30,
+    "status": "pending"
+  },
+  {
+    "trader": "wissam",
+    "energy": 27,
+    "status": "success"
+  },
+  {
+    "trader": "chadi",
+    "energy": 23,
+    "status": "rejected"
+  },
+  {
+    "trader": "zahi",
+    "energy": 12,
+    "status": "pending"
+  },
+  {
+    "trader": "karim",
+    "energy": 16,
+    "status": "rejected"
+  }
+]

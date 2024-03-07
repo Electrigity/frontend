@@ -6,7 +6,12 @@
     <div class="dropdown-container">
       <app-dropdown></app-dropdown>
     </div>
-    <p-divider styleClass="divider" layout="horizontal" type="solid"></p-divider>
+    <div *ngIf="toggledNotifications" #notificationsRef class="notification-container">
+      <app-notification class="notifications-dd"></app-notification>
+    </div>
+    <div class="divider-container">
+      <p-divider styleClass="divider" layout="horizontal" type="solid"></p-divider>
+    </div>
     <div class="text-boxes">
       <app-text-box class="text-box-1"
                     [backgroundColor]="'rgb(177, 250, 179)'"
@@ -31,7 +36,7 @@
                     [isAccountBalance]="accountBalanceBox.isAccountBalance"
       ></app-text-box>
     </div>
-    <div>
+    <div style="grid-column: 1/37">
       <app-table-filter></app-table-filter>
     </div>
     <div class="table-component">
