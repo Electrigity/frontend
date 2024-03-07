@@ -1,0 +1,28 @@
+.search-options-page {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+}
+
+.map-container {
+  grid-column: 1/3;
+  height: 100%;
+}
+
+.search-bar {
+  grid-column: 1/2;
+  height: 70%;
+  align-self: center;
+}
+
+.right-part {
+  display: grid;
+  grid-template-rows: 1fr 10fr;
+}
+
+
+#search-button {
+  grid-column: 2/3;
+  align-self: center;
+}
+
+

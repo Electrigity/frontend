@@ -1,0 +1,15 @@
+<div class="search-options-page">
+  <div class="left-part">
+    <app-navbar></app-navbar>
+  </div>
+  <div class="right-part">
+    <p-inputGroup class="search-bar">
+      <p-inputGroupAddon>
+        <i class="pi pi-search"></i>
+      </p-inputGroupAddon>
+      <input id="searchInput" [(ngModel)]="username" (keyup.enter)="searchByUsername() "pInputText placeholder="Search username"/>
+    </p-inputGroup>
+    <p-button id="search-button" label="Search" (onClick)="searchByUsername()"></p-button>
+    <div class="map-container" #map></div>
+  </div>
+</div>

@@ -6,23 +6,53 @@
   "otherUsersCoordinates": [
     {
       "longitude": 35.496609,
-      "latitude": 33.886746
+      "latitude": 33.886746,
+      "userId" : "af7c1fe6-d669-414e-b066-e9733f0de7a8",
+      "username" : "Ali",
+      "status" : "BUYING",
+      "energy" : 12,
+      "price" : 3,
+      "validUntil" : "2024-05-11T20:22:46.044Z"
     },
     {
       "longitude": 35.504912,
-      "latitude": 33.890291
+      "latitude": 33.890291,
+      "userId" : "08c71152-c552-42e7-b094-f510ff44e9cb",
+      "username" : "Karim",
+      "status" : "SELLING",
+      "energy" : 37,
+      "price" : 12,
+      "validUntil" : "2024-12-10T14:59:10.735Z"
     },
     {
       "longitude": 35.508173,
-      "latitude": 33.884430
+      "latitude": 33.884430,
+      "userId" : "c558a80a-f319-4c10-95d4-4282ef745b4b",
+      "username" : "Anas",
+      "status" : "BUYING",
+      "energy" : 55,
+      "price" : 21,
+      "validUntil" : "2024-11-03T23:56:05.308Z"
     },
     {
       "longitude": 35.500509,
-      "latitude": 33.879239
+      "latitude": 33.879239,
+      "userId" : "1ad1fccc-d279-46a0-8980-1d91afd6ba67",
+      "username" : "Adnan",
+      "status" : "SELLING",
+      "energy" : 22,
+      "price" : 8,
+      "validUntil" : "2024-10-09T21:21:07.575Z"
     },
     {
       "longitude": 35.516780,
-      "latitude": 33.893053
+      "latitude": 33.893053,
+      "username" : "Electrigity",
+      "userId" : "5108babc-bf35-44d5-a9ba-de08badfa80a",
+      "status" : "SELLING",
+      "energy" : 29,
+      "price" : 10,
+      "validUntil" : "2024-12-19T17:02:51.117Z"
     }
   ]
 }

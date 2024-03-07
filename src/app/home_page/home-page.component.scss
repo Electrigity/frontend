@@ -1,9 +1,11 @@
 .home-page {
   display: grid;
   grid-template-columns: 1fr 5fr;
+  height: 100vh;
 }
 
 .left-part {
+  height: 100vh;
   //background-color: #ff745c;
   //margin-left: -0.6rem;
   //margin-bottom: -0.5rem;
@@ -33,6 +35,15 @@
   grid-column-start: 15;
   grid-column-end: 27;
   padding-top: 4rem;
+}
+
+.buy-sell-popup {
+  background-color: grey;
+  z-index: 2;
+  grid-row: 5/6;
+  grid-column: 13/19;
+  align-self: center;
+  justify-self: center;
 }
 
 .divider-container {

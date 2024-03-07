@@ -15,7 +15,7 @@ import {ChipModule} from "primeng/chip";
 import { TableHistoryComponent } from './home_page/table-history/table-history.component';
 import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
-import { SearchOptionsComponent } from './search_page/search-options/search-options.component';
+import { MapSearchComponent } from './search_page/map-search.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {TimelineModule} from "primeng/timeline";
 import {ButtonModule} from "primeng/button";
@@ -36,7 +36,7 @@ import {MessagesModule} from "primeng/messages";
     TextBoxComponent,
     TableFilterComponent,
     TableHistoryComponent,
-    SearchOptionsComponent,
+    MapSearchComponent,
     CardInfoComponent,
     NotificationComponent,
     routingComponents

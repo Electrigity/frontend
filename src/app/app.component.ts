@@ -13,14 +13,6 @@ export class AppComponent {
 
   }
 
-  ngOnInit() {
-    const currentUser = localStorage.getItem("currentUser")
-
-    if(currentUser != null) {
-      this.router.navigate(['/home'])
-    }
-  }
-
   ngOnChange() {
     const currentUser = localStorage.getItem("currentUser")
 
