@@ -27,6 +27,10 @@ import {FormsModule} from "@angular/forms";
 import {CardInfoComponent} from "./registration/card-info/card-info.component";
 import {NotificationComponent} from "./home_page/notification/notification.component";
 import {MessagesModule} from "primeng/messages";
+import { PopupComponent } from './home_page/popup/popup.component';
+import {CardModule} from "primeng/card";
+import {DialogService} from "primeng/dynamicdialog";
+import {MessageService} from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -39,7 +43,8 @@ import {MessagesModule} from "primeng/messages";
     MapSearchComponent,
     CardInfoComponent,
     NotificationComponent,
-    routingComponents
+    routingComponents,
+    PopupComponent
   ],
   imports: [
     AppRoutingModule,
@@ -59,9 +64,10 @@ import {MessagesModule} from "primeng/messages";
     CalendarModule,
     TimelineModule,
     FormsModule,
-    MessagesModule
+    MessagesModule,
+    CardModule
   ],
-  providers: [],
+  providers: [DialogService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

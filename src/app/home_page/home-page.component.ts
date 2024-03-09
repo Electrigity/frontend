@@ -1,6 +1,9 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {NotificationsService} from "./services/notifications.service";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {PopupComponent} from "./popup/popup.component";
+import {Footer, MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-home-page',
@@ -10,12 +13,15 @@ import {NotificationsService} from "./services/notifications.service";
 export class HomePageComponent {
   title = 'Electrigity';
   toggledNotifications: boolean = false;
+  ref: DynamicDialogRef | undefined;
   @ViewChild('notificationsRef') notificationsRef!: ElementRef<HTMLElement>
   private firstClick: boolean = false;
 
   constructor(
     private router: Router,
-    private _notificationsService: NotificationsService
+    private _notificationsService: NotificationsService,
+    public dialogService: DialogService,
+    public messageService: MessageService
   ) {
     _notificationsService.showNotifications$.subscribe(
       toggled => {
@@ -66,4 +72,15 @@ export class HomePageComponent {
   }
 
     protected readonly localStorage = localStorage;
+
+
+  show() {
+    this.ref = this.dialogService.open(PopupComponent, {  width: '50vw'});
+   }
+
+  // ngOnDestroy() {
+  //   if (this.ref) {
+  //     this.ref.close();
+  //   }
+  // }
 }
