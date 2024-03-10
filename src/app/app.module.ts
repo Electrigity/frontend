@@ -31,6 +31,7 @@ import { PopupComponent } from './home_page/popup/popup.component';
 import {CardModule} from "primeng/card";
 import {DialogService} from "primeng/dynamicdialog";
 import {MessageService} from "primeng/api";
+import {TabViewModule} from "primeng/tabview";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import {MessageService} from "primeng/api";
     CardInfoComponent,
     NotificationComponent,
     routingComponents,
-    PopupComponent
+    PopupComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -65,7 +66,8 @@ import {MessageService} from "primeng/api";
     TimelineModule,
     FormsModule,
     MessagesModule,
-    CardModule
+    CardModule,
+    TabViewModule
   ],
   providers: [DialogService, MessageService],
   bootstrap: [AppComponent]

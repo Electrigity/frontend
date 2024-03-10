@@ -14,6 +14,7 @@ export class PopupComponent {
   sellingPrice!: number;
   buyingPrice!: number;
   items: MenuItem[] | undefined;
+  activeIndex : number = 0;
 
   activeItem: MenuItem | undefined;
 
