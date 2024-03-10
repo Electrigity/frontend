@@ -1,4 +1,13 @@
 <div class="home-page">
+  <p-sidebar
+    [(visible)]="_sidebarService.sidebarVisible"
+    [baseZIndex]="2"
+    position="right"
+    [style]="{'width' : '27rem'}"
+  >
+    <app-user-sidebar></app-user-sidebar>
+  </p-sidebar>
+  <p-confirmDialog></p-confirmDialog>
   <div class="left-part">
     <app-navbar></app-navbar>
   </div>
@@ -49,3 +58,4 @@
     </div>
   </div>
 </div>
+

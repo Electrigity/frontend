@@ -14,7 +14,6 @@ export class NotificationsService {
 
   toggleNotifications() {
     this.toggled = !this.toggled;
-    console.log(this.toggled)
     this._showNotifications.next(this.toggled)
   }
 

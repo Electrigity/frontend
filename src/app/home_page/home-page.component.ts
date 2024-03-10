@@ -1,6 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {NotificationsService} from "./services/notifications.service";
+import {SidebarService} from "./services/sidebar.service";
 
 @Component({
   selector: 'app-home-page',
@@ -15,7 +16,8 @@ export class HomePageComponent {
 
   constructor(
     private router: Router,
-    private _notificationsService: NotificationsService
+    private _notificationsService: NotificationsService,
+    public _sidebarService: SidebarService
   ) {
     _notificationsService.showNotifications$.subscribe(
       toggled => {
@@ -31,7 +33,6 @@ export class HomePageComponent {
       }
       if (this.toggledNotifications && !this.notificationsRef.nativeElement.contains(target)) {
         _notificationsService.toggleFirstClick();
-        console.log('Clicked outside')
       }
     });
 

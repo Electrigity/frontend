@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PanelMenuComponent } from './dropdown.component';
+import { UserSidebarComponent } from './user-sidebar.component';
 
-describe('DropdownComponent', () => {
-  let component: PanelMenuComponent;
-  let fixture: ComponentFixture<PanelMenuComponent>;
+describe('UserSidebarComponent', () => {
+  let component: UserSidebarComponent;
+  let fixture: ComponentFixture<UserSidebarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PanelMenuComponent]
+      declarations: [UserSidebarComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(PanelMenuComponent);
+    
+    fixture = TestBed.createComponent(UserSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

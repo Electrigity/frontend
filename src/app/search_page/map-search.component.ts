@@ -2,6 +2,8 @@ import {Component, ViewChild, ElementRef} from '@angular/core';
 import {Map, Marker, NavigationControl, Popup} from 'maplibre-gl';
 import {HttpClient} from "@angular/common/http";
 import {MapUser} from "./models/MapUser";
+import {FormControl, FormGroup} from "@angular/forms";
+import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
 
 @Component({
   selector: 'app-search-options',
@@ -9,7 +11,11 @@ import {MapUser} from "./models/MapUser";
   styleUrl: './map-search.component.scss'
 })
 export class MapSearchComponent {
+  allUsernames!: any[];
   username! : string;
+  formGroup!: FormGroup;
+  filteredUsernames!: any[];
+
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
   private userCoordinates!: Object;
@@ -20,6 +26,9 @@ export class MapSearchComponent {
   }
 
   ngOnInit() {
+    this.formGroup = new FormGroup({
+      username: new FormControl<object | null>(null)
+    })
   }
 
   ngAfterViewInit() {
@@ -30,8 +39,6 @@ export class MapSearchComponent {
       .subscribe((data: any) => {
         this.userCoordinates = data['userCoordinates']
         this.otherUsersCoordinates = data['otherUsersCoordinates']
-        console.log(this.userCoordinates)
-        console.log(this.otherUsersCoordinates)
 
         const initialState = {
           // @ts-ignore
@@ -112,7 +119,6 @@ export class MapSearchComponent {
       //@ts-ignore
       let username = user.username;
       if(this.username == username) {
-        console.log(this.username)
         this.map.flyTo({
           // @ts-ignore
           center: [user.longitude, user.latitude],
@@ -120,6 +126,19 @@ export class MapSearchComponent {
         });
       }
     }
+  }
+
+  filterUsername(event: AutoCompleteCompleteEvent) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < (this.otherUsersCoordinates as any[]).length; i++) {
+      let user = (this.otherUsersCoordinates as any[])[i];
+      if (user.username.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(user.username);
+      }
+    }
+    this.filteredUsernames = filtered;
   }
 
 }

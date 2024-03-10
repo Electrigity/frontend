@@ -17,6 +17,10 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+//:host ::ng-deep .sidebar {
+//  position: right;
+//}
+
 #bell {
   font-size: 1.2rem;
   cursor: pointer;

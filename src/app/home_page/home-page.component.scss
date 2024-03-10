@@ -5,21 +5,21 @@
 }
 
 .left-part {
+  grid-column: 1/2;
   height: 100vh;
-  //background-color: #ff745c;
-  //margin-left: -0.6rem;
-  //margin-bottom: -0.5rem;
+  overflow: hidden;
 }
 
 .right-part {
+  grid-column: 2/3;
   display: grid;
-  grid-template-rows: 0.5fr 25px 1.2fr 0.5fr 2.5fr 0.7fr;
+  grid-template-rows: 0.5fr 25px 1.2fr 0.5fr 2.5fr 1fr;
   grid-template-columns: repeat(36, 1fr);
   grid-row-gap: 0;
   background-color: #f6f1f1;
-  height: 100vh;
   width: 100%;
   z-index: 1;
+  overflow-y: scroll;
 }
 
 .dropdown-container {
