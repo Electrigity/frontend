@@ -1,9 +1,25 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
-import {Map, Marker, NavigationControl, Popup} from 'maplibre-gl';
+import {Component, ViewChild, ElementRef, OnChanges, SimpleChanges} from '@angular/core';
+import maplibregl, {Marker, NavigationControl, Popup} from 'maplibre-gl';
 import {HttpClient} from "@angular/common/http";
-import {MapUser} from "./models/MapUser";
 import {FormControl, FormGroup} from "@angular/forms";
 import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
+import * as _ from "lodash";
+
+interface MapUser {
+  longitude: number;
+  latitude: number;
+  userId: string;
+  username: string;
+  status: string;
+  energy: number;
+  price: number;
+  validUntil: Date;
+}
+
+interface MarkedUser {
+  userId: string,
+  marker: Marker
+}
 
 @Component({
   selector: 'app-search-options',
@@ -11,8 +27,7 @@ import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
   styleUrl: './map-search.component.scss'
 })
 export class MapSearchComponent {
-  allUsernames!: any[];
-  username! : string;
+  username!: string;
   formGroup!: FormGroup;
   filteredUsernames!: any[];
 
@@ -20,7 +35,25 @@ export class MapSearchComponent {
   private mapContainer!: ElementRef<HTMLElement>;
   private userCoordinates!: Object;
   private otherUsersCoordinates!: MapUser[];
-  private map! : Map
+  private map!: maplibregl.Map;
+  private userMarkers: Map<string, Marker> = new Map<string, Marker>();
+  showDialog: boolean = false;
+  filteringMap: boolean = false;
+  initMapFilters = {
+    'statusFilter': '',
+    'priceLimit': 0,
+    'energyLimit': 0
+  }
+  committedMapFilters = {
+    'statusFilter': '',
+    'priceLimit': 0,
+    'energyLimit': 0
+  }
+  tempMapFilters = {
+    'statusFilter': '',
+    'priceLimit': 0,
+    'energyLimit': 0
+  }
 
   constructor(private http: HttpClient) {
   }
@@ -29,6 +62,10 @@ export class MapSearchComponent {
     this.formGroup = new FormGroup({
       username: new FormControl<object | null>(null)
     })
+  }
+
+  ngOnChange() {
+
   }
 
   ngAfterViewInit() {
@@ -48,7 +85,7 @@ export class MapSearchComponent {
           zoom: 14
         };
 
-        this.map = new Map({
+        this.map = new maplibregl.Map({
           container: this.mapContainer.nativeElement,
           style: `${mapStyle}?apiKey=${myAPIKey}`,
           center: [initialState.lng, initialState.lat],
@@ -65,6 +102,9 @@ export class MapSearchComponent {
           .addTo(this.map)
 
         for (const userCoords of this.otherUsersCoordinates) {
+          if (userCoords.price > this.committedMapFilters.priceLimit && this.committedMapFilters.priceLimit != 0) {
+            continue
+          }
           let text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
             'Fusce molestie massa eu dapibus cursus.' +
             'In tellus mauris, posuere ut cursus a, dictum sit amet est.' +
@@ -108,6 +148,11 @@ export class MapSearchComponent {
             }
           });
           marker.getElement().style.cursor = 'pointer';
+          const markedUser: MarkedUser = {
+            userId: userCoords.userId,
+            marker: marker
+          }
+          this.userMarkers.set(userCoords.userId, marker)
         }
       })
 
@@ -115,12 +160,10 @@ export class MapSearchComponent {
   }
 
   searchByUsername() {
-    for(const user of this.otherUsersCoordinates) {
-      //@ts-ignore
+    for (const user of this.otherUsersCoordinates) {
       let username = user.username;
-      if(this.username == username) {
+      if (this.username == username) {
         this.map.flyTo({
-          // @ts-ignore
           center: [user.longitude, user.latitude],
           zoom: 16
         });
@@ -139,6 +182,52 @@ export class MapSearchComponent {
       }
     }
     this.filteredUsernames = filtered;
+  }
+
+  resetMapFilters() {
+    this.filteringMap = false
+    this.tempMapFilters = {
+      'statusFilter': '',
+      'priceLimit': 0,
+      'energyLimit': 0
+    }
+    this.committedMapFilters = {
+      'statusFilter': '',
+      'priceLimit': 0,
+      'energyLimit': 0
+    }
+    this.confirmFilters()
+  }
+
+  confirmFilters() {
+    this.committedMapFilters = this.tempMapFilters;
+    this.updateMarkers()
+    this.filteringMap = !_.isEqual(this.committedMapFilters, this.initMapFilters);
+    this.showDialog = false;
+  }
+
+  updateMarkers() {
+    let statusComparison = this.committedMapFilters.statusFilter
+    let priceComparison = this.committedMapFilters.priceLimit
+    let energyComparison = this.committedMapFilters.energyLimit
+    for (const user of this.otherUsersCoordinates) {
+      const marker = this.userMarkers.get(user.userId)
+      if (_.isEqual(this.committedMapFilters, this.initMapFilters)) {
+        // @ts-ignore
+        marker.getElement().style.display = "block";
+      } else {
+        if ((statusComparison.toLowerCase() == user.status.toLowerCase() || statusComparison.length == 0)
+          && (priceComparison >= user.price || priceComparison == 0)
+          && (energyComparison >= user.energy || energyComparison == 0)
+        ) {
+          // @ts-ignore
+          marker.getElement().style.display = "block";
+        } else {
+          // @ts-ignore
+          marker.getElement().style.display = "none";
+        }
+      }
+    }
   }
 
 }

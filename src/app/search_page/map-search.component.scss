@@ -17,6 +17,18 @@
 .right-part {
   display: grid;
   grid-template-rows: 1fr 10fr;
+  .above-map {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    align-items: center;
+
+    .search-box {
+      grid-column: 1/4;
+    }
+
+
+  }
+
 }
 
 

@@ -16,7 +16,6 @@ import { TableHistoryComponent } from './home_page/table-history/table-history.c
 import {TableModule} from "primeng/table";
 import {HttpClientModule} from "@angular/common/http";
 import { MapSearchComponent } from './search_page/map-search.component';
-import { RegistrationComponent } from './registration/registration.component';
 import {TimelineModule} from "primeng/timeline";
 import {ButtonModule} from "primeng/button";
 import {CheckboxModule} from "primeng/checkbox";
@@ -33,6 +32,11 @@ import {RadioButtonModule} from "primeng/radiobutton";
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {TagModule} from "primeng/tag";
+import {DialogModule} from "primeng/dialog";
+import {DropdownModule} from "primeng/dropdown";
+import {SliderModule} from "primeng/slider";
+import {InputTextModule} from "primeng/inputtext";
 
 @NgModule({
   declarations: [
@@ -71,7 +75,12 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     RadioButtonModule,
     AutoCompleteModule,
     ReactiveFormsModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TagModule,
+    DialogModule,
+    DropdownModule,
+    SliderModule,
+    InputTextModule
   ],
   providers: [
     ConfirmationService,

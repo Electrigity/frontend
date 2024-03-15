@@ -4,6 +4,15 @@ import {ConfirmationService, MenuItem} from "primeng/api";
 import {Router} from "@angular/router";
 import {NotificationsService} from "../services/notifications.service";
 import {SidebarService} from "../services/sidebar.service";
+import {Web3} from "web3";
+import {MetaMaskInpageProvider} from "@metamask/providers";
+
+declare global {
+  interface Window {
+    ethereum?: MetaMaskInpageProvider
+  }
+}
+
 @Component({
   selector: 'app-dropdown',
   templateUrl: './header-banner.component.html',
@@ -59,7 +68,8 @@ export class HeaderBannerComponent {
         rejectButtonStyleClass: 'p-button-text',
         accept: () => {
           this.logoutUser()
-        }
+        },
+        key: 'log-out'
       })
     }
 

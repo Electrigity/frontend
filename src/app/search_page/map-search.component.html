@@ -1,27 +1,91 @@
+<p-dialog [(visible)]="showDialog" [style]="{ width: '50vw', 'height': '40vh' }" [modal]="true">
+  <div style="display: grid; grid-template-rows: 1fr 0.7fr;">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); align-items: center">
+      <div style="grid-column: 1/2">
+        <p-dropdown
+          [options]="['Buying', 'Selling']"
+          [(ngModel)]="tempMapFilters.statusFilter"
+          placeholder="Trade status">
+        </p-dropdown>
+      </div>
+      <div style="justify-content: center; align-self: start; width: 15rem;">
+        <label for="priceValue" style="font-size: 0.8rem;">Max price</label>
+        <p-inputGroup>
+          <p-inputGroupAddon>$</p-inputGroupAddon>
+          <input type="text" id="priceValue" pInputText [(ngModel)]="tempMapFilters.priceLimit"/>
+        </p-inputGroup>
+        <br>
+        <p-slider
+          [(ngModel)]="tempMapFilters.priceLimit"
+          [style]="{'width' : '100%'}"
+          [max]="100"
+        ></p-slider>
+      </div>
+      <div style="grid-column: 3/4">
+        <div style="justify-content: center; align-self: start; width: 15rem;">
+          <label for="energyValue" style="font-size: 0.8rem;">Max energy</label>
+          <p-inputGroup>
+            <p-inputGroupAddon>kWh</p-inputGroupAddon>
+            <input type="text" id="energyValue" pInputText [(ngModel)]="tempMapFilters.energyLimit"/>
+          </p-inputGroup>
+          <br>
+          <p-slider
+            [(ngModel)]="tempMapFilters.energyLimit"
+            [style]="{'width' : '100%'}"
+            [max]="100"
+          ></p-slider>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p-button label="Confirm" (click)="confirmFilters()"></p-button>
+  </div>
+</p-dialog>
 <div class="search-options-page">
   <div class="left-part">
     <app-navbar></app-navbar>
   </div>
   <div class="right-part">
-    <p-inputGroup class="search-bar">
-      <p-inputGroupAddon>
-        <i class="pi pi-search"></i>
-      </p-inputGroupAddon>
-      <p-inputGroupAddon>
-        <form [formGroup]="formGroup" (keyup.enter)="searchByUsername()">
-          <p-autoComplete
-            [(ngModel)]="username"
-            formControlName="username"
-            [suggestions]="filteredUsernames"
-            (completeMethod)="filterUsername($event)"
-            [style]="{'width' : '15rem'}"
-            [showEmptyMessage]="true"
-            [emptyMessage]="'&nbsp;&nbsp;No matching user'"
-            >
-          </p-autoComplete>
-        </form>
-      </p-inputGroupAddon>
-    </p-inputGroup>
+    <div class="above-map">
+      <div class="search-box">
+        <p-inputGroup class="search-bar">
+          <p-inputGroupAddon>
+            <i class="pi pi-search"></i>
+          </p-inputGroupAddon>
+          <p-inputGroupAddon>
+            <form [formGroup]="formGroup" (keyup.enter)="searchByUsername()">
+              <p-autoComplete
+                [(ngModel)]="username"
+                formControlName="username"
+                [suggestions]="filteredUsernames"
+                (completeMethod)="filterUsername($event)"
+                [style]="{'width' : '15rem'}"
+                [showEmptyMessage]="true"
+                [emptyMessage]="'&nbsp;&nbsp;No matching user'"
+              >
+              </p-autoComplete>
+            </form>
+          </p-inputGroupAddon>
+        </p-inputGroup>
+      </div>
+      <div>
+        <p-button
+          label="Filter"
+          [outlined]="true"
+          severity="{{!filteringMap ? 'secondary' : 'primary'}}"
+          (click)="showDialog = true"
+        ></p-button>
+      </div>
+      <div>
+        <button (click)="resetMapFilters()" style="border: 0px; background: transparent; cursor: pointer">
+          <p-tag
+            [value]="'Clear'"
+            [hidden]="!filteringMap"
+          ></p-tag>
+        </button>
+      </div>
+    </div>
     <div class="map-container" #map></div>
   </div>
 </div>
