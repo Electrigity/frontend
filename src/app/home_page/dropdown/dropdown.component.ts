@@ -3,14 +3,17 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import {MenuItem} from "primeng/api";
 import {Router} from "@angular/router";
 import {NotificationsService} from "../services/notifications.service";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {PopupComponent} from "../popup/popup.component";
+import {SettingsComponent} from "../settings/settings.component";
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.scss'
 })
 export class PanelMenuComponent {
-
-  constructor(private router: Router, private _notificationsService: NotificationsService) {
+  ref: DynamicDialogRef | undefined;
+  constructor(private router: Router, private _notificationsService: NotificationsService, public dialogService: DialogService) {
   }
 
   username : string = "bitcoinking69"
@@ -24,11 +27,15 @@ export class PanelMenuComponent {
 
   items : PanelMenuModule[] = [this.userDisplay]
 
-  openPopup() {
+  notificationsPopup() {
     if(this._notificationsService.getToggleStatus()) {
       this._notificationsService.toggleFirstClick();
     }
     this._notificationsService.toggleNotifications();
+  }
+
+  settingsPopup() {
+    this.ref = this.dialogService.open(SettingsComponent, {  width: '50vw'});
   }
 
   logoutUser() {

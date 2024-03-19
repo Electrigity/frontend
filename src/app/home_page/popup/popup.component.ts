@@ -47,7 +47,6 @@ export class PopupComponent {
 
   timerFinished(): void {
     console.log('Timer has finished! Perform some functionality here.');
-    // You can call a function or perform any other operation here
   }
   formatTime(seconds: number): string {
     const minutes: number = Math.floor(seconds / 60);

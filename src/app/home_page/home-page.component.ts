@@ -21,7 +21,6 @@ export class HomePageComponent {
     private router: Router,
     private _notificationsService: NotificationsService,
     public dialogService: DialogService,
-    public messageService: MessageService
   ) {
     _notificationsService.showNotifications$.subscribe(
       toggled => {

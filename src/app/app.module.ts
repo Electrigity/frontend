@@ -32,6 +32,7 @@ import {CardModule} from "primeng/card";
 import {DialogService} from "primeng/dynamicdialog";
 import {MessageService} from "primeng/api";
 import {TabViewModule} from "primeng/tabview";
+import { SettingsComponent } from './home_page/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {TabViewModule} from "primeng/tabview";
     NotificationComponent,
     routingComponents,
     PopupComponent,
+    SettingsComponent,
   ],
   imports: [
     AppRoutingModule,

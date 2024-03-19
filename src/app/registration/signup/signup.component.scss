@@ -22,7 +22,6 @@ body {
 .right-side {
   grid-column: 2 / 3;
   grid-row: 1/8;
-
   display: grid;
   grid-template-rows: 1fr 4fr;
   grid-template-columns: repeat(3, 1fr);
