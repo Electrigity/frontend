@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  bgImageUrl = '/assets/electricity_bg3.jpeg';
 constructor(private _registrationService: RegistrationService, private router: Router) {}
 
   ngOnInit() {
