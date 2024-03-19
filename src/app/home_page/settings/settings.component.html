@@ -1,0 +1,61 @@
+<body>
+<p-tabView styleClass="tabview-custom" [(activeIndex)]="activeIndex">
+  <p-tabPanel header="General">
+    <ng-template pTemplate="header">
+      <i class="pi pi-cog"></i>
+      <span>General</span>
+    </ng-template>
+    <div class="content">
+
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Personal">
+    <ng-template pTemplate="header">
+      <i class="pi pi-user"></i>
+      <span>Personal</span>
+    </ng-template>
+    <div class="content">
+      <h3 class="map-title">Change Username</h3>
+      <div class="change-username">
+      <p-inputGroup>
+        <p-inputGroupAddon styleClass="icon-color">
+          <i class="pi pi-user"></i>
+        </p-inputGroupAddon>
+        <input style="margin-right: 10px;" pInputText placeholder="bitcoinking69" [(ngModel)]="username">
+        {{'Username must only contain letters and numbers,'}}
+        <br>
+        {{'and must be 6-15 characters long'}}
+      </p-inputGroup>
+      </div>
+      <div class="username-button">
+        <p-button (onClick)="ChangeUsername()" label="Change Username"></p-button>
+      </div>
+      <h3 class="map-title">Change location of energy source</h3>
+      <div class="bottom-page">
+        <div class="map-container" #map></div>
+      </div>
+      <div class="map-button">
+        <p-button (onClick)="ChangeLocation()" label="Change Location"></p-button>
+      </div>
+      </div>
+  </p-tabPanel>
+  <p-tabPanel header="Accessibility">
+    <ng-template pTemplate="header">
+      <i class="pi pi-user-edit"></i>
+      <span>Accessibility</span>
+    </ng-template>
+    <div class="content">
+
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Privacy">
+    <ng-template pTemplate="header">
+      <i class="pi pi-lock"></i>
+      <span>Privacy</span>
+    </ng-template>
+    <div class="content">
+
+    </div>
+  </p-tabPanel>
+</p-tabView>
+</body>
