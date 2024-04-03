@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
+import {ApiService} from "./services/api.service";
 
 @Component({
   selector: 'app-root',
@@ -9,16 +10,11 @@ import {Router} from "@angular/router";
 export class AppComponent {
   title = 'Electrigity';
 
-  constructor(private router: Router) {
-
+  constructor(private router: Router, private _apiService: ApiService) {
   }
 
-  ngOnChange() {
-    const currentUser = localStorage.getItem("currentUser")
+  async ngOnInit() {
 
-    if(currentUser == null) {
-      this.router.navigate(['/login'])
-    }
   }
 
 }

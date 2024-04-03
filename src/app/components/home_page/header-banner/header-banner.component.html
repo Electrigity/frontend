@@ -1,0 +1,14 @@
+<div class="page-up">
+  <p-skeleton *ngIf="userId == undefined" width = 100% [ngStyle]="{'grid-column' : '2/14'}" ></p-skeleton>
+  <p *ngIf="userId != undefined" style="grid-column: 2/14; font-size: 0.8rem">User: {{userId}}</p>
+  <div class="icons-component">
+    <button (click)="alert('')" class="pi pi-bell" id="bell"></button>
+    <button onclick="alert('Settings Section')" class="pi pi-cog" id="settings"></button>
+    <button (click)="confirmLogout($event)" class="pi pi-sign-out" id="logout" aria-label="logout-icon"></button>
+  </div>
+  <div class="dropdown-component">
+    <p-skeleton *ngIf="menuItems == undefined" height="100%"></p-skeleton>
+    <p-panelMenu *ngIf="menuItems != undefined" [model]="menuItems" styleClass="user-icon" (click)="_sidebarService.sidebarVisible = true"></p-panelMenu>
+  </div>
+</div>
+
