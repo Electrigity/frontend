@@ -30,9 +30,11 @@ import {MessagesModule} from "primeng/messages";
 import { PopupComponent } from './home_page/popup/popup.component';
 import {CardModule} from "primeng/card";
 import {DialogService} from "primeng/dynamicdialog";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {TabViewModule} from "primeng/tabview";
 import { SettingsComponent } from './home_page/settings/settings.component';
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -69,9 +71,11 @@ import { SettingsComponent } from './home_page/settings/settings.component';
     FormsModule,
     MessagesModule,
     CardModule,
-    TabViewModule
+    TabViewModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
-  providers: [DialogService, MessageService],
+  providers: [DialogService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

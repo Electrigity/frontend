@@ -35,15 +35,20 @@
         {{'and must be 6-15 characters long'}}
       </p-inputGroup>
       </div>
-      <div class="username-button">
-        <p-button (onClick)="changeUsername()" label="Change Username"></p-button>
+      <div class="change-username">
+        <p-toast></p-toast>
+        <p-confirmDialog [key]='"changeUsername"'></p-confirmDialog>
+        <p-button (click)="confirm1($event)" icon="pi pi-check" label="Change Username"></p-button>
       </div>
+
       <h3 class="map-title">Change location of energy source</h3>
       <div class="bottom-page">
         <div class="map-container" #map></div>
       </div>
       <div class="map-button">
-        <p-button (onClick)="changeLocation()" label="Change Location"></p-button>
+        <p-toast></p-toast>
+        <p-confirmDialog [key]='"changeLocation"'></p-confirmDialog>
+        <p-button (click)="confirm2($event)" icon="pi pi-check" label="Change Location"></p-button>
       </div>
       </div>
   </p-tabPanel>
@@ -54,7 +59,9 @@
     </ng-template>
     <div class="content">
       <p-card header="Delete User">
-        <p-button id="delete-button" (onClick)="deleteUser()" label="Delete Account"></p-button>
+        <p-toast></p-toast>
+        <p-confirmDialog [key]='"deleteUser"'></p-confirmDialog>
+        <p-button (click)="confirm3($event)" icon="pi pi-check" label="Delete Account"></p-button>
       </p-card>
     </div>
   </p-tabPanel>
