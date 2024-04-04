@@ -38,6 +38,12 @@ import {CardInfoComponent} from "./components/registration/card-info/card-info.c
 import {NotificationComponent} from "./components/home_page/notification/notification.component";
 import {UserSidebarComponent} from "./components/home_page/user-sidebar/user-sidebar.component";
 import {SkeletonModule} from "primeng/skeleton";
+import {DialogService} from "primeng/dynamicdialog";
+import {SettingsComponent} from "./components/home_page/settings/settings.component";
+import {ToastModule} from "primeng/toast";
+import {CardModule} from "primeng/card";
+import {TabViewModule} from "primeng/tabview";
+import {PopupComponent} from "./components/home_page/popup/popup.component";
 
 @NgModule({
   declarations: [
@@ -50,42 +56,49 @@ import {SkeletonModule} from "primeng/skeleton";
     MapSearchComponent,
     CardInfoComponent,
     NotificationComponent,
+    SettingsComponent,
+    PopupComponent,
     routingComponents,
     UserSidebarComponent
   ],
-    imports: [
-        AppRoutingModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        MenuModule,
-        PanelMenuModule,
-        DividerModule,
-        ChipModule,
-        TableModule,
-        HttpClientModule,
-        ButtonModule,
-        CheckboxModule,
-        InputGroupModule,
-        InputGroupAddonModule,
-        CalendarModule,
-        TimelineModule,
-        FormsModule,
-        MessagesModule,
-        SidebarModule,
-        RadioButtonModule,
-        AutoCompleteModule,
-        ReactiveFormsModule,
-        ConfirmDialogModule,
-        TagModule,
-        DialogModule,
-        DropdownModule,
-        SliderModule,
-        InputTextModule,
-        SkeletonModule
-    ],
+  imports: [
+    AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MenuModule,
+    PanelMenuModule,
+    DividerModule,
+    ChipModule,
+    TableModule,
+    HttpClientModule,
+    ButtonModule,
+    CheckboxModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    CalendarModule,
+    TimelineModule,
+    FormsModule,
+    MessagesModule,
+    SidebarModule,
+    RadioButtonModule,
+    AutoCompleteModule,
+    ReactiveFormsModule,
+    ConfirmDialogModule,
+    TagModule,
+    DialogModule,
+    DropdownModule,
+    SliderModule,
+    InputTextModule,
+    SkeletonModule,
+    ToastModule,
+    CardModule,
+    TabViewModule
+  ],
   providers: [
-    ConfirmationService,
+    DialogService,
+    MessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

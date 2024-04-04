@@ -1,0 +1,82 @@
+<body>
+    <p-tabView [(activeIndex)]="activeIndex">
+      <p-tabPanel header="Sell">
+        <div class="content">
+    <p-card class="card1" header="Energy to sell">
+      <p-inputGroup>
+        <p-inputGroupAddon>
+          <i class="pi pi-bolt"></i>
+        </p-inputGroupAddon>
+        <input pInputText placeholder="Energy" [(ngModel)]="sellingEnergy"/>
+        <p-inputGroupAddon>kWh</p-inputGroupAddon>
+      </p-inputGroup>
+    </p-card>
+    <p-card class="card2" header="Selling price">
+      <p-inputGroup>
+        <p-inputGroupAddon>
+          <i class="pi pi-dollar"></i>
+        </p-inputGroupAddon>
+        <input pInputText placeholder="Price" [(ngModel)]="sellingPrice"/>
+        <p-inputGroupAddon>.00</p-inputGroupAddon>
+      </p-inputGroup>
+    </p-card>
+    <p-card class="card3" header="Current users trading">
+      <h3>Selling: 12</h3>
+      <h3>Buying: 27</h3>
+    </p-card>
+    <p-card class="card4" header="Average price/kWh">
+      <h3>Selling: $0.3</h3>
+      <h3>Buying: $0.46</h3>
+    </p-card>
+    <p-card class="card5" header="Trading time interval remaining">
+      <h1>{{formatTime(timeRemaining)}}</h1>
+    </p-card>
+    <p-card class="card6" header="Caution">
+      <h3>Upon joining the queue, please be advised that the price you have indicated may not necessarily reflect the final price at which transactions are executed.</h3>
+    </p-card>
+    <div class="button">
+      <p-button (onClick)="Confirm()" label="Confirm"></p-button>
+    </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Buy">
+        <div class="content">
+    <p-card class="card1" header="Energy to buy">
+      <p-inputGroup>
+        <p-inputGroupAddon>
+          <i class="pi pi-bolt"></i>
+        </p-inputGroupAddon>
+        <input pInputText placeholder="Energy" [(ngModel)]="buyingEnergy"/>
+        <p-inputGroupAddon>kWh</p-inputGroupAddon>
+      </p-inputGroup>
+    </p-card>
+    <p-card class="card2" header="Buying price">
+      <p-inputGroup>
+        <p-inputGroupAddon>
+          <i class="pi pi-dollar"></i>
+        </p-inputGroupAddon>
+        <input pInputText placeholder="Price" [(ngModel)]="buyingPrice"/>
+        <p-inputGroupAddon>.00</p-inputGroupAddon>
+      </p-inputGroup>
+    </p-card>
+    <p-card class="card3" header="Current users trading">
+      <h3>Selling: 12</h3>
+      <h3>Buying: 27</h3>
+    </p-card>
+    <p-card class="card4" header="Average price/kWh">
+      <h3>Selling: $0.3</h3>
+      <h3>Buying: $0.46</h3>
+    </p-card>
+    <p-card class="card5" header="Trading time interval remaining">
+      <h1>{{formatTime(timeRemaining)}}</h1>
+    </p-card>
+    <p-card class="card6" header="Caution">
+      <h3>Upon joining the queue, please be advised that the price you have indicated may not necessarily reflect the final price at which transactions are executed.</h3>
+    </p-card>
+    <div class="button">
+      <p-button (onClick)="Confirm()" label="Confirm"></p-button>
+    </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+</body>

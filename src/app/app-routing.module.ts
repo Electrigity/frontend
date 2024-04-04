@@ -9,7 +9,7 @@ import {HomePageComponent} from "./components/home_page/home-page.component";
 import {QuestionsPageComponent} from "./components/questions-page/questions-page.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/signup', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'billing', component: BillingComponent},

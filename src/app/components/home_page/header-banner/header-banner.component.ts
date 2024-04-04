@@ -8,6 +8,8 @@ import {Web3} from "web3";
 import {MetaMaskInpageProvider} from "@metamask/providers";
 import {ApiService} from "../../../services/api.service";
 import {UserInfo} from "../../../models/UserInfo";
+import {SettingsComponent} from "../settings/settings.component";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 
 // declare global {
 //   interface Window {
@@ -26,11 +28,13 @@ export class HeaderBannerComponent {
   userInfo!: UserInfo
   menuItems!: MenuItem[]
 
+  ref: DynamicDialogRef | undefined;
   constructor(
     private router: Router,
     private _notificationsService: NotificationsService,
     public _sidebarService: SidebarService,
     private _confirmationService: ConfirmationService,
+    private _dialogService: DialogService,
     private _apiService: ApiService
     ) {
   }
@@ -63,6 +67,10 @@ export class HeaderBannerComponent {
     }
     this.menuItems = [userDisplay]
     this.username = this.userInfo.username
+  }
+
+  settingsPopup() {
+    this.ref = this._dialogService.open(SettingsComponent, {  width: '50vw'});
   }
 
   logoutUser() {

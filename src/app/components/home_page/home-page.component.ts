@@ -5,6 +5,8 @@ import {SidebarService} from "../../services/sidebar.service";
 import {NotificationComponent} from "./notification/notification.component";
 import {ApiService} from "../../services/api.service";
 import {UserInfo} from "../../models/UserInfo";
+import {PopupComponent} from "./popup/popup.component";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-home-page',
@@ -15,13 +17,15 @@ export class HomePageComponent {
   title = 'Electrigity';
 
   toggledNotifications: boolean = false;
+  ref: DynamicDialogRef | undefined;
   @ViewChild('notificationsRef') notificationsRef!: NotificationComponent
 
   constructor(
     private router: Router,
     private _notificationsService: NotificationsService,
     public _sidebarService: SidebarService,
-    private _apiService: ApiService
+    private _apiService: ApiService,
+    private _dialogService: DialogService,
   ) {
     _notificationsService.showNotifications$.subscribe(
       toggled => {
@@ -71,6 +75,10 @@ export class HomePageComponent {
     if(currentUser == null || !(await this._apiService.isUserRegistered(currentUser))) {
       this.router.navigate(['/login'])
     }
+  }
+
+  show() {
+    this.ref = this._dialogService.open(PopupComponent, {  width: '50vw'});
   }
 
 

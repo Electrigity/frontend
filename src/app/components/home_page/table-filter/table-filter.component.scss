@@ -21,8 +21,11 @@
 }
 
 :host ::ng-deep .chosen-chip .p-chip {
-  .p-chip-text {
-    color: #2f332f;
+  .p-chip-icon {
+    color: #000000;
   }
-  background-color: #65ff7f;
+  .p-chip-text {
+    color: #000000;
+  }
+  background-color: #ff745c;
 }

@@ -1,0 +1,69 @@
+<body>
+<p-tabView styleClass="tabview-custom" [(activeIndex)]="activeIndex">
+  <p-tabPanel header="General">
+    <ng-template pTemplate="header">
+      <i class="pi pi-cog"></i>
+      <span>General</span>
+    </ng-template>
+    <div class="content">
+      <p-card id="card1" header="Site title">
+          electrigity.com
+      </p-card>
+      <p-card header="Tag Line">
+        Energy trading between market participants either directly or indirectly, the energy flows through the microgrid into or out of your households.
+      </p-card>
+      <p-card header="Email Address">
+        contactus&#64;electrigity.com
+      </p-card>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Personal">
+    <ng-template pTemplate="header">
+      <i class="pi pi-user"></i>
+      <span>Personal</span>
+    </ng-template>
+    <div class="content">
+      <h3 class="map-title">Change Username</h3>
+      <div class="change-username">
+      <p-inputGroup>
+        <p-inputGroupAddon styleClass="icon-color">
+          <i class="pi pi-user"></i>
+        </p-inputGroupAddon>
+        <input style="margin-right: 10px;" pInputText placeholder="bitcoinking69" [(ngModel)]="username">
+        {{'Username must only contain letters and numbers,'}}
+        <br>
+        {{'and must be 6-15 characters long'}}
+      </p-inputGroup>
+      </div>
+      <div class="change-username">
+        <p-toast></p-toast>
+        <p-confirmDialog [key]='"changeUsername"'></p-confirmDialog>
+        <p-button (click)="confirm1($event)" icon="pi pi-check" label="Change Username"></p-button>
+      </div>
+
+      <h3 class="map-title">Change location of energy source</h3>
+      <div class="bottom-page">
+        <div class="map-container" #map></div>
+      </div>
+      <div class="map-button">
+        <p-toast></p-toast>
+        <p-confirmDialog [key]='"changeLocation"'></p-confirmDialog>
+        <p-button (click)="confirm2($event)" icon="pi pi-check" label="Change Location"></p-button>
+      </div>
+      </div>
+  </p-tabPanel>
+  <p-tabPanel header="Privacy">
+    <ng-template pTemplate="header">
+      <i class="pi pi-lock"></i>
+      <span>Privacy</span>
+    </ng-template>
+    <div class="content">
+      <p-card header="Delete User">
+        <p-toast></p-toast>
+        <p-confirmDialog [key]='"deleteUser"'></p-confirmDialog>
+        <p-button (click)="confirm3($event)" icon="pi pi-check" label="Delete Account" severity="danger"></p-button>
+      </p-card>
+    </div>
+  </p-tabPanel>
+</p-tabView>
+</body>
