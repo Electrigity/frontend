@@ -1,0 +1,11 @@
+:host ::ng-deep .datepicker {
+  .p-datepicker {
+    transform: scale(0.85);
+  }
+}
+
+:host ::ng-deep .save-button {
+  border-radius: 2rem;
+  width: 8rem;
+  height: 3rem;
+}

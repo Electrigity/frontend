@@ -1,0 +1,88 @@
+<html>
+<body>
+<div id="content">
+  <div class="left-col">
+    <div class="timeline">
+      <p-timeline [value]="events" layout="horizontal" align="bottom">
+        <ng-template pTemplate="marker" let-event>
+          <i [ngClass]="event.icon"></i>
+        </ng-template>
+        <ng-template pTemplate="content" let-event>
+          {{ event.title }}
+        </ng-template>
+      </p-timeline>
+    </div>
+    <div class="user-details">
+      <h1>User Details</h1>
+
+      <br><br>
+
+      <p-inputGroup [style]="{'width' : '50rem'}">
+        <p-inputGroupAddon styleClass="icon-color">
+          <p-button
+            label="{{ userConnected ? 'Connected' : 'Connect' }}"
+            [raised]="true"
+            severity="{{ userConnected ? 'success' : 'info' }}"
+            (click)="connectUser()">
+          </p-button>
+        </p-inputGroupAddon>
+        <input style="margin-right: 10px;" pInputText
+               placeholder="{{(registeringUser.userId == undefined) ? 'No user detected' : registeringUser.userId}}"
+               readonly>
+        <br>
+        {{ 'Connect to MetaMask' }}
+      </p-inputGroup>
+
+      <br><br>
+
+      <p-inputGroup [style]="{'width' : '50rem'}">
+        <p-inputGroupAddon styleClass="icon-color">
+          <i class="pi pi-user"></i>
+        </p-inputGroupAddon>
+        <input style="margin-right: 10px;" pInputText placeholder="Username" [(ngModel)]="registeringUser.username">
+        {{ 'Username must only contain letters and numbers,' }}
+        <br>
+        {{ 'and must be 6-15 characters long' }}
+      </p-inputGroup>
+
+      <br><br>
+    </div>
+
+    <div class="bottom-page">
+      <h3 class="map-title">Choose location of energy source</h3>
+      <div class="map-container" #map></div>
+
+      <div class="terms-checkbox-container">
+        <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary"></p-checkbox>
+        <p>&nbsp;I have read the
+          <a href="https://www.termsandconditionsgenerator.com/live.php?token=EtiU4bfco6n4RNbfiOayZJGsrXkDoxTJ"
+             target="_blank">
+            Terms & Conditions
+          </a>
+        </p>
+      </div>
+
+      <div class="buttons" style="width: 100%">
+        <p-button (onClick)="onClickBack()" label="Back"></p-button>
+        <p-button (onClick)="onClickNext()" label="Next"></p-button>
+      </div>
+
+      <div class="icons">
+        <i class="pi pi-bitcoin" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+        <i class="pi pi-sun" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+        <i class="pi pi-bolt" style="font-size: xxx-large; margin-right: 10px; margin-bottom: 10px;"></i>
+      </div>
+
+    </div>
+  </div>
+  <div class="right-col">
+    <div class="right-side">
+      <h1 style="grid-column: 2/ 3; text-align: center">Registration</h1>
+      <div class="img" style="grid-column: 2 / 3">
+        <img width="300rem" height="300rem" alt="Logo" src="/assets/file.enc">
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

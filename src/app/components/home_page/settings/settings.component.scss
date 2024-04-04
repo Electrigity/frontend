@@ -1,0 +1,16 @@
+.content {
+  display: grid;
+  grid-auto-columns: 1fr 1fr;
+  grid-auto-rows: minmax(70px, auto);
+  grid-gap: 4px;
+}
+
+.bottom-page {
+  margin-left: 7rem;
+}
+
+.map-container {
+  height: 20rem;
+  width: 30rem;
+}
+

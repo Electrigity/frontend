@@ -1,0 +1,84 @@
+body {
+  background-color: #ffffff;
+}
+
+.bottom-page {
+  margin-left: 1rem;
+}
+
+.map-container {
+  height: 20rem;
+  width: 90%;
+}
+
+#content{
+  display: grid;
+  grid-template-columns: 75% 25%;
+  height: 100%;
+
+  .left-col {
+    overflow-y: auto;
+  }
+  .right-col {
+    height: 100%;
+  }
+
+}
+
+.right-side {
+  grid-column: 2 / 3;
+  grid-row: 1/8;
+
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  grid-template-columns: repeat(3, 1fr);
+
+  background: #ff745c;
+  height: 100%;
+
+}
+
+.timeline {
+  grid-column: 1/2;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  grid-row: 1/2;
+}
+
+
+.user-details {
+  grid-column: 1/2;
+  grid-row: 2/3;
+  margin-left: 1rem;
+}
+
+.icon-color {
+  background-color: #ff745c;
+}
+
+.terms-checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.buttons p-button {
+  margin-right: 10%; /* Adjust the margin as needed */
+}
+
+.buttons p-button:first-child {
+  margin-left: 35%; /* Adjust the margin as needed */
+}
+
+.buttons {
+  grid-column: 1/2;
+  grid-row: 6/7;
+  align-self: center;
+}
+
+.icons{
+  margin-left: 1rem;
+  grid-column: 1/2;
+  grid-row: 7/8;
+}
+
+

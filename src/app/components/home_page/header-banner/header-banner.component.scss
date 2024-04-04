@@ -1,0 +1,47 @@
+.page-up {
+  display: grid;
+  grid-template-columns: repeat(36, 1fr);
+  height: 100%;
+  align-content: start;
+}
+
+.dropdown-component {
+  grid-column: 31 / 36;
+  width: 10rem;
+}
+
+
+.icons-component {
+  grid-column: 27 / 30;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+//:host ::ng-deep .sidebar {
+//  position: right;
+//}
+
+#bell {
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+#settings {
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+#logout {
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
