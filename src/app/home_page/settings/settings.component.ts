@@ -18,7 +18,7 @@ constructor(private _registrationService: RegistrationService) {}
   isValidUsername(username:string): boolean {
     return (username.length >= 6 && username.length <= 15 && /^[a-zA-Z0-9]+$/.test(username));
   }
-  ChangeUsername() {
+  changeUsername() {
     if(this.username.length != 0 && !this.isValidUsername(this.username)) {
       alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
     } else {
@@ -26,7 +26,11 @@ constructor(private _registrationService: RegistrationService) {}
     }
   }
 
-  ChangeLocation() {
+  changeLocation() {
+    this._registrationService.setUserCoordinates(this.choosenCoordinates)
+  }
+
+  deleteUser() {
 
   }
   @ViewChild('map')
