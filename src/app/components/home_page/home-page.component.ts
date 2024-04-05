@@ -32,20 +32,20 @@ export class HomePageComponent {
         this.toggledNotifications = toggled;
       }
     )
-    document.addEventListener('click', (event: Event) => {
-      const target = event.target as HTMLElement;
-      if (this.notificationsRef != undefined) {
-        if(this._notificationsService.isFirstClick()) {
-          this._notificationsService.toggleFirstClick()
-        }
-        else {
-          if (!this.notificationsRef.element.nativeElement.contains(target)) {
-            _notificationsService.toggleNotifications();
-            _notificationsService.toggleFirstClick();
-          }
-        }
-      }
-    });
+    // document.addEventListener('click', (event: Event) => {
+    //   const target = event.target as HTMLElement;
+    //   if (this.notificationsRef != undefined) {
+    //     if(this._notificationsService.isFirstClick()) {
+    //       this._notificationsService.toggleFirstClick()
+    //     }
+    //     else {
+    //       if (!this.notificationsRef.element.nativeElement.contains(target)) {
+    //         _notificationsService.toggleNotifications();
+    //         _notificationsService.toggleFirstClick();
+    //       }
+    //     }
+    //   }
+    // });
 
 
   }

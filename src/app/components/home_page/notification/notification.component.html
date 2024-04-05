@@ -1,6 +1,8 @@
-<div class="container" #element>
-  <div class="card">
-    <p-messages [(value)]="messages" [enableService]="false" [closable]="false"></p-messages>
-  </div>
+<div class="message-container">
+<div class="message">
+  <p>{{ buyer }} wants to buy {{ energyAmount }} kW of energy from you</p>
+  <p-button class="button" (onClick)="accept()" label="Accept" severity="success" icon="pi pi-check"></p-button>
+  <p-button class="button" (onClick)="reject()" label="Reject" severity="danger" icon="pi pi-times"></p-button>
+</div>
 </div>
 

@@ -743,10 +743,10 @@ export class ApiService {
     return allUsersInfo.map(value => value.username)
   }
 
-  async registerUser(username: string) {
+  async registerUser() {
     const userId = await this.getCurrentUserId()
     const response = await this.contract.methods['registerUser'](
-      'karimkishly',
+      'adnan2002',
       12,
       13,
       14,
