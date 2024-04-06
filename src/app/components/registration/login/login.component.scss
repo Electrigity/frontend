@@ -10,6 +10,17 @@
   grid-column: 1/4;
 }
 
+.bottom-page {
+  background-color: lightsteelblue;
+  grid-row: 2/4;
+  grid-column: 1/4;
+  background-image: url('/assets/blockchainbg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: -65px;
+}
+
 .img {
   grid-row: 1/2;
   grid-column: 2/3;
@@ -18,16 +29,62 @@
 }
 
 .login-button {
-  grid-row: 2/3;
+  grid-row: 3/4;
   grid-column: 2/3;
   justify-self: center;
   align-self: center;
-
 }
 
 .register-button {
   grid-row: 3/4;
-  grid-column: 2/3;
+  grid-column: 3/4;
   align-self: center;
+  justify-self: start;
+  margin-left: -105px;
+}
+
+#energy-bolt {
+  width: 230px;
+  height: 150px;
+  grid-column: 1/2;
+  grid-row: 1/2;
   justify-self: center;
+  align-self: center;
+}
+
+#electricity-charge {
+  width: 130px;
+  height: 110px;
+  grid-column: 3/4;
+  grid-row: 1/2;
+  justify-self: center;
+  align-self: center;
+}
+
+#metamask {
+  grid-column: 3/4;
+  grid-row: 2/3;
+  margin-left: 10px
+}
+
+#metamask-fox{
+  grid-column: 3/4;
+  grid-row: 3/4;
+  justify-self: center;
+  width: 200px;
+  height: 200px;
+}
+
+#blockchain {
+  grid-column: 1/2;
+  grid-row: 2/3;
+  margin-left: 10px
+}
+
+#energy-blockchain {
+  grid-column: 1/2;
+  grid-row: 3/4;
+  justify-self: center;
+  width: 200px;
+  height: 200px;
 }
