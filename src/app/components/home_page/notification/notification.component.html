@@ -1,8 +1,8 @@
 <div class="message-container">
-<div class="message">
-  <p>{{ buyer }} wants to buy {{ energyAmount }} kW of energy from you</p>
-  <p-button class="button" (onClick)="accept()" label="Accept" severity="success" icon="pi pi-check"></p-button>
-  <p-button class="button" (onClick)="reject()" label="Reject" severity="danger" icon="pi pi-times"></p-button>
-</div>
+  <div class="message">
+    <h4>{{ trader }} wants to {{getTransactionType()}} {{ energyAmount }} kW of energy</h4>
+    <p-button class="button" (onClick)="accept()" label="Accept" severity="success" icon="pi pi-check"></p-button>
+    <p-button class="button" (onClick)="reject()" label="Reject" severity="danger" icon="pi pi-times"></p-button>
+  </div>
 </div>
 

@@ -6,8 +6,9 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
   styleUrl: './notification.component.scss'
 })
 export class NotificationComponent {
-  buyer: string = "karim123";
-  energyAmount: number = 45;
+  trader: string = "karim123"
+  energyAmount: number = 45
+  isBuying : boolean = true
 
   accept(){
 
@@ -15,6 +16,10 @@ export class NotificationComponent {
 
   reject(){
 
+  }
+
+  getTransactionType() : string {
+    return (this.isBuying) ? 'purchase' : 'sell'
   }
 
 }
