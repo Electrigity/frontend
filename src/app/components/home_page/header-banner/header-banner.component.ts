@@ -49,7 +49,7 @@ export class HeaderBannerComponent {
     }
   }
 
-  openPopup() {
+  notificationsPopup() {
     if(this._notificationsService.getToggleStatus()) {
       this._notificationsService.toggleFirstClick()
     }
