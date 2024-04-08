@@ -1,7 +1,7 @@
 <html>
 <p-dialog [(visible)]="showDialog" [style]="{ width: '50vw', 'height': '40vh' }" [modal]="true">
   <div style="display: grid; grid-template-rows: 1fr 0.7fr;">
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); align-items: center">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); align-items: center">
       <div style="grid-column: 1/2">
         <p-dropdown
           [options]="['Buying', 'Selling']"
@@ -9,7 +9,7 @@
           placeholder="Trade status">
         </p-dropdown>
       </div>
-      <div style="justify-content: center; align-self: start; width: 15rem;">
+      <div style="justify-content: center; align-self: start; width: 15rem; grid-column: 2/3">
         <label for="priceValue" style="font-size: 0.8rem;">Max price</label>
         <p-inputGroup>
           <p-inputGroupAddon>$</p-inputGroupAddon>
@@ -21,8 +21,9 @@
           [style]="{'width' : '100%'}"
           [max]="100"
         ></p-slider>
+        <br>
       </div>
-      <div style="grid-column: 3/4">
+      <div style="justify-content: center; align-self: start; width: 15rem; grid-column: 2/3">
         <div style="justify-content: center; align-self: start; width: 15rem;">
           <label for="energyValue" style="font-size: 0.8rem;">Max energy</label>
           <p-inputGroup>
@@ -37,10 +38,10 @@
           ></p-slider>
         </div>
       </div>
+      <div style="grid-column: 1/2; grid-row: 2/3;">
+        <p-button label="Confirm" (click)="confirmFilters()"></p-button>
+      </div>
     </div>
-  </div>
-  <div>
-    <p-button label="Confirm" (click)="confirmFilters()"></p-button>
   </div>
 </p-dialog>
 <body>
