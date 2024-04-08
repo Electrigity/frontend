@@ -22,34 +22,41 @@
       <app-notification class="notifications-dd" #notificationsRef></app-notification>
     </div>
     <div class="divider-container">
-<!--      <p-divider styleClass="divider" layout="horizontal"></p-divider>-->
+      <!--      <p-divider styleClass="divider" layout="horizontal"></p-divider>-->
       <hr>
     </div>
-    <div class="text-boxes" style="transform: scale(0.95)">
-      <app-text-box class="text-box-1"
-                    [backgroundColor]="'rgb(177, 250, 179)'"
-                    [infoTextColor]="'green'"
-                    [boxTitle]="totalEnergyBoughtBox.title"
-                    [boxInfo]="totalEnergyBoughtBox.powerValue.toFixed(2) + ' KW - ' + totalEnergyBoughtBox.price + ' $'"
-                    [boxDate]="totalEnergyBoughtBox.date"
+    <div class="text-boxes">
+      <app-text-box style="width: 40%"></app-text-box>
+      <app-text-box style="width: 40%"
+                    [title]="'Indirect trading settings'"
+                    [status]="'Selling'"
+                    [transactionPrice]="6"
+                    [expiryDate]="'Tuesday'"
       ></app-text-box>
-      <app-text-box class="text-box-2"
-                    [backgroundColor]="'lightgrey'"
-                    [infoTextColor]="'midnightblue'"
-                    [boxTitle]="pendingPaymentsBox.title"
-                    [boxInfo]="pendingPaymentsBox.powerValue.toFixed(2) + ' KW - ' + pendingPaymentsBox.price + ' $'"
-                    [boxDate]="pendingPaymentsBox.date"
-      ></app-text-box>
-      <app-text-box class="text-box-3"
-                    [backgroundColor]="'lightgrey'"
-                    [infoTextColor]="'midnightblue'"
-                    [boxTitle]="accountBalanceBox.title"
-                    [boxInfo]="accountBalanceBox.balance + ' $'"
-                    [boxDate]="accountBalanceBox.date"
-                    [isAccountBalance]="accountBalanceBox.isAccountBalance"
-      ></app-text-box>
+      <!--      <app-text-box class="text-box-1"-->
+      <!--                    [backgroundColor]="'rgb(177, 250, 179)'"-->
+      <!--                    [infoTextColor]="'green'"-->
+      <!--                    [boxTitle]="totalEnergyBoughtBox.title"-->
+      <!--                    [boxInfo]="totalEnergyBoughtBox.powerValue.toFixed(2) + ' KW - ' + totalEnergyBoughtBox.price + ' $'"-->
+      <!--                    [boxDate]="totalEnergyBoughtBox.date"-->
+      <!--      ></app-text-box>-->
+      <!--      <app-text-box class="text-box-2"-->
+      <!--                    [backgroundColor]="'lightgrey'"-->
+      <!--                    [infoTextColor]="'midnightblue'"-->
+      <!--                    [boxTitle]="pendingPaymentsBox.title"-->
+      <!--                    [boxInfo]="pendingPaymentsBox.powerValue.toFixed(2) + ' KW - ' + pendingPaymentsBox.price + ' $'"-->
+      <!--                    [boxDate]="pendingPaymentsBox.date"-->
+      <!--      ></app-text-box>-->
+      <!--      <app-text-box class="text-box-3"-->
+      <!--                    [backgroundColor]="'lightgrey'"-->
+      <!--                    [infoTextColor]="'midnightblue'"-->
+      <!--                    [boxTitle]="accountBalanceBox.title"-->
+      <!--                    [boxInfo]="accountBalanceBox.balance + ' $'"-->
+      <!--                    [boxDate]="accountBalanceBox.date"-->
+      <!--                    [isAccountBalance]="accountBalanceBox.isAccountBalance"-->
+      <!--      ></app-text-box>-->
     </div>
-    <div style="grid-column: 1/37; transform: scale(0.95)" >
+    <div style="grid-column: 1/37; transform: scale(0.95)">
       <app-table-filter></app-table-filter>
     </div>
     <div class="table-component">

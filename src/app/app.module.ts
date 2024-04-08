@@ -44,6 +44,7 @@ import {ToastModule} from "primeng/toast";
 import {CardModule} from "primeng/card";
 import {TabViewModule} from "primeng/tabview";
 import {PopupComponent} from "./components/home_page/popup/popup.component";
+import {FieldsetModule} from "primeng/fieldset";
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import {PopupComponent} from "./components/home_page/popup/popup.component";
     SkeletonModule,
     ToastModule,
     CardModule,
-    TabViewModule
+    TabViewModule,
+    FieldsetModule
   ],
   providers: [
     DialogService,

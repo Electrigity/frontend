@@ -1,5 +1,7 @@
-<div [ngClass]="{'box': true, account : isAccountBalance}" [style.background-color]="backgroundColor">
-  <p class="box-title">{{boxTitle}}</p>
-  <p class="box-info" [style.color]="infoTextColor">{{boxInfo}}</p>
-  <p class="box-date">{{boxDate}}</p>
-</div>
+<p-fieldset [legend]="title" styleClass="card">
+  <p>Status:
+    <span [ngStyle]="{'color' : status == 'Buying' ? '#04c404' : 'red'}">{{status}}</span>
+  </p>
+  <p>{{status}} for: ${{transactionPrice}}</p>
+  <p>Expires: {{expiryDate}}</p>
+</p-fieldset>
