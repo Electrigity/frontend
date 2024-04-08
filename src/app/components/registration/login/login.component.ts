@@ -711,7 +711,7 @@ export class LoginComponent {
   private contractAddress2 = "0xfe847dDEe78954808977aBf11C1368317fb1Dc10";
 
 
-constructor(private _registrationService: RegistrationService, private router: Router) {}
+  constructor(private _registrationService: RegistrationService, private router: Router) {}
 
   ngOnInit() {
     const userId = localStorage.getItem("currentUser")

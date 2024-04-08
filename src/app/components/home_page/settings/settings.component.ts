@@ -10,7 +10,7 @@ import {RegistrationService} from "../../../services/registration.service";
 })
 export class SettingsComponent {
 activeIndex : number = 0;
-username : string = "adnan2002";
+username!: string;
 constructor(private _registrationService: RegistrationService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
   choosenCoordinates = {
     longitude: -1,
