@@ -18,12 +18,9 @@ export class UserSidebarComponent {
     'Not trading'
   ]
 
-  printVars() {
-    console.log('Selected status:', this.selectedStatus)
-    console.log('Selected energy:', this.selectedEnergy)
-    console.log('Selected price:', this.selectedPrice)
-    console.log('Selected date:', this.selectedDate)
 
+  printVars() {
+    console.log(this.selectedStatus)
   }
 
 }

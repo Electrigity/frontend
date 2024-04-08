@@ -7,17 +7,15 @@
 .left-part {
   grid-column: 1/2;
   height: 100%;
-  overflow: hidden;
 }
 
 .right-part {
   grid-column: 2/3;
   display: grid;
-  grid-template-rows: 10% 2% 13% 15% 50% 10%;
+  grid-template-rows: 10% 2% 30% 15% 58% 10%;
   grid-template-columns: repeat(36, 1fr);
   grid-row-gap: 0;
   background-color: #f6f1f1;
-  height: 100%;
   width: 100%;
   z-index: 1;
   overflow-y: auto;
@@ -88,13 +86,8 @@
 .text-boxes {
   grid-column: 1/37;
   grid-row: 3/4;
-  display: grid;
-  z-index: 1;
-  grid-template-columns: repeat(3, 1fr);
-  * {
-    width: 90%;
-    justify-self: start;
-  }
+  display: flex;
+  justify-content: space-around;
 }
 
 .table-component {
