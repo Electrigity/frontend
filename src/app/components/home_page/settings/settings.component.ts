@@ -1,7 +1,8 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, SimpleChanges, ViewChild} from '@angular/core';
 import {Map, Marker, NavigationControl} from "maplibre-gl";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {RegistrationService} from "../../../services/registration.service";
+import {DynamicDialogConfig} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-settings',
@@ -9,14 +10,22 @@ import {RegistrationService} from "../../../services/registration.service";
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-activeIndex : number = 0;
-username!: string;
-constructor(private _registrationService: RegistrationService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
+  activeIndex: number = 0;
+  username!: string;
   choosenCoordinates = {
     longitude: -1,
     latitude: -1
   }
-  isValidUsername(username:string): boolean {
+
+  constructor(private _registrationService: RegistrationService,
+              private confirmationService: ConfirmationService,
+              private messageService: MessageService,
+              config: DynamicDialogConfig
+              ) {
+    this.username = config.data.username
+  }
+
+  isValidUsername(username: string): boolean {
     return (username.length >= 6 && username.length <= 15 && /^[a-zA-Z0-9]+$/.test(username));
   }
 
@@ -26,34 +35,24 @@ constructor(private _registrationService: RegistrationService, private confirmat
       message: 'Are you sure that you want to change your username?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
-      acceptIcon:"none",
-      rejectIcon:"none",
-      rejectButtonStyleClass:"p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
       key: "changeUsername",
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
-        if(this.username.length != 0 && !this.isValidUsername(this.username)) {
+        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
+        if (this.username.length != 0 && !this.isValidUsername(this.username)) {
           alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
         } else {
           this._registrationService.setUsername(this.username);
         }
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
       }
     });
   }
-  // changeUsername() {
-  //   if(this.username.length != 0 && !this.isValidUsername(this.username)) {
-  //     alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
-  //   } else {
-  //     this._registrationService.setUsername(this.username);
-  //   }
-  // }
 
-  // changeLocation() {
-  //   this._registrationService.setUserCoordinates(this.choosenCoordinates)
-  // }
 
   confirm2(event: Event) {
     this.confirmationService.confirm({
@@ -61,16 +60,16 @@ constructor(private _registrationService: RegistrationService, private confirmat
       message: 'Are you sure that you want to change your location?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
-      acceptIcon:"none",
-      rejectIcon:"none",
-      rejectButtonStyleClass:"p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
       key: "changeLocation",
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
         this._registrationService.setUserCoordinates(this.choosenCoordinates)
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
       }
     });
   }
@@ -81,15 +80,15 @@ constructor(private _registrationService: RegistrationService, private confirmat
       message: 'Are you sure that you want to delete your account?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
-      acceptIcon:"none",
-      rejectIcon:"none",
-      rejectButtonStyleClass:"p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
       key: "deleteUser",
       accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
       }
     });
   }
@@ -98,8 +97,10 @@ constructor(private _registrationService: RegistrationService, private confirmat
   deleteUser() {
 
   }
+
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
+
   ngAfterViewInit() {
     const myAPIKey = '355084142fcc42eea656c31df0d782ac';
     const mapStyle = 'https://maps.geoapify.com/v1/styles/positron/style.json';

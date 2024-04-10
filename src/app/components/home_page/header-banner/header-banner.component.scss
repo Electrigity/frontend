@@ -17,9 +17,15 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
-//:host ::ng-deep .sidebar {
-//  position: right;
-//}
+::ng-deep .overlay {
+  height: 30rem;
+  width: 23rem;
+  overflow-y: auto;
+  .p-overlaypanel-content{
+    padding: 0;
+  }
+
+}
 
 #bell {
   font-size: 1.2rem;

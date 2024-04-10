@@ -1,20 +1,15 @@
-<p-overlayPanel #op [style]="{'height' : '20rem', 'width'  : '30rem', 'overflow-y' : 'auto'}">
-  <div style="padding-bottom: 10px">
-    <app-notification></app-notification>
-  </div>
-  <div style="padding-bottom: 10px">
-    <app-notification></app-notification>
-  </div>
-  <div style="padding-bottom: 10px">
-    <app-notification></app-notification>
-  </div>
+<p-overlayPanel #op styleClass="overlay">
+  <app-notification></app-notification>
+  <app-notification></app-notification>
+  <app-notification></app-notification>
+  <app-notification></app-notification>
 </p-overlayPanel>
 <div class="page-up">
   <p-skeleton *ngIf="userId == undefined" width=100% [ngStyle]="{'grid-column' : '2/14'}"></p-skeleton>
   <p *ngIf="userId != undefined" style="grid-column: 2/14; font-size: 0.8rem">User: {{ userId }}</p>
   <div class="icons-component">
     <div style="justify-content: center; align-content: center; height: 100%; width: 100%;">
-      <i (click)="op.toggle($event)" class="pi pi-bell" pBadge value="3" id="bell"></i>
+      <i (click)="op.toggle($event)" class="pi pi-bell" pBadge value="4" id="bell"></i>
     </div>
     <button (click)="settingsPopup()" class="pi pi-cog" id="settings"></button>
     <button (click)="confirmLogout($event)" class="pi pi-sign-out" id="logout" aria-label="logout-icon"></button>

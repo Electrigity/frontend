@@ -1,21 +1,11 @@
-import {Component, Input} from '@angular/core';
-import { PanelMenuModule } from 'primeng/panelmenu';
+import {Component, Input, SimpleChanges} from '@angular/core';
 import {ConfirmationService, MenuItem} from "primeng/api";
 import {Router} from "@angular/router";
-import {NotificationsService} from "../../../services/notifications.service";
 import {SidebarService} from "../../../services/sidebar.service";
-import {Web3} from "web3";
-import {MetaMaskInpageProvider} from "@metamask/providers";
 import {ApiService} from "../../../services/api.service";
-import {UserInfo} from "../../../models/UserInfo";
 import {SettingsComponent} from "../settings/settings.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 
-// declare global {
-//   interface Window {
-//     ethereum?: MetaMaskInpageProvider
-//   }
-// }
 
 @Component({
   selector: 'app-header-banner',
@@ -23,54 +13,43 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
   styleUrl: './header-banner.component.scss'
 })
 export class HeaderBannerComponent {
-  userId!: string
-  username: string = ''
-  userInfo!: UserInfo
+  @Input() userId!: string
+  @Input() username!: string
   menuItems!: MenuItem[]
 
   ref: DynamicDialogRef | undefined;
+
   constructor(
     private router: Router,
-    private _notificationsService: NotificationsService,
     public _sidebarService: SidebarService,
     private _confirmationService: ConfirmationService,
     private _dialogService: DialogService,
     private _apiService: ApiService
-    ) {
+  ) {
   }
 
-  ngOnInit() {
-    this.userId = localStorage.getItem("currentUser")!
-
-    if (this.userId == null) {
-      this.router.navigate(['/login'])
-    } else {
-      this.getUserInfo()
-    }
+  ngOnChanges(changes: SimpleChanges) {
+    this.updateUserInfo()
   }
 
-  notificationsPopup() {
-    if(this._notificationsService.getToggleStatus()) {
-      this._notificationsService.toggleFirstClick()
-    }
-    this._notificationsService.toggleNotifications();
-  }
-
-  async getUserInfo() {
-    this.userInfo = await this._apiService.getUserInfo(this.userId)
-    const userDisplay : MenuItem = {
-      label : this.userInfo.username,
+  updateUserInfo() {
+    const userDisplay: MenuItem = {
+      label: this.username,
       icon: 'pi pi-user',
       style: {
         'font-size': '85%',
       }
     }
     this.menuItems = [userDisplay]
-    this.username = this.userInfo.username
   }
 
   settingsPopup() {
-    this.ref = this._dialogService.open(SettingsComponent, {  width: '50vw'});
+    this.ref = this._dialogService.open(SettingsComponent, {
+      width: '50vw',
+      data: {
+        username: this.username
+      }
+    });
   }
 
   logoutUser() {
