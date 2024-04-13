@@ -107,14 +107,14 @@ export class MapSearchComponent {
             continue
           }
           const htmlContent = `
-          <div style="width: 10rem;">
+          <div style="width: 10rem; background-color: #383434">
             <p style="font-weight: bold; text-decoration: underline">${userCoords.username}</p>
             <p>Current status:
                 <span style="color: #5c77ff">${userCoords.status == "BUYING" ? "Buying" : "Selling"}</span>
             </p>
             <p>Energy amount: ${userCoords.energy} kWh</p>
             <p>Transaction valid until: ${userCoords.validUntil}</p>
-            <p><span style="color: green">Price:</span> \$${userCoords.price}</p>
+            <p><span style="color: #04aa04">Price:</span> \$${userCoords.price}</p>
             <div style="display: flex; justify-content: center">
               <button style="cursor: pointer; background: #5c77ff; color: whitesmoke" id="confirm-trade-${userCoords.username}">
               ${userCoords.status == "SELLING" ? `Buy from ${userCoords.username}` : `Sell to ${userCoords.username}`}

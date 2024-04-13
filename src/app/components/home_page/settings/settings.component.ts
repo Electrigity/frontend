@@ -9,6 +9,7 @@ import {DynamicDialogConfig} from "primeng/dynamicdialog";
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
+
 export class SettingsComponent {
   activeIndex: number = 0;
   username!: string;
@@ -104,7 +105,6 @@ export class SettingsComponent {
   ngAfterViewInit() {
     const myAPIKey = '355084142fcc42eea656c31df0d782ac';
     const mapStyle = 'https://maps.geoapify.com/v1/styles/dark-matter-brown/style.json';
-
 
     navigator.geolocation.getCurrentPosition((position) => {
 
