@@ -734,7 +734,6 @@ export class ApiService {
   }
 
   async isUserRegistered(address: string): Promise<boolean> {
-    console.log(this.contract)
     return await this.contract.methods['isUserRegistered'](address).call()
   }
 

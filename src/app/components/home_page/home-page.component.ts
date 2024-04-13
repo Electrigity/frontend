@@ -34,7 +34,6 @@ export class HomePageComponent {
     this.userId = localStorage.getItem("currentUser")!
     this.userInfo  = await this._apiService.getUserInfo(this.userId)
     this.username = this.userInfo.username
-
     if(this.userId == null || !(await this._apiService.isUserRegistered(this.userId))) {
       this.router.navigate(['/login'])
     }

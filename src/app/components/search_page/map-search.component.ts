@@ -1,9 +1,10 @@
 import {Component, ViewChild, ElementRef, OnChanges, SimpleChanges} from '@angular/core';
-import maplibregl, {Marker, NavigationControl, Popup} from 'maplibre-gl';
+import maplibregl, {MapMouseEvent, Marker, NavigationControl, Popup} from 'maplibre-gl';
 import {HttpClient} from "@angular/common/http";
 import {FormControl, FormGroup} from "@angular/forms";
 import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
 import * as _ from "lodash";
+import {ConfirmationService} from "primeng/api";
 
 interface MapUser {
   longitude: number;
@@ -55,7 +56,7 @@ export class MapSearchComponent {
     'energyLimit': 0
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public _confirmationService: ConfirmationService) {
   }
 
   ngOnInit() {
@@ -64,13 +65,13 @@ export class MapSearchComponent {
     })
   }
 
-  ngOnChange() {
-
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
   }
 
   ngAfterViewInit() {
     const myAPIKey = '355084142fcc42eea656c31df0d782ac';
-    const mapStyle = 'https://maps.geoapify.com/v1/styles/positron/style.json';
+    const mapStyle = 'https://maps.geoapify.com/v1/styles/dark-matter-brown/style.json';
 
     this.http.get('/assets/map-data.json', {responseType: 'json'})
       .subscribe((data: any) => {
@@ -82,7 +83,7 @@ export class MapSearchComponent {
           lng: this.userCoordinates.longitude,
           // @ts-ignore
           lat: this.userCoordinates.latitude,
-          zoom: 14
+          zoom: 12.9
         };
 
         this.map = new maplibregl.Map({
@@ -105,10 +106,6 @@ export class MapSearchComponent {
           if (userCoords.price > this.committedMapFilters.priceLimit && this.committedMapFilters.priceLimit != 0) {
             continue
           }
-          let text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
-            'Fusce molestie massa eu dapibus cursus.' +
-            'In tellus mauris, posuere ut cursus a, dictum sit amet est.' +
-            'Nam magna orci, convallis nec.'
           const htmlContent = `
           <div style="width: 10rem;">
             <p style="font-weight: bold; text-decoration: underline">${userCoords.username}</p>
@@ -119,39 +116,45 @@ export class MapSearchComponent {
             <p>Transaction valid until: ${userCoords.validUntil}</p>
             <p><span style="color: green">Price:</span> \$${userCoords.price}</p>
             <div style="display: flex; justify-content: center">
-              <button style="cursor: pointer; background: #5c77ff; color: whitesmoke">
+              <button style="cursor: pointer; background: #5c77ff; color: whitesmoke" id="confirm-trade-${userCoords.username}">
               ${userCoords.status == "SELLING" ? `Buy from ${userCoords.username}` : `Sell to ${userCoords.username}`}
               </button>
             </div>
           </div>
-
           `
-          const fragment = document.createRange().createContextualFragment(htmlContent);
-          let popup = new Popup()
-            .setLngLat([userCoords.longitude, userCoords.latitude])
-            .setDOMContent(fragment)
-
           let marker = new Marker({
             color: '#5c77ff',
           })
             .setLngLat([userCoords.longitude, userCoords.latitude])
             .addTo(this.map)
+          marker.getElement().addEventListener('click', (event) => {
+            let popup = new Popup()
+              .setLngLat([userCoords.longitude, userCoords.latitude])
+              .setHTML(htmlContent)
+            marker.setPopup(popup)
+            let self = this;
+            popup.on('open', function() {
+              // @ts-ignore
+              document.getElementById(`confirm-trade-${userCoords.username}`)
+                .addEventListener('click', (e: Event) => {
+                  self._confirmationService.confirm({
+                    target: e.target as EventTarget,
+                    message: 'Are you sure you want to trade?',
+                    icon: 'pi pi-info-circle',
+                    acceptIcon: 'none',
+                    rejectIcon: 'none',
+                    rejectButtonStyleClass: 'p-button-text',
+                    accept: () => {
 
-          marker.setPopup(popup)
+                    },
+                    reject: () => {
 
-          marker.getElement().addEventListener('click', () => {
-            if (marker.getPopup().isOpen()) {
-              marker.getPopup().remove()
-            } else {
-              marker.getPopup().addTo(this.map)
-              marker.togglePopup()
-            }
+                    }
+                  })
+                })
+            })
           });
           marker.getElement().style.cursor = 'pointer';
-          const markedUser: MarkedUser = {
-            userId: userCoords.userId,
-            marker: marker
-          }
           this.userMarkers.set(userCoords.userId, marker)
         }
       })
@@ -169,6 +172,14 @@ export class MapSearchComponent {
         });
       }
     }
+  }
+
+  confirmPopup(event: Event) {
+    this._confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to buy/sell?',
+      icon: 'pi pi-exclamation-triangle'
+    })
   }
 
   filterUsername(event: AutoCompleteCompleteEvent) {

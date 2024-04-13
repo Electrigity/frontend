@@ -30,7 +30,7 @@ export class SignupComponent {
   private mapContainer!: ElementRef<HTMLElement>;
   ngAfterViewInit() {
     const myAPIKey = '355084142fcc42eea656c31df0d782ac';
-    const mapStyle = 'https://maps.geoapify.com/v1/styles/positron/style.json';
+    const mapStyle = 'https://maps.geoapify.com/v1/styles/dark-matter-brown/style.json';
 
 
     navigator.geolocation.getCurrentPosition((position) => {
@@ -40,7 +40,7 @@ export class SignupComponent {
         lng: position.coords.longitude,
         // @ts-ignore
         lat: position.coords.latitude,
-        zoom: 13
+        zoom: 12.9
       };
 
       const map = new Map({

@@ -9,8 +9,8 @@ export class UserSidebarComponent {
 
   selectedStatus: string | undefined;
   selectedEnergy: number | undefined;
-  selectedPrice: number | undefined;
-  selectedDate: Date[] | undefined;
+  selectedPrice!: number | undefined;
+  selectedDate!: Date;
 
   statuses = [
     'Buying',
@@ -20,7 +20,7 @@ export class UserSidebarComponent {
 
 
   printVars() {
-    console.log(this.selectedStatus)
+    console.log(this.selectedDate.valueOf())
   }
 
 }

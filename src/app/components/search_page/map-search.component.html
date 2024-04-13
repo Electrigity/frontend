@@ -1,47 +1,48 @@
 <html>
+<p-confirmDialog></p-confirmDialog>
 <p-dialog [(visible)]="showDialog" [style]="{ width: '50vw', 'height': '50vh'}" [modal]="true">
   <ng-template pTemplate="body" style="padding: 0">
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); align-items: center">
-        <div style="grid-column: 1/2">
-          <p-dropdown
-            [options]="['Buying', 'Selling']"
-            [(ngModel)]="tempMapFilters.statusFilter"
-            placeholder="Trade status">
-          </p-dropdown>
-        </div>
-        <div style="justify-content: center; align-self: start; width: 15rem; grid-column: 2/3">
-          <label for="priceValue" style="font-size: 0.8rem;">Max price</label>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); align-items: center">
+      <div style="grid-column: 1/2">
+        <p-dropdown
+          [options]="['Buying', 'Selling']"
+          [(ngModel)]="tempMapFilters.statusFilter"
+          placeholder="Trade status">
+        </p-dropdown>
+      </div>
+      <div style="justify-content: center; align-self: start; width: 15rem; grid-column: 2/3">
+        <label for="priceValue" style="font-size: 0.8rem;">Max price</label>
+        <p-inputGroup>
+          <p-inputGroupAddon>$</p-inputGroupAddon>
+          <input type="text" id="priceValue" pInputText [(ngModel)]="tempMapFilters.priceLimit"/>
+        </p-inputGroup>
+        <br>
+        <p-slider
+          [(ngModel)]="tempMapFilters.priceLimit"
+          [style]="{'width' : '100%'}"
+          [max]="100"
+        ></p-slider>
+        <br>
+      </div>
+      <div style="justify-content: center; align-self: start; width: 15rem; grid-column: 2/3">
+        <div style="justify-content: center; align-self: start; width: 15rem;">
+          <label for="energyValue" style="font-size: 0.8rem;">Max energy</label>
           <p-inputGroup>
-            <p-inputGroupAddon>$</p-inputGroupAddon>
-            <input type="text" id="priceValue" pInputText [(ngModel)]="tempMapFilters.priceLimit"/>
+            <p-inputGroupAddon>kWh</p-inputGroupAddon>
+            <input type="text" id="energyValue" pInputText [(ngModel)]="tempMapFilters.energyLimit"/>
           </p-inputGroup>
           <br>
           <p-slider
-            [(ngModel)]="tempMapFilters.priceLimit"
+            [(ngModel)]="tempMapFilters.energyLimit"
             [style]="{'width' : '100%'}"
             [max]="100"
           ></p-slider>
-          <br>
-        </div>
-        <div style="justify-content: center; align-self: start; width: 15rem; grid-column: 2/3">
-          <div style="justify-content: center; align-self: start; width: 15rem;">
-            <label for="energyValue" style="font-size: 0.8rem;">Max energy</label>
-            <p-inputGroup>
-              <p-inputGroupAddon>kWh</p-inputGroupAddon>
-              <input type="text" id="energyValue" pInputText [(ngModel)]="tempMapFilters.energyLimit"/>
-            </p-inputGroup>
-            <br>
-            <p-slider
-              [(ngModel)]="tempMapFilters.energyLimit"
-              [style]="{'width' : '100%'}"
-              [max]="100"
-            ></p-slider>
-          </div>
-        </div>
-        <div style="grid-column: 1/2; grid-row: 2/3;">
-          <p-button label="Confirm" (click)="confirmFilters()"></p-button>
         </div>
       </div>
+      <div style="grid-column: 1/2; grid-row: 2/3;">
+        <p-button label="Confirm" (click)="confirmFilters()"></p-button>
+      </div>
+    </div>
   </ng-template>
 </p-dialog>
 <body>
