@@ -42,6 +42,8 @@ export class SignupComponent {
         lat: position.coords.latitude,
         zoom: 12.9
       };
+      this.registeringUser.latitude = initialState.lat
+      this.registeringUser.longitude = initialState.lng
 
       const map = new Map({
         container: this.mapContainer.nativeElement,
@@ -81,7 +83,7 @@ export class SignupComponent {
 
   async connectUser() {
     if(!this.userConnected) {
-      const userId = await this._apiService.getCurrentUserId()
+      const userId = await this._apiService.getCurrentUserAddress()
       if (userId != null) {
         this.registeringUser.userId = userId
         this.userConnected = true
@@ -121,7 +123,7 @@ export class SignupComponent {
         longitude: this.registeringUser.longitude,
         latitude: this.registeringUser.latitude
       });
-
+      await this._registrationService.registerUser()
       this.router.navigate(['/billing']);
     }
   }

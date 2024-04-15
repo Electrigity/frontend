@@ -1,7 +1,15 @@
 <p-fieldset [legend]="title" styleClass="card">
-  <p>Status:
-    <span [ngStyle]="{'color' : status == 'Buying' ? '#04c404' : 'red'}">{{status}}</span>
-  </p>
-  <p>{{status}} for: ${{transactionPrice}}</p>
-  <p>Expires: {{expiryDate}}</p>
+  <p-skeleton *ngIf="tradingInfo == undefined" height="6rem"></p-skeleton>
+  <div *ngIf="tradingInfo != undefined">
+    <p>Status:
+      <span *ngIf="tradingInfo.tradingStatus != undefined"
+            [ngStyle]="{'color' : tradingInfo.tradingStatus == 'Buying' ? '#04c404' : 'red'}">
+        {{ camelCaseToWords(tradingInfo.tradingStatus) }}
+      </span>
+    </p>
+    <div *ngIf="tradingInfo.tradingStatus != 'NotTrading'">
+      <p>{{ tradingInfo.tradingStatus + ' ' + tradingInfo.buySellAmount + ' kWh'}} for: ${{ tradingInfo.price }}</p>
+      <p>Expires: {{moment(date).format("DD MMM YYYY, hh:mm:ss A") }}</p>
+    </div>
+  </div>
 </p-fieldset>

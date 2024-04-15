@@ -7,6 +7,7 @@ import {UserInfo} from "../../models/UserInfo";
 import {PopupComponent} from "./popup/popup.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {StyleClass, StyleClassModule} from "primeng/styleclass";
+import {UserTradingInfo} from "../../models/UserTradingInfo";
 
 @Component({
   selector: 'app-home-page',
@@ -18,9 +19,16 @@ export class HomePageComponent {
   ref: DynamicDialogRef | undefined;
   @ViewChild('notificationsRef') notificationsRef!: NotificationComponent
 
-  userId!: string
+  userAddress!: string
   userInfo!: UserInfo
   username!: string
+
+  userTradingInfo!: UserTradingInfo
+  tradingStatus!: string
+  buySellAmount!: bigint
+  price!: bigint
+  expiryDate!: bigint
+  date!: Date
 
   constructor(
     private router: Router,
@@ -31,10 +39,21 @@ export class HomePageComponent {
 
 
   async ngOnInit() {
-    this.userId = localStorage.getItem("currentUser")!
-    this.userInfo  = await this._apiService.getUserInfo(this.userId)
+    this.userAddress = localStorage.getItem("currentUser")!
+    this.userInfo  = await this._apiService.getUserInfo(this.userAddress)
+    this.userTradingInfo = await this._apiService.getTradingInfo(this.userAddress)
+
     this.username = this.userInfo.username
-    if(this.userId == null || !(await this._apiService.isUserRegistered(this.userId))) {
+
+    this.tradingStatus = this.userTradingInfo.tradingStatus
+    this.buySellAmount = this.userTradingInfo.buySellAmount
+    this.price = this.userTradingInfo.price
+    this.expiryDate = this.userTradingInfo.expiryDate
+    this.date = new Date(Number(this.expiryDate))
+
+    console.log(await this._apiService.getActiveTraders())
+
+    if(this.userAddress == null || !(await this._apiService.isUserRegistered(this.userAddress))) {
       this.router.navigate(['/login'])
     }
   }
@@ -44,4 +63,5 @@ export class HomePageComponent {
   }
 
   protected readonly localStorage = localStorage;
+  protected readonly BigInt = BigInt;
 }

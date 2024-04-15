@@ -28,12 +28,15 @@
       <hr>
     </div>
     <div class="text-boxes">
-      <app-text-box style="width: 40%"></app-text-box>
+      <app-text-box style="width: 40%"
+                    [title]="'Direct trading settings'"
+                    [tradingInfo]="userTradingInfo"
+                    [date]="date"
+      ></app-text-box>
       <app-text-box style="width: 40%"
                     [title]="'Indirect trading settings'"
-                    [status]="'Selling'"
-                    [transactionPrice]="6"
-                    [expiryDate]="'Tuesday'"
+                    [tradingInfo]="userTradingInfo"
+                    [date]="date"
       ></app-text-box>
       <!--      <app-text-box class="text-box-1"-->
       <!--                    [backgroundColor]="'rgb(177, 250, 179)'"-->

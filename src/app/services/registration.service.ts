@@ -29,7 +29,7 @@ export class RegistrationService {
   }
 
   async loginUser() {
-    const userId = await this._apiService.getCurrentUserId()
+    const userId = await this._apiService.getCurrentUserAddress()
     const isRegistered = await this._apiService.isUserRegistered(userId)
     if(!isRegistered) {
       alert('Your account is not registered!')
@@ -47,7 +47,11 @@ export class RegistrationService {
   }
 
   async registerUser() {
-
+    await this._apiService.registerUser(
+      this.username,
+      this.userCoordinates.latitude,
+      this.userCoordinates.longitude,
+      15)
   }
 
   async requestSignature() {
