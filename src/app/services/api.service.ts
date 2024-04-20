@@ -1765,6 +1765,27 @@ export class ApiService {
     ).send({from : userAddress})
   }
 
+  async updateUser(
+    username: string,
+    latitude: bigint,
+    longitude: bigint,
+    balance: bigint
+  ) {
+    const userAddress = await this.getCurrentUserAddress()
+    return await this.userManagerContract.methods['updateUser'](
+      username,
+      latitude,
+      longitude,
+      balance,
+    ).send({from : userAddress})
+  }
+
+  async deleteUser() {
+    const userAddress = await this.getCurrentUserAddress()
+    return await this.userManagerContract.methods['deleteUser'](
+      userAddress).send({from : userAddress})
+  }
+
   async updateTradingInfoToNotTrading() {
     const userAddress = await this.getCurrentUserAddress()
     return await this.userManagerContract.methods['updateTradingUserInfo'](

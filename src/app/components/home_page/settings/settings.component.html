@@ -29,7 +29,7 @@
         <p-inputGroupAddon styleClass="icon-color">
           <i class="pi pi-user"></i>
         </p-inputGroupAddon>
-        <input style="margin-right: 10px;" pInputText [placeholder]="username">
+        <input style="margin-right: 10px;" pInputText [placeholder]="username" [(ngModel)]="newUsername">
         {{'Username must only contain letters and numbers,'}}
         <br>
         {{'and must be 6-15 characters long'}}

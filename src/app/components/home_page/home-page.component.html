@@ -18,6 +18,7 @@
       <app-header-banner
         [userId]="localStorage.getItem('currentUser')!"
         [username]="username"
+        [userInfo]="userInfo"
       ></app-header-banner>
     </div>
     <div *ngIf="toggledNotifications" class="notification-container">

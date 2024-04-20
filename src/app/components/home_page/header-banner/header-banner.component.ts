@@ -5,6 +5,7 @@ import {SidebarService} from "../../../services/sidebar.service";
 import {ApiService} from "../../../services/api.service";
 import {SettingsComponent} from "../settings/settings.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {UserInfo} from "../../../models/UserInfo";
 
 
 @Component({
@@ -15,6 +16,7 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 export class HeaderBannerComponent {
   @Input() userId!: string
   @Input() username!: string
+  @Input() userInfo!: UserInfo
   menuItems!: MenuItem[]
 
   ref: DynamicDialogRef | undefined;
@@ -47,7 +49,8 @@ export class HeaderBannerComponent {
     this.ref = this._dialogService.open(SettingsComponent, {
       width: '50vw',
       data: {
-        username: this.username
+        username: this.username,
+        userInfo: this.userInfo
       }
     });
   }

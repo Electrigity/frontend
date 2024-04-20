@@ -3,6 +3,10 @@ import {Map, Marker, NavigationControl} from "maplibre-gl";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {RegistrationService} from "../../../services/registration.service";
 import {DynamicDialogConfig} from "primeng/dynamicdialog";
+import {ApiService} from "../../../services/api.service";
+import {RegisteringUser} from "../../../models/RegisteringUser";
+import {UserInfo} from "../../../models/UserInfo";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-settings',
@@ -12,24 +16,32 @@ import {DynamicDialogConfig} from "primeng/dynamicdialog";
 
 export class SettingsComponent {
   activeIndex: number = 0;
-  username!: string;
+  userInfo!: UserInfo
+  username!: string
+  newUsername : string = ""
+  latitude! : bigint
+  longitude! : bigint
+  registeringUser: RegisteringUser = new RegisteringUser()
   choosenCoordinates = {
     longitude: -1,
     latitude: -1
   }
 
-  constructor(private _registrationService: RegistrationService,
+  constructor(private router: Router,
+              private _registrationService: RegistrationService,
               private confirmationService: ConfirmationService,
               private messageService: MessageService,
+              private _apiService : ApiService,
               config: DynamicDialogConfig
               ) {
     this.username = config.data.username
+    this.userInfo = config.data.userInfo
+    console.log(this.userInfo)
   }
 
   isValidUsername(username: string): boolean {
     return (username.length >= 6 && username.length <= 15 && /^[a-zA-Z0-9]+$/.test(username));
   }
-
   confirm1(event: Event) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -40,12 +52,14 @@ export class SettingsComponent {
       rejectIcon: "none",
       rejectButtonStyleClass: "p-button-text",
       key: "changeUsername",
-      accept: () => {
+      accept: async () => {
         this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
-        if (this.username.length != 0 && !this.isValidUsername(this.username)) {
+        if (this.newUsername.length != 0 && !this.isValidUsername(this.newUsername)) {
           alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
+        } else if (!(await this._registrationService.isUniqueUsername(this.newUsername))) {
+          alert("Username already exists. Please choose another one.")
         } else {
-          this._registrationService.setUsername(this.username);
+          await this._apiService.updateUser(this.newUsername, this.userInfo.latitude, this.userInfo.longitude, this.userInfo.energyBalance)
         }
       },
       reject: () => {
@@ -65,9 +79,11 @@ export class SettingsComponent {
       rejectIcon: "none",
       rejectButtonStyleClass: "p-button-text",
       key: "changeLocation",
-      accept: () => {
+      accept: async () => {
         this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
-        this._registrationService.setUserCoordinates(this.choosenCoordinates)
+        await this._apiService.updateUser(this.username, BigInt(this.choosenCoordinates.latitude * 1e18),
+          BigInt(this.choosenCoordinates.longitude * 1e18), this.userInfo.energyBalance)
+
       },
       reject: () => {
         this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
@@ -85,8 +101,10 @@ export class SettingsComponent {
       rejectIcon: "none",
       rejectButtonStyleClass: "p-button-text",
       key: "deleteUser",
-      accept: () => {
+      accept: async () => {
         this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
+        await this._apiService.deleteUser()
+        this.router.navigate(['/login'])
       },
       reject: () => {
         this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
