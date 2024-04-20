@@ -5,6 +5,10 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {AutoCompleteCompleteEvent} from "primeng/autocomplete";
 import * as _ from "lodash";
 import {ConfirmationService} from "primeng/api";
+import moment from 'moment';
+import {ApiService} from "../../services/api.service";
+import {UserInfo} from "../../models/UserInfo";
+import {ActiveTraderInfo} from "../../models/ActiveTraderInfo";
 
 interface MapUser {
   longitude: number;
@@ -35,6 +39,11 @@ export class MapSearchComponent {
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
   private userCoordinates!: Object;
+
+  private userAddress!: string
+  private userInfo!: UserInfo
+  private activeTradersInfo!: ActiveTraderInfo[]
+
   private otherUsersCoordinates!: MapUser[];
   private map!: maplibregl.Map;
   private userMarkers: Map<string, Marker> = new Map<string, Marker>();
@@ -56,108 +65,116 @@ export class MapSearchComponent {
     'energyLimit': 0
   }
 
-  constructor(private http: HttpClient, public _confirmationService: ConfirmationService) {
+  constructor(private http: HttpClient,
+              public confirmationService: ConfirmationService,
+              private _apiService: ApiService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.formGroup = new FormGroup({
       username: new FormControl<object | null>(null)
     })
+    // this.userAddress = await this._apiService.getCurrentUserAddress()
+    // this.userInfo = await this._apiService.getUserInfo(this.userAddress)
+    // this.activeTradersInfo = await this._apiService.getActiveTraders()
   }
 
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes)
   }
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     const myAPIKey = '355084142fcc42eea656c31df0d782ac';
     const mapStyle = 'https://maps.geoapify.com/v1/styles/dark-matter-brown/style.json';
 
-    this.http.get('/assets/map-data.json', {responseType: 'json'})
-      .subscribe((data: any) => {
-        this.userCoordinates = data['userCoordinates']
-        this.otherUsersCoordinates = data['otherUsersCoordinates']
+    this.userAddress = await this._apiService.getCurrentUserAddress()
+    this.userInfo = await this._apiService.getUserInfo(this.userAddress)
+    this.activeTradersInfo = await this._apiService.getActiveTraders()
 
-        const initialState = {
-          // @ts-ignore
-          lng: this.userCoordinates.longitude,
-          // @ts-ignore
-          lat: this.userCoordinates.latitude,
-          zoom: 12.9
-        };
+    console.log(this.activeTradersInfo)
+    const initialState = {
+      // @ts-ignore
+      lng: this.userInfo.longitude,
+      // @ts-ignore
+      lat: this.userInfo.latitude,
+      zoom: 12.9
+    };
 
-        this.map = new maplibregl.Map({
-          container: this.mapContainer.nativeElement,
-          style: `${mapStyle}?apiKey=${myAPIKey}`,
-          center: [initialState.lng, initialState.lat],
-          zoom: initialState.zoom,
-        });
+    this.map = new maplibregl.Map({
+      container: this.mapContainer.nativeElement,
+      style: `${mapStyle}?apiKey=${myAPIKey}`,
+      center: [initialState.lng, initialState.lat],
+      zoom: initialState.zoom,
+    });
 
-        this.map.addControl(new NavigationControl());
+    this.map.addControl(new NavigationControl());
 
-        new Marker({
-          color: '#ff745c',
-        })
-          // @ts-ignore
-          .setLngLat([this.userCoordinates.longitude, this.userCoordinates.latitude])
-          .addTo(this.map)
+    new Marker({
+      color: '#ff745c',
+    })
+      // @ts-ignore
+      .setLngLat([this.userInfo.longitude, this.userInfo.latitude])
+      .addTo(this.map)
 
-        for (const userCoords of this.otherUsersCoordinates) {
-          if (userCoords.price > this.committedMapFilters.priceLimit && this.committedMapFilters.priceLimit != 0) {
-            continue
-          }
-          const htmlContent = `
+    for (const activeTrader of this.activeTradersInfo) {
+      if (activeTrader.price > this.committedMapFilters.priceLimit && this.committedMapFilters.priceLimit != 0) {
+        continue
+      }
+      const htmlContent = `
           <div style="width: 10rem; background-color: #383434">
-            <p style="font-weight: bold; text-decoration: underline">${userCoords.username}</p>
+            <p style="font-weight: bold; text-decoration: underline">${activeTrader.username}</p>
             <p>Current status:
-                <span style="color: #5c77ff">${userCoords.status == "BUYING" ? "Buying" : "Selling"}</span>
+                <span style="color: #5c77ff">${activeTrader.tradingStatus == "BUYING" ? "Buying" : "Selling"}</span>
             </p>
-            <p>Energy amount: ${userCoords.energy} kWh</p>
-            <p>Transaction valid until: ${userCoords.validUntil}</p>
-            <p><span style="color: #04aa04">Price:</span> \$${userCoords.price}</p>
+            <p>Energy amount: ${activeTrader.energyBalance} kWh</p>
+            <p>Transaction valid until: <span id="validDate"></span> </p>
+            <p><span style="color: #04aa04">Price:</span> \$${activeTrader.price}</p>
             <div style="display: flex; justify-content: center">
-              <button style="cursor: pointer; background: #5c77ff; color: whitesmoke" id="confirm-trade-${userCoords.username}">
-              ${userCoords.status == "SELLING" ? `Buy from ${userCoords.username}` : `Sell to ${userCoords.username}`}
+              <button style="cursor: pointer; background: #5c77ff; color: whitesmoke"
+              id="confirm-trade-${activeTrader.username}">
+              ${activeTrader.tradingStatus == "SELLING" ? `Buy from ${activeTrader.username}` : `Sell to ${activeTrader.username}`}
               </button>
             </div>
           </div>
           `
-          let marker = new Marker({
-            color: '#5c77ff',
-          })
-            .setLngLat([userCoords.longitude, userCoords.latitude])
-            .addTo(this.map)
-          marker.getElement().addEventListener('click', (event) => {
-            let popup = new Popup()
-              .setLngLat([userCoords.longitude, userCoords.latitude])
-              .setHTML(htmlContent)
-            marker.setPopup(popup)
-            let self = this;
-            popup.on('open', function() {
-              // @ts-ignore
-              document.getElementById(`confirm-trade-${userCoords.username}`)
-                .addEventListener('click', (e: Event) => {
-                  self._confirmationService.confirm({
-                    target: e.target as EventTarget,
-                    message: 'Are you sure you want to trade?',
-                    icon: 'pi pi-info-circle',
-                    acceptIcon: 'none',
-                    rejectIcon: 'none',
-                    rejectButtonStyleClass: 'p-button-text',
-                    accept: () => {
-
-                    },
-                    reject: () => {
-
-                    }
-                  })
-                })
-            })
-          });
-          marker.getElement().style.cursor = 'pointer';
-          this.userMarkers.set(userCoords.userId, marker)
-        }
+      let marker = new Marker({
+        color: '#5c77ff',
       })
+        .setLngLat([activeTrader.longitude, activeTrader.latitude])
+        .addTo(this.map)
+      marker.getElement().addEventListener('click', (event) => {
+        let popup = new Popup()
+          .setLngLat([activeTrader.longitude, activeTrader.latitude])
+          .setHTML(htmlContent)
+        marker.setPopup(popup)
+        let self = this;
+        popup.on('open', function () {
+          // @ts-ignore
+          document.getElementById('validDate').innerHTML =
+            moment(activeTrader.expiryDate).format("hh:mm:ss A, DD MMM YYYY")
+          // @ts-ignore
+          document.getElementById(`confirm-trade-${activeTrader.username}`)
+            .addEventListener('click', (e: Event) => {
+              self.confirmationService.confirm({
+                target: e.target as EventTarget,
+                message: 'Are you sure you want to trade?',
+                icon: 'pi pi-info-circle',
+                acceptIcon: 'none',
+                rejectIcon: 'none',
+                rejectButtonStyleClass: 'p-button-text',
+                accept: () => {
+
+                },
+                reject: () => {
+
+                }
+              })
+            })
+        })
+      });
+      marker.getElement().style.cursor = 'pointer';
+      this.userMarkers.set(activeTrader.userAddress, marker)
+    }
 
 
   }
@@ -175,7 +192,7 @@ export class MapSearchComponent {
   }
 
   confirmPopup(event: Event) {
-    this._confirmationService.confirm({
+    this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Are you sure you want to buy/sell?',
       icon: 'pi pi-exclamation-triangle'

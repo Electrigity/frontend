@@ -3,6 +3,7 @@ import {Web3} from "web3";
 import {UserInfo} from "../models/UserInfo";
 import {MetaMaskInpageProvider} from "@metamask/providers";
 import {UserTradingInfo} from "../models/UserTradingInfo";
+import {ActiveTraderInfo} from "../models/ActiveTraderInfo";
 
 declare global {
   interface Window {
@@ -14,7 +15,6 @@ declare global {
   providedIn: 'root'
 })
 export class ApiService {
-  contractAddress = '0x78dE82ADd10A52f3499c3363356817Fc1B8B823f'
 
   userManagerContractAbi = [
     {
@@ -1692,6 +1692,7 @@ export class ApiService {
   userManagerContract
   energyTransactionContract
   tokenContract
+
   constructor() {
     this.web3 = new Web3(window.ethereum)
     this.userManagerContract = new this.web3.eth.Contract(
@@ -1729,20 +1730,23 @@ export class ApiService {
     latitude: number,
     longitude: number,
     energyBalance: number,
-    ) {
-    let tempLatitude = longitude * 1e18
-    let tempLongitude = latitude * 1e18
+  ) {
+    const utils = this.web3.utils
     const userAddress = await this.getCurrentUserAddress()
-    const response = await this.userManagerContract.methods['registerUser'](
+    return await this.userManagerContract.methods['registerUser'](
       username,
-      BigInt(tempLatitude),
-      BigInt(tempLongitude),
+      BigInt(utils.toWei(latitude, 'ether')),
+      BigInt(utils.toWei(longitude, 'ether')),
       energyBalance
     ).send({from: userAddress})
   }
 
   async getUserInfo(userAddress: string): Promise<UserInfo> {
-    return await this.userManagerContract.methods['getUserInfo'](userAddress).call() as UserInfo
+    let userInfo = await this.userManagerContract.methods['getUserInfo'](userAddress).call() as UserInfo
+    const utils = this.web3.utils
+    userInfo.longitude = Number(utils.fromWei(userInfo.longitude, 'ether'))
+    userInfo.latitude = Number(utils.fromWei(userInfo.latitude, 'ether'))
+    return userInfo
   }
 
   async getTradingInfo(userAddress: string): Promise<UserTradingInfo> {
@@ -1762,7 +1766,7 @@ export class ApiService {
       BigInt(expiryDate),
       BigInt(buySellAmount),
       BigInt(price),
-    ).send({from : userAddress})
+    ).send({from: userAddress})
   }
 
   async updateTradingInfoToNotTrading() {
@@ -1772,11 +1776,60 @@ export class ApiService {
       BigInt(0),
       BigInt(0),
       BigInt(0)
-    ).send({from : userAddress})
+    ).send({from: userAddress})
+  }
+
+  async updateUser(
+    username: string,
+    latitude: number,
+    longitude: number,
+    balance: number,
+    type: 'username' | 'location'
+  ) {
+    const userAddress = await this.getCurrentUserAddress()
+    const utils = this.web3.utils
+    if (type == 'username') {
+      return await this.userManagerContract.methods['updateUser'](
+        username,
+        BigInt(latitude),
+        BigInt(longitude),
+        BigInt(balance),
+      ).send({from: userAddress})
+    } else {
+      return await this.userManagerContract.methods['updateUser'](
+        username,
+        BigInt(utils.toWei(latitude, 'ether')),
+        BigInt(utils.toWei(longitude, 'ether')),
+        BigInt(balance),
+      ).send({from: userAddress})
+    }
+  }
+
+  async deleteUser() {
+    const userAddress = await this.getCurrentUserAddress()
+    return await this.userManagerContract.methods['deleteUser'](
+      userAddress).send({from: userAddress})
   }
 
   async getActiveTraders() {
-    return await this.energyTransactionContract.methods['getActiveTraders']().call()
+    const userAddress = await this.getCurrentUserAddress()
+    let activeTraders: any[] = await this.energyTransactionContract.methods['getActiveTraders']().call()
+    const utils = this.web3.utils
+    activeTraders = activeTraders.filter(trader => trader.userAddress.toLowerCase() != userAddress)
+    return activeTraders.map(trader => {
+      let activeTraderInfo = new ActiveTraderInfo()
+      activeTraderInfo.EGYTokenBalance = Number(utils.fromWei(trader['EGYTokenBalance'], 'ether'))
+      activeTraderInfo.latitude = Number(utils.fromWei(trader['latitude'], 'ether'))
+      activeTraderInfo.longitude = Number(utils.fromWei(trader['longitude'], 'ether'))
+      activeTraderInfo.username = trader['username']
+      activeTraderInfo.price = Number(trader['price'])
+      activeTraderInfo.buySellAmount = Number(trader['buySellAmount'])
+      activeTraderInfo.tradingStatus = trader['tradingStatus']
+      activeTraderInfo.userAddress = trader['userAddress']
+      activeTraderInfo.expiryDate = new Date(Number(trader['expiryDate']))
+      return activeTraderInfo
+    })
+
   }
 
 

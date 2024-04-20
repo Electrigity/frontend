@@ -1,8 +1,8 @@
 export interface UserInfo {
-  energyBalance: bigint
+  energyBalance: number
   isRegistered: boolean
-  latitude: bigint
-  longitude: bigint
-  tokensBalance: bigint
+  latitude: number
+  longitude: number
+  tokensBalance: number
   username: string
 }

@@ -51,7 +51,7 @@ export class HomePageComponent {
     this.expiryDate = this.userTradingInfo.expiryDate
     this.date = new Date(Number(this.expiryDate))
 
-    console.log(await this._apiService.getActiveTraders())
+    console.log(await this._apiService.getRegisteredUsernames())
 
     if(this.userAddress == null || !(await this._apiService.isUserRegistered(this.userAddress))) {
       this.router.navigate(['/login'])

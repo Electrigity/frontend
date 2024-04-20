@@ -1,15 +1,7 @@
 import {Injectable} from '@angular/core';
-import {MetaMaskInpageProvider} from "@metamask/providers";
 import { Web3 } from "web3";
 import {ApiService} from "./api.service";
 import {Router} from "@angular/router";
-// for making HTTP requests
-
-// declare global {
-//   interface Window {
-//     ethereum?: MetaMaskInpageProvider
-//   }
-// }
 
 @Injectable({
   providedIn: 'root'
@@ -65,12 +57,6 @@ export class RegistrationService {
       method: 'wallet_getPermissions',
     })
     console.log(perm)
-    // this.web3.currentProvider?.sendAsync({
-    //   id: 1,
-    //   method: 'personal_sign',
-    //   params: msgParams,
-    //   jsonrpc: "2.0"
-    // }).then((result) => console.log(result))
   }
 
   setUserCoordinates(userCoordinates: {longitude: number, latitude: number}) {
