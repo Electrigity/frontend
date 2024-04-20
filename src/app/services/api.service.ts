@@ -1791,8 +1791,8 @@ export class ApiService {
     if (type == 'username') {
       return await this.userManagerContract.methods['updateUser'](
         username,
-        BigInt(latitude),
-        BigInt(longitude),
+        BigInt(utils.toWei(latitude, 'ether')),
+        BigInt(utils.toWei(longitude, 'ether')),
         BigInt(balance),
       ).send({from: userAddress})
     } else {
