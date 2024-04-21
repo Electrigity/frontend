@@ -38,15 +38,14 @@ export class MapSearchComponent {
 
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
-  private userCoordinates!: Object;
 
   private userAddress!: string
   private userInfo!: UserInfo
   private activeTradersInfo!: ActiveTraderInfo[]
 
-  private otherUsersCoordinates!: MapUser[];
   private map!: maplibregl.Map;
   private userMarkers: Map<string, Marker> = new Map<string, Marker>();
+
   showDialog: boolean = false;
   filteringMap: boolean = false;
   initMapFilters = {
@@ -74,9 +73,7 @@ export class MapSearchComponent {
     this.formGroup = new FormGroup({
       username: new FormControl<object | null>(null)
     })
-    // this.userAddress = await this._apiService.getCurrentUserAddress()
-    // this.userInfo = await this._apiService.getUserInfo(this.userAddress)
-    // this.activeTradersInfo = await this._apiService.getActiveTraders()
+    console.log('Pending:', await this._apiService.getUserPendingTransactions())
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -124,7 +121,7 @@ export class MapSearchComponent {
           <div style="width: 10rem; background-color: #383434">
             <p style="font-weight: bold; text-decoration: underline">${activeTrader.username}</p>
             <p>Current status:
-                <span style="color: #5c77ff">${activeTrader.tradingStatus == "BUYING" ? "Buying" : "Selling"}</span>
+                <span style="color: #5c77ff">${activeTrader.tradingStatus == "Buying" ? "Buying" : "Selling"}</span>
             </p>
             <p>Energy amount: ${activeTrader.buySellAmount} kWh</p>
             <p>Transaction valid until: <span id="validDate"></span> </p>
@@ -132,7 +129,7 @@ export class MapSearchComponent {
             <div style="display: flex; justify-content: center">
               <button style="cursor: pointer; background: #5c77ff; color: whitesmoke"
               id="confirm-trade-${activeTrader.username}">
-              ${activeTrader.tradingStatus == "SELLING" ? `Buy from ${activeTrader.username}` : `Sell to ${activeTrader.username}`}
+              ${activeTrader.tradingStatus == "Selling" ? `Buy from ${activeTrader.username}` : `Sell to ${activeTrader.username}`}
               </button>
             </div>
           </div>
@@ -162,8 +159,15 @@ export class MapSearchComponent {
                 acceptIcon: 'none',
                 rejectIcon: 'none',
                 rejectButtonStyleClass: 'p-button-text',
-                accept: () => {
-
+                accept: async () => {
+                  console.log(await self._apiService.initiateTransaction(
+                    self.userAddress,
+                    activeTrader.userAddress,
+                    activeTrader.buySellAmount,
+                    activeTrader.price,
+                    activeTrader.expiryDate,
+                    (activeTrader.tradingStatus == "Selling")
+                  ))
                 },
                 reject: () => {
 
@@ -180,7 +184,7 @@ export class MapSearchComponent {
   }
 
   searchByUsername() {
-    for (const user of this.otherUsersCoordinates) {
+    for (const user of this.activeTradersInfo) {
       let username = user.username;
       if (this.username == username) {
         this.map.flyTo({
@@ -203,8 +207,8 @@ export class MapSearchComponent {
     let filtered: any[] = [];
     let query = event.query;
 
-    for (let i = 0; i < (this.otherUsersCoordinates as any[]).length; i++) {
-      let user = (this.otherUsersCoordinates as any[])[i];
+    for (let i = 0; i < (this.activeTradersInfo as any[]).length; i++) {
+      let user = (this.activeTradersInfo as any[])[i];
       if (user.username.toLowerCase().indexOf(query.toLowerCase()) == 0) {
         filtered.push(user.username);
       }
@@ -238,15 +242,15 @@ export class MapSearchComponent {
     let statusComparison = this.committedMapFilters.statusFilter
     let priceComparison = this.committedMapFilters.priceLimit
     let energyComparison = this.committedMapFilters.energyLimit
-    for (const user of this.otherUsersCoordinates) {
-      const marker = this.userMarkers.get(user.userId)
+    for (const user of this.activeTradersInfo) {
+      const marker = this.userMarkers.get(user.userAddress)
       if (_.isEqual(this.committedMapFilters, this.initMapFilters)) {
         // @ts-ignore
         marker.getElement().style.display = "block";
       } else {
-        if ((statusComparison.toLowerCase() == user.status.toLowerCase() || statusComparison.length == 0)
+        if ((statusComparison.toLowerCase() == user.tradingStatus.toLowerCase() || statusComparison.length == 0)
           && (priceComparison >= user.price || priceComparison == 0)
-          && (energyComparison >= user.energy || energyComparison == 0)
+          && (energyComparison >= user.energyBalance || energyComparison == 0)
         ) {
           // @ts-ignore
           marker.getElement().style.display = "block";

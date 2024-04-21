@@ -1832,6 +1832,29 @@ export class ApiService {
 
   }
 
+  async initiateTransaction(
+    senderAddress: string,
+    receiverAddress: string,
+    energyAmount: number,
+    price: number,
+    validUntil: Date,
+    isBuyTransaction: boolean
+  ) {
+    return this.energyTransactionContract.methods['initiateTransaction'](
+      senderAddress,
+      receiverAddress,
+      energyAmount,
+      price,
+      Number(validUntil),
+      isBuyTransaction
+    ).send({from: senderAddress})
+  }
+
+  async getUserPendingTransactions() {
+    const userAddress = await this.getCurrentUserAddress()
+    return await this.energyTransactionContract.methods['getUserPendingTransactions'](userAddress).call()
+  }
+
 
   async getTokenBalance(userAddress: string) {
     const info = await this.userManagerContract.methods['getTokenBalance'](userAddress).call()
