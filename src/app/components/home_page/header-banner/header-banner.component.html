@@ -1,15 +1,25 @@
 <p-overlayPanel #op styleClass="overlay">
-  <app-notification></app-notification>
-  <app-notification></app-notification>
-  <app-notification></app-notification>
-  <app-notification></app-notification>
+  <div *ngIf="pendingTransactions != undefined">
+    <div *ngFor="let transaction of pendingTransactions">
+      <app-notification
+      [trader]="transaction.initiatorUsername"
+      [energyAmount]="transaction.energyAmount"
+      [isBuying]="transaction.isBuying"
+      [date]="transaction.initialDate"
+      [transactionId]="transaction.id"
+      [price]="transaction.price"
+      ></app-notification>
+    </div>
+  </div>
 </p-overlayPanel>
 <div class="page-up">
-  <p-skeleton *ngIf="userId == undefined" width=100% [ngStyle]="{'grid-column' : '2/14'}"></p-skeleton>
-  <p *ngIf="userId != undefined" style="grid-column: 2/14; font-size: 0.8rem">User: {{ userId }}</p>
+  <p-skeleton *ngIf="userInfo == undefined" width=100% [ngStyle]="{'grid-column' : '2/14'}"></p-skeleton>
+  <p *ngIf="userInfo != undefined" style="grid-column: 2/14; font-size: 0.8rem">Energy: {{ userInfo.energyBalance }}&nbsp;kWh</p>
   <div class="icons-component">
     <div style="justify-content: center; align-content: center; height: 100%; width: 100%;">
-      <i (click)="op.toggle($event)" class="pi pi-bell" pBadge value="4" id="bell"></i>
+      <i *ngIf="notificationsCount == 0" (click)="op.toggle($event)" class="pi pi-bell" id="bell1"></i>
+      <i *ngIf="notificationsCount != 0" (click)="op.toggle($event)"
+         class="pi pi-bell" pBadge value="{{notificationsCount}}" id="bell2"></i>
     </div>
     <button (click)="settingsPopup()" class="pi pi-cog" id="settings"></button>
     <button (click)="confirmLogout($event)" class="pi pi-sign-out" id="logout" aria-label="logout-icon"></button>

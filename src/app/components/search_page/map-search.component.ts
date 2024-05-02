@@ -73,7 +73,6 @@ export class MapSearchComponent {
     this.formGroup = new FormGroup({
       username: new FormControl<object | null>(null)
     })
-    console.log('Pending:', await this._apiService.getUserPendingTransactions())
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -125,7 +124,7 @@ export class MapSearchComponent {
             </p>
             <p>Energy amount: ${activeTrader.buySellAmount} kWh</p>
             <p>Transaction valid until: <span id="validDate"></span> </p>
-            <p><span style="color: #04aa04">Price:</span> \$${activeTrader.price}</p>
+            <p><span style="color: #04aa04">Price:</span>${activeTrader.price} EGY</p>
             <div style="display: flex; justify-content: center">
               <button style="cursor: pointer; background: #5c77ff; color: whitesmoke"
               id="confirm-trade-${activeTrader.username}">
@@ -148,7 +147,7 @@ export class MapSearchComponent {
         popup.on('open', function () {
           // @ts-ignore
           document.getElementById('validDate').innerHTML =
-            moment(activeTrader.expiryDate).format("hh:mm:ss A, DD MMM YYYY")
+            moment(activeTrader.expiryDate).format("hh:mm A, DD MMM YYYY")
           // @ts-ignore
           document.getElementById(`confirm-trade-${activeTrader.username}`)
             .addEventListener('click', (e: Event) => {
@@ -160,14 +159,18 @@ export class MapSearchComponent {
                 rejectIcon: 'none',
                 rejectButtonStyleClass: 'p-button-text',
                 accept: async () => {
+                  const isBuying = activeTrader.tradingStatus == "Selling"
                   console.log(await self._apiService.initiateTransaction(
                     self.userAddress,
                     activeTrader.userAddress,
                     activeTrader.buySellAmount,
                     activeTrader.price,
                     activeTrader.expiryDate,
-                    (activeTrader.tradingStatus == "Selling")
+                    isBuying
                   ))
+                  if(isBuying) {
+                    await self._apiService.approveTokens(activeTrader.price)
+                  }
                 },
                 reject: () => {
 

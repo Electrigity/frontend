@@ -8,6 +8,7 @@ import {PopupComponent} from "./popup/popup.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {StyleClass, StyleClassModule} from "primeng/styleclass";
 import {UserTradingInfo} from "../../models/UserTradingInfo";
+import {CommittedTransaction} from "../../models/CommittedTransaction";
 
 @Component({
   selector: 'app-home-page',
@@ -22,6 +23,7 @@ export class HomePageComponent {
   userAddress!: string
   userInfo!: UserInfo
   username!: string
+  notificationsCount: number = 0
 
   userTradingInfo!: UserTradingInfo
   tradingStatus!: string
@@ -29,6 +31,8 @@ export class HomePageComponent {
   price!: bigint
   expiryDate!: bigint
   date!: Date
+
+  tableInfo: CommittedTransaction[] = []
 
   constructor(
     private router: Router,
@@ -42,6 +46,9 @@ export class HomePageComponent {
     this.userAddress = localStorage.getItem("currentUser")!
     this.userInfo  = await this._apiService.getUserInfo(this.userAddress)
     this.userTradingInfo = await this._apiService.getTradingInfo(this.userAddress)
+    this.notificationsCount = await this._apiService.getNotCommittedTransactionsCount()
+
+    console.log(await this._apiService.getCommittedTransactions())
 
     this.username = this.userInfo.username
 
@@ -51,7 +58,7 @@ export class HomePageComponent {
     this.expiryDate = this.userTradingInfo.expiryDate
     this.date = new Date(Number(this.expiryDate))
 
-    console.log(await this._apiService.getRegisteredUsernames())
+    this.tableInfo = await this._apiService.getCommittedTransactions()
 
     if(this.userAddress == null || !(await this._apiService.isUserRegistered(this.userAddress))) {
       this.router.navigate(['/login'])

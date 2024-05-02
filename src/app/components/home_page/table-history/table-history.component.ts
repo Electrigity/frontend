@@ -1,8 +1,9 @@
-import {Component, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TableService} from "../../../services/table.service";
 import Moment from "moment";
 import {capitalize} from "lodash";
+import {CommittedTransaction} from "../../../models/CommittedTransaction";
 
 @Component({
   selector: 'app-table-history',
@@ -15,8 +16,8 @@ export class TableHistoryComponent implements OnChanges{
   filterPending!: boolean;
   filterRejected!: boolean;
 
-  fullPaymentHistory!: Object[];
-  paymentHistory!: Object[];
+  @Input() fullPaymentHistory!: CommittedTransaction[];
+  paymentHistory!: CommittedTransaction[];
 
   constructor(private http: HttpClient, private _tableService: TableService) {
     this._tableService.filterComplete$
@@ -57,31 +58,18 @@ export class TableHistoryComponent implements OnChanges{
       )
   }
 
-  ngOnInit() {
-    this.getPaymentHistoryJson()
-  }
-  getPaymentHistoryJson() {
-    this.http.get('/assets/table-data.json', {responseType: 'json'})
-      .subscribe((data: any) => {
-        this.fullPaymentHistory = data;
-        this.paymentHistory = this.fullPaymentHistory;
-      })
-  }
   getCompletePayments() {
-    // @ts-ignore
-    return this.fullPaymentHistory.filter(entry => entry.transactionStatus === 'SUCCESS')
+    return this.fullPaymentHistory.filter(entry => entry.status === 'Accepted')
   }
   getPendingPayments() {
-    // @ts-ignore
-    return this.fullPaymentHistory.filter(entry => entry.transactionStatus === 'PENDING')
+    return this.fullPaymentHistory.filter(entry => entry.status === 'Pending')
   }
   getRejectedPayments() {
-    // @ts-ignore
-    return this.fullPaymentHistory.filter(entry => entry.transactionStatus === 'REJECTED')
+    return this.fullPaymentHistory.filter(entry => entry.status === 'Rejected')
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
+    this.paymentHistory = this.fullPaymentHistory
   }
 
   protected readonly moment = Moment;

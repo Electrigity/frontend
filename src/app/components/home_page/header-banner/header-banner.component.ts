@@ -6,6 +6,7 @@ import {ApiService} from "../../../services/api.service";
 import {SettingsComponent} from "../settings/settings.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {UserInfo} from "../../../models/UserInfo";
+import {PendingTransaction} from "../../../models/PendingTransaction";
 
 
 @Component({
@@ -17,8 +18,11 @@ export class HeaderBannerComponent {
   @Input() userId!: string
   @Input() username!: string
   @Input() userInfo!: UserInfo
+  @Input() notificationsCount: number = 0
 
   menuItems!: MenuItem[]
+
+  pendingTransactions!: PendingTransaction[]
 
   ref: DynamicDialogRef | undefined;
 
@@ -29,6 +33,10 @@ export class HeaderBannerComponent {
     private _dialogService: DialogService,
     private _apiService: ApiService
   ) {
+  }
+
+  async ngOnInit() {
+    this.pendingTransactions = await this._apiService.getUserPendingTransactions()
   }
 
   ngOnChanges(changes: SimpleChanges) {

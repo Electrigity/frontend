@@ -19,6 +19,7 @@
         [userId]="localStorage.getItem('currentUser')!"
         [username]="username"
         [userInfo]="userInfo"
+        [notificationsCount]="notificationsCount"
       ></app-header-banner>
     </div>
     <div *ngIf="toggledNotifications" class="notification-container">
@@ -66,7 +67,9 @@
       <app-table-filter></app-table-filter>
     </div>
     <div class="table-component">
-      <app-table-history></app-table-history>
+      <app-table-history
+      [fullPaymentHistory]="tableInfo"
+      ></app-table-history>
     </div>
     <div class="chip-grid">
       <div class="chip-container">

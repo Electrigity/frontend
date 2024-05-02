@@ -9,7 +9,7 @@
     </p>
     <div *ngIf="tradingInfo.tradingStatus != 'NotTrading'">
       <p>{{ tradingInfo.tradingStatus + ' ' + tradingInfo.buySellAmount + ' kWh'}} for: ${{ tradingInfo.price }}</p>
-      <p>Expires: {{moment(date).format("DD MMM YYYY, hh:mm:ss A") }}</p>
+      <p>Expires: {{moment(date).format("DD MMM YYYY, hh:mm A") }}</p>
     </div>
   </div>
 </p-fieldset>

@@ -1,11 +1,11 @@
 <div class="message-container">
   <header class="message-header">
     <p style="font-size: 14px; font-weight: bold">New Trade Request</p>
-    <p style="font-size: 14px">April 11, 1:52 AM</p>
+    <p style="font-size: 14px">{{moment(date).format("MMMM DD YYYY, hh:mm A") }}</p>
   </header>
   <div class="message">
     <p style="font-size: 13px">{{ trader }} wants to {{ getTransactionType() }} {{ energyAmount }} kWh of energy for
-      $12</p>
+      {{ price }} EGY</p>
     <div style="display: flex; justify-content: space-around">
       <p-button styleClass="button" (onClick)="accept()" label="Accept" severity="success"
                 icon="pi pi-check" size="small"></p-button>

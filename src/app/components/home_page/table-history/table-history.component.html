@@ -9,22 +9,24 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th style="width:11.67%">Order ID</th>
-        <th style="width:24%">Date</th>
-        <th style="width:14.67%">Energy Traded</th>
-        <th style="width:16.67%">Role</th>
-        <th style="width:16.67%">Other User ID</th>
-        <th style="width:16.67%">Status</th>
+        <th style="width:9%">Order ID</th>
+        <th style="width:18%">Date</th>
+        <th style="width:15%">Energy Traded</th>
+        <th style="width:10%">Price</th>
+        <th style="width:16%">Role</th>
+        <th style="width:16%">Other User</th>
+        <th style="width:16%">Status</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-entry>
       <tr>
-        <td>{{ entry.orderId }}</td>
-        <td>{{ moment(entry.orderDate).format("hh:mm:ss A, DD MMM YYYY") }}</td>
-        <td>{{ entry.energyTraded }} kWh</td>
-        <td>{{ capitalize(entry.userRole) }}</td>
-        <td>{{ entry.otherUserId }}</td>
-        <td>{{ capitalize(entry.transactionStatus) }}</td>
+        <td>{{ entry.id }}</td>
+        <td>{{ moment(entry.initialDate).format("hh:mm A, DD MMM YYYY") }}</td>
+        <td>{{ entry.energyAmount }} kWh</td>
+        <td>{{ entry.price }} EGY</td>
+        <td>{{ capitalize(entry.role) }}</td>
+        <td>{{ entry.otherUser }}</td>
+        <td>{{ capitalize(entry.status) }}</td>
       </tr>
     </ng-template>
   </p-table>

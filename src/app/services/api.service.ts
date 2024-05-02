@@ -4,6 +4,8 @@ import {UserInfo} from "../models/UserInfo";
 import {MetaMaskInpageProvider} from "@metamask/providers";
 import {UserTradingInfo} from "../models/UserTradingInfo";
 import {ActiveTraderInfo} from "../models/ActiveTraderInfo";
+import {PendingTransaction} from "../models/PendingTransaction";
+import {CommittedTransaction} from "../models/CommittedTransaction";
 
 declare global {
   interface Window {
@@ -1750,7 +1752,9 @@ export class ApiService {
   }
 
   async getTradingInfo(userAddress: string): Promise<UserTradingInfo> {
-    return (await this.userManagerContract.methods['getTradingInfo'](userAddress).call()) as UserTradingInfo
+    let userTradingInfo = await this.userManagerContract.methods['getTradingInfo'](userAddress).call() as UserTradingInfo
+    userTradingInfo.expiryDate = userTradingInfo.expiryDate * BigInt(1000)
+    return userTradingInfo
   }
 
   async updateTradingInfo(
@@ -1763,7 +1767,7 @@ export class ApiService {
     const userAddress = await this.getCurrentUserAddress()
     return await this.userManagerContract.methods['updateTradingUserInfo'](
       tradingStatus,
-      BigInt(expiryDate),
+      BigInt(expiryDate/1000),
       BigInt(buySellAmount),
       BigInt(price),
     ).send({from: userAddress})
@@ -1826,7 +1830,7 @@ export class ApiService {
       activeTraderInfo.buySellAmount = Number(trader['buySellAmount'])
       activeTraderInfo.tradingStatus = trader['tradingStatus']
       activeTraderInfo.userAddress = trader['userAddress']
-      activeTraderInfo.expiryDate = new Date(Number(trader['expiryDate']))
+      activeTraderInfo.expiryDate = new Date(Number(trader['expiryDate']) * 1000)
       return activeTraderInfo
     })
 
@@ -1844,7 +1848,7 @@ export class ApiService {
       senderAddress,
       receiverAddress,
       energyAmount,
-      price,
+      BigInt(this.web3.utils.toWei(price, 'ether')),
       Number(validUntil),
       isBuyTransaction
     ).send({from: senderAddress})
@@ -1852,9 +1856,99 @@ export class ApiService {
 
   async getUserPendingTransactions() {
     const userAddress = await this.getCurrentUserAddress()
-    return await this.energyTransactionContract.methods['getUserPendingTransactions'](userAddress).call()
+    let transactionIds: any[] = await this.energyTransactionContract
+      .methods['getUserPendingTransactions'](userAddress).call()
+    transactionIds = transactionIds.map(transactionId => Number(transactionId))
+
+    let allTransactions: any[] = await this.getAllPendingTransactions()
+    let myTransactions = await Promise.all(allTransactions.map(async transaction => {
+      let myTransaction = new PendingTransaction()
+      myTransaction.committed = transaction.committed
+      myTransaction.energyAmount = Number(transaction.energyAmount)
+      myTransaction.id = Number(transaction.id)
+      myTransaction.initialDate = new Date(Number(transaction.initialDate) * 1000)
+      myTransaction.initiator = transaction.initiator.toLowerCase()
+      myTransaction.price = Number(this.web3.utils.fromWei(Number(transaction.price), 'ether'))
+      myTransaction.receiver = transaction.receiver
+      myTransaction.status = transaction.status
+      myTransaction.isBuying = (Number(transaction.transactionType) == 0)
+      myTransaction.validUntil = new Date(Number(transaction.validUntil))
+      const userInfo = await this.getUserInfo(myTransaction.initiator)
+      myTransaction.initiatorUsername = userInfo.username
+      return myTransaction
+    }))
+
+    myTransactions = myTransactions.filter(transaction => {
+      return (transactionIds.includes(transaction.id)) && (userAddress != transaction.initiator)
+    })
+
+    myTransactions.sort((a, b) =>
+    {return a.initialDate > b.initialDate ? -1 : 0}
+    )
+    return myTransactions
   }
 
+  async getAllPendingTransactions() {
+    return this.energyTransactionContract.methods['getAllPendingTransactions']().call() as Promise<any[]>
+  }
+
+  async getNotCommittedTransactionsCount() {
+    const userAddress = await this.getCurrentUserAddress()
+    return this.energyTransactionContract.methods['getNotCommittedTransactionsCount'](userAddress)
+      .call() as Promise<number>
+  }
+
+  async commitTransaction(transactionId: number, accepted: boolean) {
+    const userAddress = await this.getCurrentUserAddress()
+    return this.energyTransactionContract.methods['commitTransaction'](transactionId, accepted)
+      .send({ from: userAddress })
+  }
+
+  async getCommittedTransactions() {
+    const userAddress = await this.getCurrentUserAddress()
+    let committedTransactionsIds: number[] = await this.energyTransactionContract
+      .methods['getUserCommittedTransactions'](userAddress).call()
+    committedTransactionsIds = committedTransactionsIds.map(id => Number(id))
+    const initialTransactions: any[] = await this.energyTransactionContract
+      .methods['getAllCommittedTransactions']().call()
+    let committedTransactions = await Promise.all(initialTransactions.map(async transaction => {
+      let committedTransaction = new CommittedTransaction()
+      committedTransaction.id = Number(transaction.id)
+      committedTransaction.energyAmount = Number(transaction.energyAmount)
+      committedTransaction.committed = transaction.committed
+      committedTransaction.initialDate = new Date(Number(transaction.initialDate) * 1000)
+      committedTransaction.initiator = transaction.initiator.toLowerCase()
+      committedTransaction.price = Number(this.web3.utils.fromWei(transaction.price, 'ether'))
+      committedTransaction.receiver = transaction.receiver.toLowerCase()
+      committedTransaction.status = transaction.status
+      committedTransaction.transactionType = Number(transaction.transactionType) == 0 ? 'Buy' : 'Sell'
+
+      const otherUserAddress = (userAddress == committedTransaction.initiator) ?
+        committedTransaction.receiver : committedTransaction.initiator
+
+      const userInfo = await this.getUserInfo(otherUserAddress)
+      committedTransaction.otherUser = userInfo.username
+
+
+      if( (userAddress == committedTransaction.initiator && committedTransaction.transactionType == 'Buy')
+        || (userAddress == committedTransaction.receiver && committedTransaction.transactionType == 'Sell')
+      ) {
+        committedTransaction.role = 'Consumer'
+      }
+      else {
+        committedTransaction.role = 'Producer'
+      }
+
+      return committedTransaction
+    }))
+    committedTransactions = committedTransactions.filter(transaction => {
+      return (committedTransactionsIds.includes(transaction.id))
+    })
+    committedTransactions = committedTransactions.sort((a, b) =>
+      {return a.initialDate > b.initialDate ? -1 : 0}
+    )
+    return committedTransactions
+  }
 
   async getTokenBalance(userAddress: string) {
     const info = await this.userManagerContract.methods['getTokenBalance'](userAddress).call()
@@ -1863,17 +1957,9 @@ export class ApiService {
 
   async approveTokens(tokens: number) {
     const userAddress = await this.getCurrentUserAddress()
-    const info = await this.userManagerContract.methods['approveTokens'](userAddress, tokens)
-      .send({from: userAddress})
-  }
-
-  async testApi() {
-    let accs = await this.web3.eth.getAccounts()
-    console.log(accs)
-    console.log(this.web3.eth.defaultAccount)
-    //@ts-ignore
-    let response = await this.contract.methods.getAllCommittedTransactions().call();
-    console.log(response)
+    return await this.tokenContract
+      .methods['approve'](this.userManagerContractAddress, BigInt(tokens))
+      .send({ from: userAddress })
   }
 
 
