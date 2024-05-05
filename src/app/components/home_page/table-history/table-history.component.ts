@@ -20,24 +20,12 @@ export class TableHistoryComponent implements OnChanges{
   paymentHistory!: CommittedTransaction[];
 
   constructor(private http: HttpClient, private _tableService: TableService) {
-    this._tableService.filterComplete$
+    this._tableService.filterAccepted$
       .subscribe(
         filter => {
           this.filterComplete = filter;
           if(this.filterComplete) {
             this.paymentHistory = this.getCompletePayments()
-          }
-          if(!this.filterComplete && !this.filterPending && !this.filterRejected) {
-            this.paymentHistory = this.fullPaymentHistory;
-          }
-        }
-      )
-    this._tableService.filterPending$
-      .subscribe(
-        filter => {
-          this.filterPending = filter;
-          if(this.filterPending) {
-            this.paymentHistory = this.getPendingPayments()
           }
           if(!this.filterComplete && !this.filterPending && !this.filterRejected) {
             this.paymentHistory = this.fullPaymentHistory;
@@ -60,9 +48,6 @@ export class TableHistoryComponent implements OnChanges{
 
   getCompletePayments() {
     return this.fullPaymentHistory.filter(entry => entry.status === 'Accepted')
-  }
-  getPendingPayments() {
-    return this.fullPaymentHistory.filter(entry => entry.status === 'Pending')
   }
   getRejectedPayments() {
     return this.fullPaymentHistory.filter(entry => entry.status === 'Rejected')

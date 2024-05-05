@@ -1690,9 +1690,321 @@ export class ApiService {
     }
   ]
   tokenContractAddress = '0x90a50629e886d535576013BA2f7E735Dc4781d8C'
+  indirectTradingContractAddress = '0xDbb7e2485366073904ABf06F4c357b3bD1298eFA'
+  indirectTradingContractAbi = [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "orderId",
+          "type": "uint256"
+        }
+      ],
+      "name": "cancelOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "matchOrders",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_energyAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_isBuyOrder",
+          "type": "bool"
+        }
+      ],
+      "name": "placeOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "userManagerAddress",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "orderId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "OrderCancelled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "orderId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "energyAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isBuyOrder",
+          "type": "bool"
+        }
+      ],
+      "name": "OrderPlaced",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tradeId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "averagePrice",
+          "type": "uint256"
+        }
+      ],
+      "name": "TradeMatched",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyOrderIds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTradeHistory",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "buyer",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "seller",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "averagePrice",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "energyAmount",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IndirectEnergyTrading.Trade[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nextOrderId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nextTradeId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "orders",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "energyAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isBuyOrder",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "sellOrderIds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "tradeHistory",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "averagePrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "energyAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
   web3
   userManagerContract
   energyTransactionContract
+  indirectTradingContract
   tokenContract
 
   constructor() {
@@ -1703,11 +2015,12 @@ export class ApiService {
     this.energyTransactionContract = new this.web3.eth.Contract(
       this.energyTransactionContractAbi, this.energyTransactionContractAddress
     )
+    this.indirectTradingContract = new this.web3.eth.Contract(
+      this.indirectTradingContractAbi, this.indirectTradingContractAddress
+    )
     this.tokenContract = new this.web3.eth.Contract(
       this.tokenContractAbi, this.tokenContractAddress
     )
-
-    console.log(this.userManagerContract)
 
   }
 
@@ -1950,6 +2263,25 @@ export class ApiService {
     return committedTransactions
   }
 
+  async placeIndirectOrder(energyAmount: number, price: number, isBuyOrder: boolean) {
+    const userAddress = await this.getCurrentUserAddress()
+    if(isBuyOrder) {await this.approveTokens(price*1.5)}
+    await this.indirectTradingContract.methods['placeOrder'](
+      energyAmount,
+      BigInt(this.web3.utils.toWei(price, 'ether')),
+      isBuyOrder)
+      .send({ from : userAddress})
+  }
+
+  async matchOrders() {
+    const userAddress = await this.getCurrentUserAddress()
+    return await this.indirectTradingContract.methods['matchOrders']().send({ from : userAddress})
+  }
+
+  async getTradeHistory() {
+    return await this.indirectTradingContract.methods['getTradeHistory']().call()
+  }
+
   async getTokenBalance(userAddress: string) {
     const info = await this.userManagerContract.methods['getTokenBalance'](userAddress).call()
     console.log(info)
@@ -1958,7 +2290,7 @@ export class ApiService {
   async approveTokens(tokens: number) {
     const userAddress = await this.getCurrentUserAddress()
     return await this.tokenContract
-      .methods['approve'](this.userManagerContractAddress, BigInt(tokens))
+      .methods['approve'](this.userManagerContractAddress, BigInt(this.web3.utils.toWei(tokens, 'ether')))
       .send({ from: userAddress })
   }
 

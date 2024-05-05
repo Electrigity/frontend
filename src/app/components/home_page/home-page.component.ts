@@ -9,6 +9,7 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {StyleClass, StyleClassModule} from "primeng/styleclass";
 import {UserTradingInfo} from "../../models/UserTradingInfo";
 import {CommittedTransaction} from "../../models/CommittedTransaction";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-home-page',
@@ -48,7 +49,8 @@ export class HomePageComponent {
     this.userTradingInfo = await this._apiService.getTradingInfo(this.userAddress)
     this.notificationsCount = await this._apiService.getNotCommittedTransactionsCount()
 
-    console.log(await this._apiService.getCommittedTransactions())
+    // console.log(await this._apiService.matchOrders())
+    console.log(await this._apiService.getTradeHistory())
 
     this.username = this.userInfo.username
 
@@ -63,6 +65,7 @@ export class HomePageComponent {
     if(this.userAddress == null || !(await this._apiService.isUserRegistered(this.userAddress))) {
       this.router.navigate(['/login'])
     }
+
   }
 
   show() {

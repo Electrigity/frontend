@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {MenuItem} from "primeng/api";
+import {ApiService} from "../../../services/api.service";
 
 @Component({
   selector: 'app-popup',
@@ -18,7 +19,7 @@ export class PopupComponent {
 
   activeItem: MenuItem | undefined;
 
-  constructor() { }
+  constructor(private _apiService: ApiService) { }
   ngOnInit(): void {
     this.startTimer();
     this.items = [
@@ -54,7 +55,18 @@ export class PopupComponent {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   }
 
-  Confirm() {
-
+  async confirmBuy() {
+    await this._apiService.placeIndirectOrder(
+      this.buyingEnergy,
+      this.buyingPrice,
+      true
+    )
+  }
+  async confirmSell() {
+    await this._apiService.placeIndirectOrder(
+      this.sellingEnergy,
+      this.sellingPrice,
+      false
+    )
   }
 }

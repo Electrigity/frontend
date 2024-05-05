@@ -7,43 +7,35 @@ import {TableService} from "../../../services/table.service";
   styleUrl: './table-filter.component.scss'
 })
 export class TableFilterComponent {
-  filterComplete!: boolean;
-  filterPending!: boolean;
+  filterAccepted!: boolean;
   filterRejected!: boolean;
 
   constructor(private _tableService: TableService) {}
   ngOnInit() {
-    this.filterComplete = false;
-    this.filterPending = false;
+    this.filterAccepted = false;
     this.filterRejected = false;
   }
 
-  filterTableByComplete() {
-    this.filterComplete = !this.filterComplete;
-    this.filterPending = false;
+  filterTableByAccepted() {
+    this.filterAccepted = !this.filterAccepted;
     this.filterRejected = false;
 
-    this._tableService.selectComplete(this.filterComplete);
-    this._tableService.selectPending(this.filterPending);
+    this._tableService.selectAccepted(this.filterAccepted);
     this._tableService.selectRejected(this.filterRejected);
     //console.log(this.filterComplete)
   }
   filterTableByPending() {
-    this.filterComplete = false;
-    this.filterPending = !this.filterPending;
+    this.filterAccepted = false;
     this.filterRejected = false;
 
-    this._tableService.selectComplete(this.filterComplete);
-    this._tableService.selectPending(this.filterPending);
+    this._tableService.selectAccepted(this.filterAccepted);
     this._tableService.selectRejected(this.filterRejected);
   }
   filterTableByRejected() {
-    this.filterComplete = false;
-    this.filterPending = false;
+    this.filterAccepted = false;
     this.filterRejected = !this.filterRejected;
 
-    this._tableService.selectComplete(this.filterComplete);
-    this._tableService.selectPending(this.filterPending);
+    this._tableService.selectAccepted(this.filterAccepted);
     this._tableService.selectRejected(this.filterRejected);
   }
 }
