@@ -20,7 +20,9 @@ export class HeaderBannerComponent {
   @Input() userInfo!: UserInfo
   @Input() notificationsCount: number = 0
 
+  timeRemaining! : number;
   menuItems!: MenuItem[]
+  interval! : any
 
   pendingTransactions!: PendingTransaction[]
 
@@ -36,11 +38,37 @@ export class HeaderBannerComponent {
   }
 
   async ngOnInit() {
+    this.startTimer()
     this.pendingTransactions = await this._apiService.getUserPendingTransactions()
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.updateUserInfo()
+  }
+
+  startTimer(): void {
+    this.timeRemaining = 15 * 60; // 15 minutes in seconds
+
+    this.interval = setInterval(() => {
+      this.timeRemaining--;
+      if (this.timeRemaining <= 0) {
+        clearInterval(this.interval);
+        // Perform functionality when the timer stops
+        this.timerFinished();
+        // Restart the timer
+        this.startTimer();
+      }
+    }, 1000); // Update every second
+  }
+
+
+  timerFinished(): void {
+    console.log('Timer has finished! Perform some functionality here.');
+  }
+  formatTime(seconds: number): string {
+    const minutes: number = Math.floor(seconds / 60);
+    const remainingSeconds: number = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   }
 
   updateUserInfo() {

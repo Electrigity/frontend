@@ -7,9 +7,37 @@
 
 .dropdown-component {
   grid-column: 31 / 36;
+  align-content: center;
   width: 10rem;
 }
 
+.energy-balance {
+  grid-column: 1/6;
+  margin: 2%;
+  //height: 8%;
+}
+
+.queue-cap {
+  grid-column: 6/12;
+  margin: 2%;
+  //height: 12%;
+}
+
+.timer{
+  grid-column: 12/18;
+  margin: 2%;
+  //background-color: darkgrey;
+  //height: 12%;
+}
+
+h2 {
+  margin: 0;
+  color: #ff745c;
+  //text-align: center;
+}
+h6 {
+  margin: 0;
+}
 
 .icons-component {
   grid-column: 27 / 30;
@@ -63,4 +91,3 @@
   border: none;
   background: none;
 }
-
