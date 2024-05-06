@@ -10,6 +10,9 @@ import {StyleClass, StyleClassModule} from "primeng/styleclass";
 import {UserTradingInfo} from "../../models/UserTradingInfo";
 import {CommittedTransaction} from "../../models/CommittedTransaction";
 import {MenuItem} from "primeng/api";
+import {QueueUsers} from "../../models/QueueUsers";
+import {AverageQueuePrice} from "../../models/AverageQueuePrice";
+import {IndirectTrade} from "../../models/IndirectTrade";
 
 @Component({
   selector: 'app-home-page',
@@ -33,24 +36,32 @@ export class HomePageComponent {
   expiryDate!: bigint
   date!: Date
 
-  tableInfo: CommittedTransaction[] = []
+  numberOfUsersInQueue!: QueueUsers
+  averageQueuePrice!: AverageQueuePrice
+
+  directTableInfo: CommittedTransaction[] = []
+  indirectTableInfo: IndirectTrade[] = []
 
   constructor(
     private router: Router,
     public _sidebarService: SidebarService,
     private _apiService: ApiService,
     private _dialogService: DialogService,
-  ) { }
+  ) {
+  }
 
 
   async ngOnInit() {
     this.userAddress = localStorage.getItem("currentUser")!
-    this.userInfo  = await this._apiService.getUserInfo(this.userAddress)
+    this.userInfo = await this._apiService.getUserInfo(this.userAddress)
     this.userTradingInfo = await this._apiService.getTradingInfo(this.userAddress)
     this.notificationsCount = await this._apiService.getNotCommittedTransactionsCount()
+    this.numberOfUsersInQueue = await this._apiService.numberOfBuyersAndSellersInQueue()
+    this.averageQueuePrice = await this._apiService.averagePriceInQueue()
 
     // console.log(await this._apiService.matchOrders())
-    console.log(await this._apiService.getTradeHistory())
+    console.log(await this._apiService.getIndirectTradeHistory())
+    console.log(await this._apiService.averagePriceInQueue())
 
     this.username = this.userInfo.username
 
@@ -60,16 +71,24 @@ export class HomePageComponent {
     this.expiryDate = this.userTradingInfo.expiryDate
     this.date = new Date(Number(this.expiryDate))
 
-    this.tableInfo = await this._apiService.getCommittedTransactions()
+    this.directTableInfo = await this._apiService.getCommittedTransactions()
+    this.indirectTableInfo = await this._apiService.getIndirectTradeHistory()
 
-    if(this.userAddress == null || !(await this._apiService.isUserRegistered(this.userAddress))) {
+    if (this.userAddress == null || !(await this._apiService.isUserRegistered(this.userAddress))) {
       this.router.navigate(['/login'])
     }
 
   }
 
   show() {
-    this.ref = this._dialogService.open(PopupComponent, {  width: '50vw'});
+    this.ref = this._dialogService.open(PopupComponent, {
+      width: '50vw', data: {
+        'numberOfBuyers' : this.numberOfUsersInQueue.numberOfBuyers,
+        'numberOfSellers' : this.numberOfUsersInQueue.numberOfSellers,
+        'averageBuyPrice' : this.averageQueuePrice.averageBuyPrice,
+        'averageSellPrice' : this.averageQueuePrice.averageSellPrice
+      }
+    });
   }
 
   protected readonly localStorage = localStorage;

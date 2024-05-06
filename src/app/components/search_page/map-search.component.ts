@@ -122,7 +122,7 @@ export class MapSearchComponent {
             <p>Current status:
                 <span style="color: #5c77ff">${activeTrader.tradingStatus == "Buying" ? "Buying" : "Selling"}</span>
             </p>
-            <p>Energy amount: ${activeTrader.buySellAmount} kWh</p>
+            <p>Energy amount: ${activeTrader.energyBalance} kWh</p>
             <p>Transaction valid until: <span id="validDate"></span> </p>
             <p><span style="color: #04aa04">Price:</span>${activeTrader.price} EGY</p>
             <div style="display: flex; justify-content: center">
@@ -163,7 +163,7 @@ export class MapSearchComponent {
                   console.log(await self._apiService.initiateTransaction(
                     self.userAddress,
                     activeTrader.userAddress,
-                    activeTrader.buySellAmount,
+                    activeTrader.energyBalance,
                     activeTrader.price,
                     activeTrader.expiryDate,
                     isBuying
@@ -247,6 +247,7 @@ export class MapSearchComponent {
     let energyComparison = this.committedMapFilters.energyLimit
     for (const user of this.activeTradersInfo) {
       const marker = this.userMarkers.get(user.userAddress)
+      console.log(user.tradingStatus, user.price, user.energyBalance)
       if (_.isEqual(this.committedMapFilters, this.initMapFilters)) {
         // @ts-ignore
         marker.getElement().style.display = "block";

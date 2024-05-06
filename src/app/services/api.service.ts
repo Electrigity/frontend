@@ -6,6 +6,9 @@ import {UserTradingInfo} from "../models/UserTradingInfo";
 import {ActiveTraderInfo} from "../models/ActiveTraderInfo";
 import {PendingTransaction} from "../models/PendingTransaction";
 import {CommittedTransaction} from "../models/CommittedTransaction";
+import {QueueUsers} from "../models/QueueUsers";
+import {AverageQueuePrice} from "../models/AverageQueuePrice";
+import {IndirectTrade} from "../models/IndirectTrade";
 
 declare global {
   interface Window {
@@ -1690,7 +1693,7 @@ export class ApiService {
     }
   ]
   tokenContractAddress = '0x90a50629e886d535576013BA2f7E735Dc4781d8C'
-  indirectTradingContractAddress = '0xDbb7e2485366073904ABf06F4c357b3bD1298eFA'
+  indirectTradingContractAddress = '0x3eF204450C8962117Bdf51041DFF907355c82b0a'
   indirectTradingContractAbi = [
     {
       "inputs": [
@@ -1708,29 +1711,6 @@ export class ApiService {
     {
       "inputs": [],
       "name": "matchOrders",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_energyAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_price",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "_isBuyOrder",
-          "type": "bool"
-        }
-      ],
-      "name": "placeOrder",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -1803,6 +1783,29 @@ export class ApiService {
       "type": "event"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_energyAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_isBuyOrder",
+          "type": "bool"
+        }
+      ],
+      "name": "placeOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -1834,6 +1837,24 @@ export class ApiService {
       "type": "event"
     },
     {
+      "inputs": [],
+      "name": "averageOrderPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "averageBuyPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "averageSellPrice",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -1853,8 +1874,14 @@ export class ApiService {
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "getTradeHistory",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "userAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getTradeHistoryForAddress",
       "outputs": [
         {
           "components": [
@@ -1876,6 +1903,11 @@ export class ApiService {
             {
               "internalType": "uint256",
               "name": "energyAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
               "type": "uint256"
             }
           ],
@@ -1907,6 +1939,24 @@ export class ApiService {
         {
           "internalType": "uint256",
           "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "numberOfUsers",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "numberOfBuyers",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfSellers",
           "type": "uint256"
         }
       ],
@@ -1994,6 +2044,11 @@ export class ApiService {
         {
           "internalType": "uint256",
           "name": "energyAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
           "type": "uint256"
         }
       ],
@@ -2140,7 +2195,7 @@ export class ApiService {
       activeTraderInfo.longitude = Number(utils.fromWei(trader['longitude'], 'ether'))
       activeTraderInfo.username = trader['username']
       activeTraderInfo.price = Number(trader['price'])
-      activeTraderInfo.buySellAmount = Number(trader['buySellAmount'])
+      activeTraderInfo.energyBalance = Number(trader['buySellAmount'])
       activeTraderInfo.tradingStatus = trader['tradingStatus']
       activeTraderInfo.userAddress = trader['userAddress']
       activeTraderInfo.expiryDate = new Date(Number(trader['expiryDate']) * 1000)
@@ -2278,8 +2333,34 @@ export class ApiService {
     return await this.indirectTradingContract.methods['matchOrders']().send({ from : userAddress})
   }
 
-  async getTradeHistory() {
-    return await this.indirectTradingContract.methods['getTradeHistory']().call()
+  async getIndirectTradeHistory() {
+    const userAddress = await this.getCurrentUserAddress()
+    let tradeHistory: any[] = await this.indirectTradingContract.methods['getTradeHistoryForAddress'](
+      userAddress.toLowerCase()
+    ).call()
+    const indirectTrades: IndirectTrade[] = await Promise.all(tradeHistory.map(async trade => {
+      let indirectTrade: IndirectTrade = new IndirectTrade()
+      indirectTrade.energyAmount = Number(trade['energyAmount'])
+      indirectTrade.buyer = (await this.getUserInfo(trade['buyer'])).username
+      indirectTrade.seller = (await this.getUserInfo(trade['seller'])).username
+      indirectTrade.averagePrice = Number(this.web3.utils.fromWei(trade['averagePrice'], 'ether'))
+      indirectTrade.timestamp = new Date(Number(trade['timestamp']) * 1000)
+      return indirectTrade
+    }))
+    return indirectTrades
+  }
+
+  async numberOfBuyersAndSellersInQueue() {
+    const numberOfUsers: QueueUsers = await this.indirectTradingContract.methods['numberOfUsers']().call()
+    return numberOfUsers
+  }
+
+  async averagePriceInQueue() {
+    const avg: any = await this.indirectTradingContract.methods['averageOrderPrice']().call()
+    let toReturn = new AverageQueuePrice()
+    toReturn.averageBuyPrice = Number(this.web3.utils.fromWei(avg['averageBuyPrice'], 'ether'))
+    toReturn.averageSellPrice = Number(this.web3.utils.fromWei(avg['averageSellPrice'], 'ether'))
+    return toReturn
   }
 
   async getTokenBalance(userAddress: string) {

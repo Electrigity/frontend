@@ -6,11 +6,11 @@ import {capitalize} from "lodash";
 import {CommittedTransaction} from "../../../models/CommittedTransaction";
 
 @Component({
-  selector: 'app-table-history',
-  templateUrl: './table-history.component.html',
-  styleUrl: './table-history.component.scss'
+  selector: 'app-direct-history',
+  templateUrl: './direct-history.component.html',
+  styleUrl: './direct-history.component.scss'
 })
-export class TableHistoryComponent implements OnChanges{
+export class DirectHistoryComponent implements OnChanges{
 
   filterComplete!: boolean;
   filterPending!: boolean;

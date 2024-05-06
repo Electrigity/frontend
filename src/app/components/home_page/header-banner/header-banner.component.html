@@ -16,17 +16,24 @@
   <p-skeleton *ngIf="userInfo == undefined" width=100% height="80%" [ngStyle]="{'grid-column' : '2/14'}"></p-skeleton>
   <div class="energy-balance">
     <p-card [style]="{'height': '80%'}">
-      <h6 *ngIf="userInfo != undefined">Energy Balance <h2><i class="pi pi-bolt"></i>&nbsp;&nbsp;{{userInfo.energyBalance}} kWh </h2></h6>
+      <h6 *ngIf="userInfo != undefined">Energy Balance <h2><i
+        class="pi pi-bolt"></i>&nbsp;&nbsp;{{ userInfo.energyBalance }} kWh </h2></h6>
     </p-card>
   </div>
   <div class="queue-cap">
     <p-card [style]="{'height': '80%'}">
-      <h6 *ngIf="userInfo != undefined">Current Queue Capacity <h2><i class="pi pi-users"></i>&nbsp;&nbsp;27</h2></h6>
+      <h6 *ngIf="userInfo != undefined && numberOfUsersInQueue != undefined">Current Queue Capacity
+        <h2>
+          <i class="pi pi-users"></i>&nbsp;
+          &nbsp;{{ numberOfUsersInQueue.numberOfBuyers + numberOfUsersInQueue.numberOfSellers }}
+        </h2>
+      </h6>
     </p-card>
   </div>
   <div class="timer">
     <p-card [style]="{'height': '80%'}">
-      <h6 *ngIf="userInfo != undefined">Indirect Trading Commit <h2><i class="pi pi-stopwatch"></i>&nbsp;&nbsp;{{formatTime(timeRemaining)}}</h2></h6>
+      <h6 *ngIf="userInfo != undefined">Indirect Trading Commit <h2><i
+        class="pi pi-stopwatch"></i>&nbsp;&nbsp;{{ formatTime(timeRemaining) }}</h2></h6>
     </p-card>
   </div>
   <div class="icons-component">

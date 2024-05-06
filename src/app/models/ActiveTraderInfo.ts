@@ -1,6 +1,5 @@
 export class ActiveTraderInfo {
   private _EGYTokenBalance?: number
-  private _buySellAmount?: number
   private _energyBalance?: number
   private _expiryDate?: Date
   private _latitude?: number
@@ -17,14 +16,6 @@ export class ActiveTraderInfo {
 
   set EGYTokenBalance(value: number) {
     this._EGYTokenBalance = value;
-  }
-
-  get buySellAmount(): number {
-    return this._buySellAmount!;
-  }
-
-  set buySellAmount(value: number) {
-    this._buySellAmount = value;
   }
 
   get energyBalance(): number {

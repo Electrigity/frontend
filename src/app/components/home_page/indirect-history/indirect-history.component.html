@@ -1,0 +1,27 @@
+<p-table styleClass="p-datatable-gridlines"
+         [value]="tradeHistory"
+         [paginator]="true"
+         [rows]="5"
+         [showCurrentPageReport]="true"
+         [tableStyle]="{ 'min-width' : '50rem' }"
+         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:25%">Date</th>
+      <th style="width:15%">Energy Traded</th>
+      <th style="width:15%">Price</th>
+      <th style="width:22.5%">Buyer</th>
+      <th style="width:22.5%">Seller</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-entry>
+    <tr>
+      <td>{{ moment(entry.timestamp).format("hh:mm A, DD MMM YYYY") }}</td>
+      <td>{{ entry.energyAmount }} kWh</td>
+      <td>{{ entry.averagePrice }} EGY</td>
+      <td>{{ entry.buyer }}</td>
+      <td>{{ entry.seller }}</td>
+    </tr>
+  </ng-template>
+</p-table>

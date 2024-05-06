@@ -21,12 +21,12 @@
       </p-inputGroup>
     </p-card>
     <p-card class="card3" header="Current users trading">
-      <h3>Selling: 12</h3>
-      <h3>Buying: 27</h3>
+      <h3>Selling: {{numberOfSellers}}</h3>
+      <h3>Buying: {{numberOfBuyers}}</h3>
     </p-card>
     <p-card class="card4" header="Average price/kWh">
-      <h3>Selling: 0.3 EGY</h3>
-      <h3>Buying: 0.46 EGY</h3>
+      <h3>Selling: {{averageSellPrice}} EGY</h3>
+      <h3>Buying: {{averageBuyPrice}} EGY</h3>
     </p-card>
     <p-card class="card5" header="Trading time interval remaining">
       <h1>{{formatTime(timeRemaining)}}</h1>
@@ -60,12 +60,12 @@
       </p-inputGroup>
     </p-card>
     <p-card class="card3" header="Current users trading">
-      <h3>Selling: 12</h3>
-      <h3>Buying: 27</h3>
+      <h3>Selling: {{numberOfSellers}}</h3>
+      <h3>Buying: {{numberOfBuyers}}</h3>
     </p-card>
     <p-card class="card4" header="Average price/kWh">
-      <h3>Selling: $0.3</h3>
-      <h3>Buying: $0.46</h3>
+      <h3>Selling: {{averageSellPrice}} EGY</h3>
+      <h3>Buying: {{averageBuyPrice}} EGY</h3>
     </p-card>
     <p-card class="card5" header="Trading time interval remaining">
       <h1>{{formatTime(timeRemaining)}}</h1>

@@ -7,6 +7,7 @@ import {SettingsComponent} from "../settings/settings.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {UserInfo} from "../../../models/UserInfo";
 import {PendingTransaction} from "../../../models/PendingTransaction";
+import {QueueUsers} from "../../../models/QueueUsers";
 
 
 @Component({
@@ -19,6 +20,7 @@ export class HeaderBannerComponent {
   @Input() username!: string
   @Input() userInfo!: UserInfo
   @Input() notificationsCount: number = 0
+  @Input() numberOfUsersInQueue!: QueueUsers
 
   timeRemaining! : number;
   menuItems!: MenuItem[]

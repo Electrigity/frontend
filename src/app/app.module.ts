@@ -33,7 +33,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {HeaderBannerComponent} from "./components/home_page/header-banner/header-banner.component";
 import {TextBoxComponent} from "./components/home_page/text-box/text-box.component";
 import {TableFilterComponent} from "./components/home_page/table-filter/table-filter.component";
-import {TableHistoryComponent} from "./components/home_page/table-history/table-history.component";
+import {DirectHistoryComponent} from "./components/home_page/direct-history/direct-history.component";
 import {CardInfoComponent} from "./components/registration/card-info/card-info.component";
 import {NotificationComponent} from "./components/home_page/notification/notification.component";
 import {UserSidebarComponent} from "./components/home_page/user-sidebar/user-sidebar.component";
@@ -48,6 +48,7 @@ import {FieldsetModule} from "primeng/fieldset";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 import {BadgeModule} from "primeng/badge";
 import {TabMenuModule} from "primeng/tabmenu";
+import { IndirectHistoryComponent } from './components/home_page/indirect-history/indirect-history.component';
 
 @NgModule({
   declarations: [
@@ -56,14 +57,15 @@ import {TabMenuModule} from "primeng/tabmenu";
     HeaderBannerComponent,
     TextBoxComponent,
     TableFilterComponent,
-    TableHistoryComponent,
+    DirectHistoryComponent,
     MapSearchComponent,
     CardInfoComponent,
     NotificationComponent,
     SettingsComponent,
     PopupComponent,
     routingComponents,
-    UserSidebarComponent
+    UserSidebarComponent,
+    IndirectHistoryComponent
   ],
     imports: [
         AppRoutingModule,
