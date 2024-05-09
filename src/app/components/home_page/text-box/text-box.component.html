@@ -1,15 +1,41 @@
 <p-fieldset [legend]="title" styleClass="card">
-  <p-skeleton *ngIf="tradingInfo == undefined" height="6rem"></p-skeleton>
   <div *ngIf="tradingInfo != undefined">
-    <p>Status:
-      <span *ngIf="tradingInfo.tradingStatus != undefined"
-            [ngStyle]="{'color' : tradingInfo.tradingStatus == 'Buying' ? '#04c404' : 'red'}">
+    <p-skeleton *ngIf="tradingInfo == undefined" height="6rem"></p-skeleton>
+    <div *ngIf="isDirect">
+      <p>Status:
+        <span *ngIf="tradingInfo.tradingStatus != undefined"
+              [ngStyle]="{'color' : tradingInfo.tradingStatus == 'Buying' ? '#04c404' : 'red'}">
         {{ camelCaseToWords(tradingInfo.tradingStatus) }}
       </span>
-    </p>
-    <div *ngIf="tradingInfo.tradingStatus != 'NotTrading'">
-      <p>{{ tradingInfo.tradingStatus + ' ' + tradingInfo.buySellAmount + ' kWh'}} for: ${{ tradingInfo.price }}</p>
-      <p>Expires: {{moment(date).format("DD MMM YYYY, hh:mm A") }}</p>
+      </p>
+      <div *ngIf="tradingInfo.tradingStatus != 'NotTrading'">
+        <p>{{ tradingInfo.tradingStatus + ' ' + tradingInfo.buySellAmount + ' kWh'}} for: ${{ tradingInfo.price }}</p>
+        <p>Expires: {{moment(date).format("DD MMM YYYY, hh:mm A") }}</p>
+      </div>
+    </div>
+    </div>
+  <div *ngIf="!isDirect">
+    <p-skeleton *ngIf="indirectTradingInfo== undefined" height="6rem"></p-skeleton>
+    <div *ngIf="indirectTradingInfo != undefined">
+      <div *ngIf="indirectTradingInfo.energyAmount == 0">
+        <p>Status:
+          <span [ngStyle]="{'color' : 'orange'}">Not in the Queue</span>
+      </div>
+      <div *ngIf="indirectTradingInfo.energyAmount != 0">
+        <p>Status:
+          <span
+            [ngStyle]="{'color' : indirectTradingInfo.isBuyOrder ? '#04c404' : 'red'}">
+        {{indirectTradingInfo.isBuyOrder ? 'Buying' : 'Selling' }}
+      </span>
+        </p>
+        <div>
+          <p>{{indirectTradingInfo.isBuyOrder ? 'Buying' : 'Selling'}}
+            {{' ' + indirectTradingInfo.energyAmount + ' kWh'}} for: ${{ indirectTradingInfo.price }}</p>
+          <div style="display: flex; justify-content: center">
+            <p-button label="Cancel Order" (onClick)="cancelOrder()" size="small"></p-button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </p-fieldset>

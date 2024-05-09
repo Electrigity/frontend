@@ -9,6 +9,7 @@ import {CommittedTransaction} from "../models/CommittedTransaction";
 import {QueueUsers} from "../models/QueueUsers";
 import {AverageQueuePrice} from "../models/AverageQueuePrice";
 import {IndirectTrade} from "../models/IndirectTrade";
+import {IndirectTradeInfo} from "../models/IndirectTradeInfo";
 
 declare global {
   interface Window {
@@ -1693,16 +1694,10 @@ export class ApiService {
     }
   ]
   tokenContractAddress = '0x90a50629e886d535576013BA2f7E735Dc4781d8C'
-  indirectTradingContractAddress = '0x3eF204450C8962117Bdf51041DFF907355c82b0a'
+  indirectTradingContractAddress = '0x5E2c33203391E212D43a3909df685497ad9071ee'
   indirectTradingContractAbi = [
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "orderId",
-          "type": "uint256"
-        }
-      ],
+      "inputs": [],
       "name": "cancelOrder",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -1868,6 +1863,47 @@ export class ApiService {
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getOrderDetails",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "energyAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "isBuyOrder",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct IndirectEnergyTrading.Order",
+          "name": "",
+          "type": "tuple"
         }
       ],
       "stateMutability": "view",
@@ -2049,6 +2085,25 @@ export class ApiService {
         {
           "internalType": "uint256",
           "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userOrder",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
           "type": "uint256"
         }
       ],
@@ -2338,7 +2393,7 @@ export class ApiService {
     let tradeHistory: any[] = await this.indirectTradingContract.methods['getTradeHistoryForAddress'](
       userAddress.toLowerCase()
     ).call()
-    const indirectTrades: IndirectTrade[] = await Promise.all(tradeHistory.map(async trade => {
+    let indirectTrades: IndirectTrade[] = await Promise.all(tradeHistory.map(async trade => {
       let indirectTrade: IndirectTrade = new IndirectTrade()
       indirectTrade.energyAmount = Number(trade['energyAmount'])
       indirectTrade.buyer = (await this.getUserInfo(trade['buyer'])).username
@@ -2347,6 +2402,9 @@ export class ApiService {
       indirectTrade.timestamp = new Date(Number(trade['timestamp']) * 1000)
       return indirectTrade
     }))
+    indirectTrades = indirectTrades.sort((a, b) =>
+      {return a.timestamp > b.timestamp ? -1 : 0}
+    )
     return indirectTrades
   }
 
@@ -2361,6 +2419,32 @@ export class ApiService {
     toReturn.averageBuyPrice = Number(this.web3.utils.fromWei(avg['averageBuyPrice'], 'ether'))
     toReturn.averageSellPrice = Number(this.web3.utils.fromWei(avg['averageSellPrice'], 'ether'))
     return toReturn
+  }
+
+  async getIndirectTradingSettings() {
+    const userAddress = await this.getCurrentUserAddress()
+    try {
+      const orderDetailsTemp: any = await this.indirectTradingContract
+        .methods['getOrderDetails'](userAddress).call()
+      let orderDetails: IndirectTradeInfo = {
+        energyAmount: Number(orderDetailsTemp['energyAmount']),
+        price: Number(this.web3.utils.fromWei(orderDetailsTemp['price'], 'ether')),
+        isBuyOrder: orderDetailsTemp['isBuyOrder']
+      }
+      return orderDetails
+    } catch {
+      return {
+        energyAmount: 0,
+        price: 0,
+        isBuyOrder: false
+      }
+    }
+
+  }
+
+  async cancelOrder() {
+    const userAddress = await this.getCurrentUserAddress()
+    return await this.indirectTradingContract.methods['cancelOrder']().send({ from : userAddress})
   }
 
   async getTokenBalance(userAddress: string) {

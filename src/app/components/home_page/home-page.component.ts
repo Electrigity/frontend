@@ -13,6 +13,7 @@ import {MenuItem} from "primeng/api";
 import {QueueUsers} from "../../models/QueueUsers";
 import {AverageQueuePrice} from "../../models/AverageQueuePrice";
 import {IndirectTrade} from "../../models/IndirectTrade";
+import {IndirectTradeInfo} from "../../models/IndirectTradeInfo";
 
 @Component({
   selector: 'app-home-page',
@@ -30,6 +31,7 @@ export class HomePageComponent {
   notificationsCount: number = 0
 
   userTradingInfo!: UserTradingInfo
+  indirectTradingInfo!: IndirectTradeInfo
   tradingStatus!: string
   buySellAmount!: bigint
   price!: bigint
@@ -58,10 +60,11 @@ export class HomePageComponent {
     this.notificationsCount = await this._apiService.getNotCommittedTransactionsCount()
     this.numberOfUsersInQueue = await this._apiService.numberOfBuyersAndSellersInQueue()
     this.averageQueuePrice = await this._apiService.averagePriceInQueue()
+    this.indirectTradingInfo = await this._apiService.getIndirectTradingSettings()
 
     // console.log(await this._apiService.matchOrders())
-    console.log(await this._apiService.getIndirectTradeHistory())
-    console.log(await this._apiService.averagePriceInQueue())
+    // console.log(await this._apiService.getIndirectTradeHistory())
+    // console.log(await this._apiService.averagePriceInQueue())
 
     this.username = this.userInfo.username
 
