@@ -36,9 +36,9 @@
         </p-inputGroup>
       </div>
       <div class="change-username">
-        <p-toast></p-toast>
-        <p-confirmDialog [key]='"changeUsername"'></p-confirmDialog>
-        <p-button (click)="confirm1($event)" icon="pi pi-user-edit" label="Change Username"></p-button>
+<!--        <p-toast></p-toast>-->
+<!--        <p-confirmDialog [key]='"changeUsername"'></p-confirmDialog>-->
+        <p-button (onClick)="changeUsername()" icon="pi pi-user-edit" label="Change Username"></p-button>
       </div>
 
       <h3 class="map-title">Change location of energy source</h3>
@@ -46,9 +46,9 @@
         <div class="map-container" #map></div>
       </div>
       <div class="map-button">
-        <p-toast></p-toast>
-        <p-confirmDialog [key]='"changeLocation"'></p-confirmDialog>
-        <p-button (click)="confirm2($event)" icon="pi pi-map-marker" label="Change Location"></p-button>
+<!--        <p-toast></p-toast>-->
+<!--        <p-confirmDialog [key]='"changeLocation"'></p-confirmDialog>-->
+        <p-button (onClick)="changeLocation()" icon="pi pi-map-marker" label="Change Location"></p-button>
       </div>
     </div>
   </p-tabPanel>
@@ -59,9 +59,9 @@
     </ng-template>
     <div class="content">
       <p-card header="Delete User">
-        <p-toast></p-toast>
-        <p-confirmDialog [key]='"deleteUser"'></p-confirmDialog>
-        <p-button (click)="confirm3($event)" icon="pi pi-trash" label="Delete Account" severity="danger"></p-button>
+<!--        <p-toast></p-toast>-->
+<!--        <p-confirmDialog [key]='"deleteUser"'></p-confirmDialog>-->
+        <p-button (onClick)="deleteAccount()" icon="pi pi-trash" label="Delete Account" severity="danger"></p-button>
       </p-card>
     </div>
   </p-tabPanel>

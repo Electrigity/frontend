@@ -42,86 +42,117 @@ export class SettingsComponent {
   isValidUsername(username: string): boolean {
     return (username.length >= 6 && username.length <= 15 && /^[a-zA-Z0-9]+$/.test(username));
   }
-  confirm1(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure that you want to change your username?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: "none",
-      rejectIcon: "none",
-      rejectButtonStyleClass: "p-button-text",
-      key: "changeUsername",
-      accept: async () => {
-        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
-        if (this.newUsername.length != 0 && !this.isValidUsername(this.newUsername)) {
-          alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
-        } else if (!(await this._registrationService.isUniqueUsername(this.newUsername))) {
-          alert("Username already exists. Please choose another one.")
-        } else {
-          await this._apiService.updateUser(
-            this.newUsername,
-            this.userInfo.latitude,
-            this.userInfo.longitude,
+
+  async changeUsername() {
+    if (this.newUsername.length == 0 || !this.isValidUsername(this.newUsername)) {
+      alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
+    } else if (!(await this._registrationService.isUniqueUsername(this.newUsername))) {
+      alert("Username already exists. Please choose another one.")
+    } else {
+      await this._apiService.updateUser(
+        this.newUsername,
+        this.userInfo.latitude,
+        this.userInfo.longitude,
+        this.userInfo.energyBalance,
+        'username'
+        )
+    }
+  }
+
+  async changeLocation() {
+    await this._apiService.updateUser(
+            this.username,
+            this.choosenCoordinates.latitude,
+            this.choosenCoordinates.longitude,
             this.userInfo.energyBalance,
-            'username'
+            'location'
             )
-        }
-      },
-      reject: () => {
-        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
-      }
-    });
   }
 
-
-  confirm2(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure that you want to change your location?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: "none",
-      rejectIcon: "none",
-      rejectButtonStyleClass: "p-button-text",
-      key: "changeLocation",
-      accept: async () => {
-        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
-        await this._apiService.updateUser(
-          this.username,
-          this.choosenCoordinates.latitude,
-          this.choosenCoordinates.longitude,
-          this.userInfo.energyBalance,
-          'location'
-          )
-
-      },
-      reject: () => {
-        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
-      }
-    });
+  async deleteAccount() {
+    await this._apiService.deleteUser()
+    this.router.navigate(['/login'])
   }
+  // confirm1(event: Event) {
+  //   this.confirmationService.confirm({
+  //     target: event.target as EventTarget,
+  //     message: 'Are you sure that you want to change your username?',
+  //     header: 'Confirmation',
+  //     icon: 'pi pi-exclamation-triangle',
+  //     acceptIcon: "none",
+  //     rejectIcon: "none",
+  //     rejectButtonStyleClass: "p-button-text",
+  //     key: "changeUsername",
+  //     accept: async () => {
+  //       // this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
+  //       if (this.newUsername.length != 0 && !this.isValidUsername(this.newUsername)) {
+  //         alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
+  //       } else if (!(await this._registrationService.isUniqueUsername(this.newUsername))) {
+  //         alert("Username already exists. Please choose another one.")
+  //       } else {
+  //         await this._apiService.updateUser(
+  //           this.newUsername,
+  //           this.userInfo.latitude,
+  //           this.userInfo.longitude,
+  //           this.userInfo.energyBalance,
+  //           'username'
+  //           )
+  //       }
+  //     },
+  //     reject: () => {
+  //       this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
+  //     }
+  //   });
+  // }
 
-  confirm3(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure that you want to delete your account?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: "none",
-      rejectIcon: "none",
-      rejectButtonStyleClass: "p-button-text",
-      key: "deleteUser",
-      accept: async () => {
-        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
-        await this._apiService.deleteUser()
-        this.router.navigate(['/login'])
-      },
-      reject: () => {
-        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
-      }
-    });
-  }
+
+  // confirm2(event: Event) {
+  //   this.confirmationService.confirm({
+  //     target: event.target as EventTarget,
+  //     message: 'Are you sure that you want to change your location?',
+  //     header: 'Confirmation',
+  //     icon: 'pi pi-exclamation-triangle',
+  //     acceptIcon: "none",
+  //     rejectIcon: "none",
+  //     rejectButtonStyleClass: "p-button-text",
+  //     key: "changeLocation",
+  //     accept: async () => {
+  //       this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
+  //       await this._apiService.updateUser(
+  //         this.username,
+  //         this.choosenCoordinates.latitude,
+  //         this.choosenCoordinates.longitude,
+  //         this.userInfo.energyBalance,
+  //         'location'
+  //         )
+  //
+  //     },
+  //     reject: () => {
+  //       this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
+  //     }
+  //   });
+  // }
+
+  // confirm3(event: Event) {
+  //   this.confirmationService.confirm({
+  //     target: event.target as EventTarget,
+  //     message: 'Are you sure that you want to delete your account?',
+  //     header: 'Confirmation',
+  //     icon: 'pi pi-exclamation-triangle',
+  //     acceptIcon: "none",
+  //     rejectIcon: "none",
+  //     rejectButtonStyleClass: "p-button-text",
+  //     key: "deleteUser",
+  //     accept: async () => {
+  //       this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
+  //       await this._apiService.deleteUser()
+  //       this.router.navigate(['/login'])
+  //     },
+  //     reject: () => {
+  //       this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
+  //     }
+  //   });
+  // }
 
 
   deleteUser() {

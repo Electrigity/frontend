@@ -1694,22 +1694,8 @@ export class ApiService {
     }
   ]
   tokenContractAddress = '0x90a50629e886d535576013BA2f7E735Dc4781d8C'
-  indirectTradingContractAddress = '0x5E2c33203391E212D43a3909df685497ad9071ee'
-  indirectTradingContractAbi = [
-    {
-      "inputs": [],
-      "name": "cancelOrder",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "matchOrders",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
+  indirectTradingContractAddress = '0x180d48919F891B2Ce4f52506481a30871D355488'
+  indirectTradingContractAbi =[
     {
       "inputs": [
         {
@@ -1776,29 +1762,6 @@ export class ApiService {
       ],
       "name": "OrderPlaced",
       "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_energyAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_price",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "_isBuyOrder",
-          "type": "bool"
-        }
-      ],
-      "name": "placeOrder",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
     },
     {
       "anonymous": false,
@@ -1869,6 +1832,13 @@ export class ApiService {
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "cancelOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -1904,6 +1874,19 @@ export class ApiService {
           "internalType": "struct IndirectEnergyTrading.Order",
           "name": "",
           "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTimestamp",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -1953,6 +1936,26 @@ export class ApiService {
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "intervalTimestamp",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "matchOrders",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -2037,6 +2040,29 @@ export class ApiService {
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_energyAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "_isBuyOrder",
+          "type": "bool"
+        }
+      ],
+      "name": "placeOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "",
           "type": "uint256"
         }
@@ -2050,6 +2076,19 @@ export class ApiService {
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "setTimestamp",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -2133,6 +2172,7 @@ export class ApiService {
     )
 
   }
+
 
   async getCurrentUserAddress() {
     const accounts = (await window.ethereum?.request({
@@ -2445,6 +2485,15 @@ export class ApiService {
   async cancelOrder() {
     const userAddress = await this.getCurrentUserAddress()
     return await this.indirectTradingContract.methods['cancelOrder']().send({ from : userAddress})
+  }
+
+  async getTimestamp(){
+    return Number(await this.indirectTradingContract.methods['getTimestamp']().call())
+  }
+
+  async setTimestamp(timestamp : number){
+    const userAdress = await this.getCurrentUserAddress()
+    return await this.indirectTradingContract.methods['setTimestamp'](timestamp).send({from : userAdress})
   }
 
   async getTokenBalance(userAddress: string) {

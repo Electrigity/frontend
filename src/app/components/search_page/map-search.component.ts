@@ -150,32 +150,19 @@ export class MapSearchComponent {
             moment(activeTrader.expiryDate).format("hh:mm A, DD MMM YYYY")
           // @ts-ignore
           document.getElementById(`confirm-trade-${activeTrader.username}`)
-            .addEventListener('click', (e: Event) => {
-              self.confirmationService.confirm({
-                target: e.target as EventTarget,
-                message: 'Are you sure you want to trade?',
-                icon: 'pi pi-info-circle',
-                acceptIcon: 'none',
-                rejectIcon: 'none',
-                rejectButtonStyleClass: 'p-button-text',
-                accept: async () => {
-                  const isBuying = activeTrader.tradingStatus == "Selling"
-                  console.log(await self._apiService.initiateTransaction(
-                    self.userAddress,
-                    activeTrader.userAddress,
-                    activeTrader.energyBalance,
-                    activeTrader.price,
-                    activeTrader.expiryDate,
-                    isBuying
-                  ))
-                  if(isBuying) {
-                    await self._apiService.approveTokens(activeTrader.price)
-                  }
-                },
-                reject: () => {
-
-                }
-              })
+            .addEventListener('click', async (e: Event) => {
+              const isBuying = activeTrader.tradingStatus == "Selling"
+              console.log(await self._apiService.initiateTransaction(
+                self.userAddress,
+                activeTrader.userAddress,
+                activeTrader.energyBalance,
+                activeTrader.price,
+                activeTrader.expiryDate,
+                isBuying
+              ))
+              if (isBuying) {
+                await self._apiService.approveTokens(activeTrader.price)
+              }
             })
         })
       });

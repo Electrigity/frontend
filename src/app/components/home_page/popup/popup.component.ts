@@ -27,7 +27,12 @@ export class PopupComponent {
   activeItem: MenuItem | undefined;
 
   constructor(private _apiService: ApiService, private _dialogConfig: DynamicDialogConfig) { }
-  ngOnInit(): void {
+  async ngOnInit() {
+    const timestamp = await this._apiService.getTimestamp()
+    this.timeRemaining = Math.ceil(15 * 60 - (Date.now() - timestamp) / 1000)
+    if(this.timeRemaining <= 0) {
+      this.timeRemaining = 0
+    }
     this.numberOfBuyers = this._dialogConfig.data.numberOfBuyers
     this.numberOfSellers = this._dialogConfig.data.numberOfSellers
     this.averageBuyPrice = this._dialogConfig.data.averageBuyPrice
@@ -35,31 +40,27 @@ export class PopupComponent {
 
     this.startTimer();
     this.items = [
-      { label: 'Buy', icon: 'pi pi-fw pi-shopping-cart' },
-      { label: 'Sell', icon: 'pi pi-fw pi-money-bill'}
+      {label: 'Buy', icon: 'pi pi-fw pi-shopping-cart'},
+      {label: 'Sell', icon: 'pi pi-fw pi-money-bill'}
     ];
 
     this.activeItem = this.items[0];
   }
 
   startTimer(): void {
-    this.timeRemaining = 15 * 60; // 15 minutes in seconds
-
     this.interval = setInterval(() => {
-      this.timeRemaining--;
       if (this.timeRemaining <= 0) {
-        clearInterval(this.interval);
-        // Perform functionality when the timer stops
-        this.timerFinished();
-        // Restart the timer
-        this.startTimer();
+        clearInterval(this.interval)
+        console.log("Hello")
+      } else {
+        this.timeRemaining--;
       }
-    }, 1000); // Update every second
+    }, 1000);
   }
 
 
-  timerFinished(): void {
-    console.log('Timer has finished! Perform some functionality here.');
+  async timerFinished(): Promise<void> {
+    await this._apiService.matchOrders()
   }
   formatTime(seconds: number): string {
     const minutes: number = Math.floor(seconds / 60);

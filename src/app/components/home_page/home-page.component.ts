@@ -62,6 +62,9 @@ export class HomePageComponent {
     this.averageQueuePrice = await this._apiService.averagePriceInQueue()
     this.indirectTradingInfo = await this._apiService.getIndirectTradingSettings()
 
+    //console.log(await this._apiService.setTimestamp(Date.now()))
+    const timestamp = await this._apiService.getTimestamp()
+    console.log(timestamp)
     // console.log(await this._apiService.matchOrders())
     // console.log(await this._apiService.getIndirectTradeHistory())
     // console.log(await this._apiService.averagePriceInQueue())
