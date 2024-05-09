@@ -1,4 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import moment from "moment";
+import {ApiService} from "../../../services/api.service";
 
 @Component({
   selector: 'app-notification',
@@ -6,20 +8,27 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
   styleUrl: './notification.component.scss'
 })
 export class NotificationComponent {
-  trader: string = "karim123"
-  energyAmount: number = 45
-  isBuying : boolean = true
+  @Input() trader: string = ""
+  @Input() energyAmount: number = 0
+  @Input() price: number = 0
+  @Input() isBuying : boolean = true
+  @Input() date: Date = new Date()
+  @Input() transactionId: number = -1
 
-  accept(){
-
+  constructor(private _apiService: ApiService) {
   }
 
-  reject(){
+  async accept(){
+   await this._apiService.commitTransaction(this.transactionId, true)
+  }
 
+  async reject(){
+    await this._apiService.commitTransaction(this.transactionId, false)
   }
 
   getTransactionType() : string {
     return (this.isBuying) ? 'purchase' : 'sell'
   }
 
+  protected readonly moment = moment;
 }

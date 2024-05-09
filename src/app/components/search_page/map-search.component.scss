@@ -9,6 +9,12 @@
   height: 100%;
 }
 
+::ng-deep .mapboxgl-popup-content, .maplibregl-popup-content {
+  background: #383434;
+  border-radius: 3px;
+  padding: 5px;
+}
+
 .search-bar {
   grid-column: 1/2;
   height: 70%;

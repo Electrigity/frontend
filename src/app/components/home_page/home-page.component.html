@@ -16,6 +16,11 @@
   <div class="right-part">
     <div class="header-container">
       <app-header-banner
+        [userId]="localStorage.getItem('currentUser')!"
+        [username]="username"
+        [userInfo]="userInfo"
+        [notificationsCount]="notificationsCount"
+        [numberOfUsersInQueue]="numberOfUsersInQueue"
       ></app-header-banner>
     </div>
     <div *ngIf="toggledNotifications" class="notification-container">
@@ -26,41 +31,46 @@
       <hr>
     </div>
     <div class="text-boxes">
-      <app-text-box style="width: 40%"></app-text-box>
+      <app-text-box style="width: 40%"
+                    [title]="'Direct trading settings'"
+                    [tradingInfo]="userTradingInfo"
+                    [date]="date"
+      ></app-text-box>
       <app-text-box style="width: 40%"
                     [title]="'Indirect trading settings'"
-                    [status]="'Selling'"
-                    [transactionPrice]="6"
-                    [expiryDate]="'Tuesday'"
+                    [indirectTradingInfo]="indirectTradingInfo"
+                    [date]="date"
+                    [isDirect]="false"
       ></app-text-box>
-      <!--      <app-text-box class="text-box-1"-->
-      <!--                    [backgroundColor]="'rgb(177, 250, 179)'"-->
-      <!--                    [infoTextColor]="'green'"-->
-      <!--                    [boxTitle]="totalEnergyBoughtBox.title"-->
-      <!--                    [boxInfo]="totalEnergyBoughtBox.powerValue.toFixed(2) + ' KW - ' + totalEnergyBoughtBox.price + ' $'"-->
-      <!--                    [boxDate]="totalEnergyBoughtBox.date"-->
-      <!--      ></app-text-box>-->
-      <!--      <app-text-box class="text-box-2"-->
-      <!--                    [backgroundColor]="'lightgrey'"-->
-      <!--                    [infoTextColor]="'midnightblue'"-->
-      <!--                    [boxTitle]="pendingPaymentsBox.title"-->
-      <!--                    [boxInfo]="pendingPaymentsBox.powerValue.toFixed(2) + ' KW - ' + pendingPaymentsBox.price + ' $'"-->
-      <!--                    [boxDate]="pendingPaymentsBox.date"-->
-      <!--      ></app-text-box>-->
-      <!--      <app-text-box class="text-box-3"-->
-      <!--                    [backgroundColor]="'lightgrey'"-->
-      <!--                    [infoTextColor]="'midnightblue'"-->
-      <!--                    [boxTitle]="accountBalanceBox.title"-->
-      <!--                    [boxInfo]="accountBalanceBox.balance + ' $'"-->
-      <!--                    [boxDate]="accountBalanceBox.date"-->
-      <!--                    [isAccountBalance]="accountBalanceBox.isAccountBalance"-->
-      <!--      ></app-text-box>-->
     </div>
-    <div style="grid-column: 1/37; transform: scale(0.95)">
-      <app-table-filter></app-table-filter>
+    <div style="font-weight: 600; grid-column: 1/37; margin-left: 2.5%; height: 50%;">
+      <p>Payment History</p>
     </div>
-    <div class="table-component">
-      <app-table-history></app-table-history>
+    <div style="grid-column: 1/37; transform: scale(0.95); grid-row: 5/6">
+      <p-tabView>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-arrow-right-arrow-left"></i>
+            <span>&nbsp;&nbsp;Direct</span>
+          </ng-template>
+          <app-table-filter></app-table-filter>
+          <br>
+          <div class="table-component">
+            <app-direct-history style="justify-self: center"
+                                [fullPaymentHistory]="directTableInfo"
+            ></app-direct-history>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <i class="pi pi-users"></i>
+            <span>&nbsp;&nbsp;Indirect</span>
+          </ng-template>
+          <app-indirect-history style="justify-self: center"
+                                [tradeHistory]="indirectTableInfo"
+          ></app-indirect-history>
+        </p-tabPanel>
+      </p-tabView>
     </div>
     <div class="chip-grid">
       <div class="chip-container">

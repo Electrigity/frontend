@@ -7,9 +7,37 @@
 
 .dropdown-component {
   grid-column: 31 / 36;
+  align-content: center;
   width: 10rem;
 }
 
+.energy-balance {
+  grid-column: 1/6;
+  margin: 2%;
+  //height: 8%;
+}
+
+.queue-cap {
+  grid-column: 6/12;
+  margin: 2%;
+  //height: 12%;
+}
+
+.timer{
+  grid-column: 12/18;
+  margin: 2%;
+  //background-color: darkgrey;
+  //height: 12%;
+}
+
+h2 {
+  margin: 0;
+  color: #ff745c;
+  //text-align: center;
+}
+h6 {
+  margin: 0;
+}
 
 .icons-component {
   grid-column: 27 / 30;
@@ -17,11 +45,27 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
-//:host ::ng-deep .sidebar {
-//  position: right;
-//}
+::ng-deep .overlay {
+  height: 30rem;
+  width: 23rem;
+  overflow-y: auto;
+  .p-overlaypanel-content{
+    padding: 0;
+  }
 
-#bell {
+}
+
+#bell1 {
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  padding-top: 5px !important;
+  padding-left: 8px !important;
+  border: none;
+  background: none;
+  align-self: center;
+}
+#bell2 {
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
@@ -47,4 +91,3 @@
   border: none;
   background: none;
 }
-

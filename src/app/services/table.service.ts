@@ -5,21 +5,16 @@ import {Subject} from "rxjs";
   providedIn: 'root'
 })
 export class TableService {
-  private _filterCompleteSource = new Subject<boolean>();
-  private _filterPendingSource = new Subject<boolean>();
+  private _filterAcceptedSource = new Subject<boolean>();
   private _filterRejectedSource = new Subject<boolean>();
 
-  filterComplete$ = this._filterCompleteSource.asObservable();
-  filterPending$ = this._filterPendingSource.asObservable();
+  filterAccepted$ = this._filterAcceptedSource.asObservable();
   filterRejected$ = this._filterRejectedSource.asObservable();
 
   constructor() { }
 
-  selectComplete(filter: boolean) {
-    this._filterCompleteSource.next(filter);
-  }
-  selectPending(filter: boolean) {
-    this._filterPendingSource.next(filter);
+  selectAccepted(filter: boolean) {
+    this._filterAcceptedSource.next(filter);
   }
   selectRejected(filter: boolean) {
     this._filterRejectedSource.next(filter);

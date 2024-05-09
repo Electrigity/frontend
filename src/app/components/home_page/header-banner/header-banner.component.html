@@ -1,20 +1,46 @@
-<p-overlayPanel #op [style]="{'height' : '20rem', 'width'  : '30rem', 'overflow-y' : 'auto'}">
-  <div style="padding-bottom: 10px">
-    <app-notification></app-notification>
-  </div>
-  <div style="padding-bottom: 10px">
-    <app-notification></app-notification>
-  </div>
-  <div style="padding-bottom: 10px">
-    <app-notification></app-notification>
+<p-overlayPanel #op styleClass="overlay">
+  <div *ngIf="pendingTransactions != undefined">
+    <div *ngFor="let transaction of pendingTransactions">
+      <app-notification
+        [trader]="transaction.initiatorUsername"
+        [energyAmount]="transaction.energyAmount"
+        [isBuying]="transaction.isBuying"
+        [date]="transaction.initialDate"
+        [transactionId]="transaction.id"
+        [price]="transaction.price"
+      ></app-notification>
+    </div>
   </div>
 </p-overlayPanel>
 <div class="page-up">
-  <p-skeleton *ngIf="userId == undefined" width=100% [ngStyle]="{'grid-column' : '2/14'}"></p-skeleton>
-  <p *ngIf="userId != undefined" style="grid-column: 2/14; font-size: 0.8rem">User: {{ userId }}</p>
+  <p-skeleton *ngIf="userInfo == undefined" width=100% height="80%" [ngStyle]="{'grid-column' : '2/14'}"></p-skeleton>
+  <div class="energy-balance">
+    <p-card [style]="{'height': '80%'}">
+      <h6 *ngIf="userInfo != undefined">Energy Balance <h2><i
+        class="pi pi-bolt"></i>&nbsp;&nbsp;{{ userInfo.energyBalance }} kWh </h2></h6>
+    </p-card>
+  </div>
+  <div class="queue-cap">
+    <p-card [style]="{'height': '80%'}">
+      <h6 *ngIf="userInfo != undefined && numberOfUsersInQueue != undefined">Current Queue Capacity
+        <h2>
+          <i class="pi pi-users"></i>&nbsp;
+          &nbsp;{{ numberOfUsersInQueue.numberOfBuyers + numberOfUsersInQueue.numberOfSellers }}
+        </h2>
+      </h6>
+    </p-card>
+  </div>
+  <div class="timer">
+    <p-card [style]="{'height': '80%'}">
+      <h6 *ngIf="userInfo != undefined">Indirect Trading Commit <h2><i
+        class="pi pi-stopwatch"></i>&nbsp;&nbsp;{{ formatTime(timeRemaining) }}</h2></h6>
+    </p-card>
+  </div>
   <div class="icons-component">
     <div style="justify-content: center; align-content: center; height: 100%; width: 100%;">
-      <i (click)="op.toggle($event)" class="pi pi-bell" pBadge value="3" id="bell"></i>
+      <i *ngIf="notificationsCount == 0" (click)="op.toggle($event)" class="pi pi-bell" id="bell1"></i>
+      <i *ngIf="notificationsCount != 0" (click)="op.toggle($event)"
+         class="pi pi-bell" pBadge value="{{notificationsCount}}" id="bell2"></i>
     </div>
     <button (click)="settingsPopup()" class="pi pi-cog" id="settings"></button>
     <button (click)="confirmLogout($event)" class="pi pi-sign-out" id="logout" aria-label="logout-icon"></button>
@@ -25,4 +51,3 @@
                  (click)="_sidebarService.sidebarVisible = true"></p-panelMenu>
   </div>
 </div>
-

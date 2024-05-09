@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {MenuItem} from "primeng/api";
+import {ApiService} from "../../../services/api.service";
+import {DynamicDialogConfig} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-popup',
@@ -13,13 +15,24 @@ export class PopupComponent {
   buyingEnergy!: number;
   sellingPrice!: number;
   buyingPrice!: number;
+
+  numberOfBuyers!: number;
+  numberOfSellers!: number;
+  averageBuyPrice!: number;
+  averageSellPrice!: number;
+
   items: MenuItem[] | undefined;
   activeIndex : number = 0;
 
   activeItem: MenuItem | undefined;
 
-  constructor() { }
+  constructor(private _apiService: ApiService, private _dialogConfig: DynamicDialogConfig) { }
   ngOnInit(): void {
+    this.numberOfBuyers = this._dialogConfig.data.numberOfBuyers
+    this.numberOfSellers = this._dialogConfig.data.numberOfSellers
+    this.averageBuyPrice = this._dialogConfig.data.averageBuyPrice
+    this.averageSellPrice = this._dialogConfig.data.averageSellPrice
+
     this.startTimer();
     this.items = [
       { label: 'Buy', icon: 'pi pi-fw pi-shopping-cart' },
@@ -54,7 +67,18 @@ export class PopupComponent {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   }
 
-  Confirm() {
-
+  async confirmBuy() {
+    await this._apiService.placeIndirectOrder(
+      this.buyingEnergy,
+      this.buyingPrice,
+      true
+    )
+  }
+  async confirmSell() {
+    await this._apiService.placeIndirectOrder(
+      this.sellingEnergy,
+      this.sellingPrice,
+      false
+    )
   }
 }

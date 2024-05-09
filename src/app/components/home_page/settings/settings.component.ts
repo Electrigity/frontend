@@ -1,59 +1,79 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, SimpleChanges, ViewChild} from '@angular/core';
 import {Map, Marker, NavigationControl} from "maplibre-gl";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {RegistrationService} from "../../../services/registration.service";
+import {DynamicDialogConfig} from "primeng/dynamicdialog";
+import {ApiService} from "../../../services/api.service";
+import {RegisteringUser} from "../../../models/RegisteringUser";
+import {UserInfo} from "../../../models/UserInfo";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
+
 export class SettingsComponent {
-activeIndex : number = 0;
-username!: string;
-constructor(private _registrationService: RegistrationService, private confirmationService: ConfirmationService, private messageService: MessageService) {}
+  activeIndex: number = 0;
+  userInfo!: UserInfo
+  username!: string
+  newUsername : string = ""
+  latitude! : bigint
+  longitude! : bigint
+  registeringUser: RegisteringUser = new RegisteringUser()
   choosenCoordinates = {
     longitude: -1,
     latitude: -1
   }
-  isValidUsername(username:string): boolean {
-    return (username.length >= 6 && username.length <= 15 && /^[a-zA-Z0-9]+$/.test(username));
+
+  constructor(private router: Router,
+              private _registrationService: RegistrationService,
+              private confirmationService: ConfirmationService,
+              private messageService: MessageService,
+              private _apiService : ApiService,
+              config: DynamicDialogConfig
+  ) {
+    this.username = config.data.username
+    this.userInfo = config.data.userInfo
+    console.log(this.userInfo)
   }
 
+  isValidUsername(username: string): boolean {
+    return (username.length >= 6 && username.length <= 15 && /^[a-zA-Z0-9]+$/.test(username));
+  }
   confirm1(event: Event) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Are you sure that you want to change your username?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
-      acceptIcon:"none",
-      rejectIcon:"none",
-      rejectButtonStyleClass:"p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
       key: "changeUsername",
-      accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
-        if(this.username.length != 0 && !this.isValidUsername(this.username)) {
+      accept: async () => {
+        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
+        if (this.newUsername.length != 0 && !this.isValidUsername(this.newUsername)) {
           alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
+        } else if (!(await this._registrationService.isUniqueUsername(this.newUsername))) {
+          alert("Username already exists. Please choose another one.")
         } else {
-          this._registrationService.setUsername(this.username);
+          await this._apiService.updateUser(
+            this.newUsername,
+            this.userInfo.latitude,
+            this.userInfo.longitude,
+            this.userInfo.energyBalance,
+            'username'
+            )
         }
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
       }
     });
   }
-  // changeUsername() {
-  //   if(this.username.length != 0 && !this.isValidUsername(this.username)) {
-  //     alert("Username must only contain letters and numbers, and must be 6-15 characters long.")
-  //   } else {
-  //     this._registrationService.setUsername(this.username);
-  //   }
-  // }
 
-  // changeLocation() {
-  //   this._registrationService.setUserCoordinates(this.choosenCoordinates)
-  // }
 
   confirm2(event: Event) {
     this.confirmationService.confirm({
@@ -61,16 +81,23 @@ constructor(private _registrationService: RegistrationService, private confirmat
       message: 'Are you sure that you want to change your location?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
-      acceptIcon:"none",
-      rejectIcon:"none",
-      rejectButtonStyleClass:"p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
       key: "changeLocation",
-      accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
-        this._registrationService.setUserCoordinates(this.choosenCoordinates)
+      accept: async () => {
+        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
+        await this._apiService.updateUser(
+          this.username,
+          this.choosenCoordinates.latitude,
+          this.choosenCoordinates.longitude,
+          this.userInfo.energyBalance,
+          'location'
+          )
+
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
       }
     });
   }
@@ -81,15 +108,17 @@ constructor(private _registrationService: RegistrationService, private confirmat
       message: 'Are you sure that you want to delete your account?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
-      acceptIcon:"none",
-      rejectIcon:"none",
-      rejectButtonStyleClass:"p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
       key: "deleteUser",
-      accept: () => {
-        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+      accept: async () => {
+        this.messageService.add({severity: 'info', summary: 'Confirmed', detail: 'You have accepted'});
+        await this._apiService.deleteUser()
+        this.router.navigate(['/login'])
       },
       reject: () => {
-        this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+        this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000});
       }
     });
   }
@@ -98,12 +127,13 @@ constructor(private _registrationService: RegistrationService, private confirmat
   deleteUser() {
 
   }
+
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
+
   ngAfterViewInit() {
     const myAPIKey = '355084142fcc42eea656c31df0d782ac';
-    const mapStyle = 'https://maps.geoapify.com/v1/styles/positron/style.json';
-
+    const mapStyle = 'https://maps.geoapify.com/v1/styles/dark-matter-brown/style.json';
 
     navigator.geolocation.getCurrentPosition((position) => {
 
@@ -112,7 +142,7 @@ constructor(private _registrationService: RegistrationService, private confirmat
         lng: position.coords.longitude,
         // @ts-ignore
         lat: position.coords.latitude,
-        zoom: 13
+        zoom: 12.9
       };
 
       const map = new Map({

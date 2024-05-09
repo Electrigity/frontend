@@ -1,5 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {popNumber} from "rxjs/internal/util/args";
+import {UserTradingInfo} from "../../../models/UserTradingInfo";
+import moment from "moment/moment";
+import {IndirectTradeInfo} from "../../../models/IndirectTradeInfo";
+import {ApiService} from "../../../services/api.service";
 
 @Component({
   selector: 'app-text-box',
@@ -7,8 +10,23 @@ import {popNumber} from "rxjs/internal/util/args";
   styleUrl: './text-box.component.scss'
 })
 export class TextBoxComponent {
-  @Input() title: string = 'Direct trading settings'
-  @Input() status: string = 'Buying'
-  @Input() transactionPrice: number = 5
-  @Input() expiryDate: string = 'Monday'
+  @Input() isDirect: boolean = true;
+  @Input() title!: string
+  @Input() tradingInfo!: UserTradingInfo
+  @Input() indirectTradingInfo!: IndirectTradeInfo
+  @Input() date!: Date
+
+  constructor(private _apiService: ApiService) {
+  }
+
+  camelCaseToWords(s: string) {
+    const result = s.replace(/([A-Z])/g, ' $1');
+    return result.charAt(0).toUpperCase() + result.slice(1);
+  }
+
+  cancelOrder() {
+    this._apiService.cancelOrder()
+  }
+
+  protected readonly moment = moment;
 }

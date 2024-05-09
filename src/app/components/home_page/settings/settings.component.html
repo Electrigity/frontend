@@ -3,11 +3,11 @@
   <p-tabPanel header="General">
     <ng-template pTemplate="header">
       <i class="pi pi-cog"></i>
-      <span>General</span>
+      <span>&nbsp;General</span>
     </ng-template>
     <div class="content">
       <p-card id="card1" header="Site title">
-          electrigity.com
+        electrigity.com
       </p-card>
       <p-card header="Tag Line">
         Energy trading between market participants either directly or indirectly, the energy flows through the microgrid into or out of your households.
@@ -20,20 +20,20 @@
   <p-tabPanel header="Personal">
     <ng-template pTemplate="header">
       <i class="pi pi-user"></i>
-      <span>Personal</span>
+      <span>&nbsp;Personal</span>
     </ng-template>
     <div class="content">
       <h3 class="map-title">Change Username</h3>
       <div class="change-username">
-      <p-inputGroup>
-        <p-inputGroupAddon styleClass="icon-color">
-          <i class="pi pi-user"></i>
-        </p-inputGroupAddon>
-        <input style="margin-right: 10px;" pInputText [placeholder]="username">
-        {{'Username must only contain letters and numbers,'}}
-        <br>
-        {{'and must be 6-15 characters long'}}
-      </p-inputGroup>
+        <p-inputGroup>
+          <p-inputGroupAddon styleClass="icon-color">
+            <i class="pi pi-user"></i>
+          </p-inputGroupAddon>
+          <input style="margin-right: 10px;" pInputText [placeholder]="username" [(ngModel)]="newUsername">
+          {{'Username must only contain letters and numbers,'}}
+          <br>
+          {{'and must be 6-15 characters long'}}
+        </p-inputGroup>
       </div>
       <div class="change-username">
         <p-toast></p-toast>
@@ -50,12 +50,12 @@
         <p-confirmDialog [key]='"changeLocation"'></p-confirmDialog>
         <p-button (click)="confirm2($event)" icon="pi pi-map-marker" label="Change Location"></p-button>
       </div>
-      </div>
+    </div>
   </p-tabPanel>
   <p-tabPanel header="Privacy">
     <ng-template pTemplate="header">
       <i class="pi pi-lock"></i>
-      <span>Privacy</span>
+      <span>&nbsp;Privacy</span>
     </ng-template>
     <div class="content">
       <p-card header="Delete User">

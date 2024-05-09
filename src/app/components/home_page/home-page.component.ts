@@ -1,12 +1,19 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
-import {NotificationsService} from "../../services/notifications.service";
 import {SidebarService} from "../../services/sidebar.service";
 import {NotificationComponent} from "./notification/notification.component";
 import {ApiService} from "../../services/api.service";
 import {UserInfo} from "../../models/UserInfo";
 import {PopupComponent} from "./popup/popup.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {StyleClass, StyleClassModule} from "primeng/styleclass";
+import {UserTradingInfo} from "../../models/UserTradingInfo";
+import {CommittedTransaction} from "../../models/CommittedTransaction";
+import {MenuItem} from "primeng/api";
+import {QueueUsers} from "../../models/QueueUsers";
+import {AverageQueuePrice} from "../../models/AverageQueuePrice";
+import {IndirectTrade} from "../../models/IndirectTrade";
+import {IndirectTradeInfo} from "../../models/IndirectTradeInfo";
 
 @Component({
   selector: 'app-home-page',
@@ -14,74 +21,79 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
   styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent {
-  title = 'Electrigity';
-
   toggledNotifications: boolean = false;
   ref: DynamicDialogRef | undefined;
   @ViewChild('notificationsRef') notificationsRef!: NotificationComponent
 
+  userAddress!: string
+  userInfo!: UserInfo
+  username!: string
+  notificationsCount: number = 0
+
+  userTradingInfo!: UserTradingInfo
+  indirectTradingInfo!: IndirectTradeInfo
+  tradingStatus!: string
+  buySellAmount!: bigint
+  price!: bigint
+  expiryDate!: bigint
+  date!: Date
+
+  numberOfUsersInQueue!: QueueUsers
+  averageQueuePrice!: AverageQueuePrice
+
+  directTableInfo: CommittedTransaction[] = []
+  indirectTableInfo: IndirectTrade[] = []
+
   constructor(
     private router: Router,
-    private _notificationsService: NotificationsService,
     public _sidebarService: SidebarService,
     private _apiService: ApiService,
     private _dialogService: DialogService,
   ) {
-    _notificationsService.showNotifications$.subscribe(
-      toggled => {
-        this.toggledNotifications = toggled;
-      }
-    )
-    // document.addEventListener('click', (event: Event) => {
-    //   const target = event.target as HTMLElement;
-    //   if (this.notificationsRef != undefined) {
-    //     if(this._notificationsService.isFirstClick()) {
-    //       this._notificationsService.toggleFirstClick()
-    //     }
-    //     else {
-    //       if (!this.notificationsRef.element.nativeElement.contains(target)) {
-    //         _notificationsService.toggleNotifications();
-    //         _notificationsService.toggleFirstClick();
-    //       }
-    //     }
-    //   }
-    // });
-
-
   }
 
-  totalEnergyBoughtBox = {
-    'title': 'Total Energy Bought',
-    'powerValue': 450,
-    'price': 345.69,
-    'date': 'as of 01-December 2022'
-  }
-  pendingPaymentsBox = {
-    'title': 'Pending Payments',
-    'powerValue': 37,
-    'price': 69.42,
-    'date': 'as of 01-December 2022'
-  }
-  accountBalanceBox = {
-    'title': 'Account Balance',
-    'balance': 690.42,
-    'date': '',
-    'isAccountBalance': true
-  }
 
   async ngOnInit() {
-    const currentUser = localStorage.getItem("currentUser")!
+    this.userAddress = localStorage.getItem("currentUser")!
+    this.userInfo = await this._apiService.getUserInfo(this.userAddress)
+    this.userTradingInfo = await this._apiService.getTradingInfo(this.userAddress)
+    this.notificationsCount = await this._apiService.getNotCommittedTransactionsCount()
+    this.numberOfUsersInQueue = await this._apiService.numberOfBuyersAndSellersInQueue()
+    this.averageQueuePrice = await this._apiService.averagePriceInQueue()
+    this.indirectTradingInfo = await this._apiService.getIndirectTradingSettings()
 
-    if(currentUser == null || !(await this._apiService.isUserRegistered(currentUser))) {
+    // console.log(await this._apiService.matchOrders())
+    // console.log(await this._apiService.getIndirectTradeHistory())
+    // console.log(await this._apiService.averagePriceInQueue())
+
+    this.username = this.userInfo.username
+
+    this.tradingStatus = this.userTradingInfo.tradingStatus
+    this.buySellAmount = this.userTradingInfo.buySellAmount
+    this.price = this.userTradingInfo.price
+    this.expiryDate = this.userTradingInfo.expiryDate
+    this.date = new Date(Number(this.expiryDate))
+
+    this.directTableInfo = await this._apiService.getCommittedTransactions()
+    this.indirectTableInfo = await this._apiService.getIndirectTradeHistory()
+
+    if (this.userAddress == null || !(await this._apiService.isUserRegistered(this.userAddress))) {
       this.router.navigate(['/login'])
     }
+
   }
 
   show() {
-    this.ref = this._dialogService.open(PopupComponent, {  width: '50vw'});
+    this.ref = this._dialogService.open(PopupComponent, {
+      width: '50vw', data: {
+        'numberOfBuyers' : this.numberOfUsersInQueue.numberOfBuyers,
+        'numberOfSellers' : this.numberOfUsersInQueue.numberOfSellers,
+        'averageBuyPrice' : this.averageQueuePrice.averageBuyPrice,
+        'averageSellPrice' : this.averageQueuePrice.averageSellPrice
+      }
+    });
   }
 
-
-
   protected readonly localStorage = localStorage;
+  protected readonly BigInt = BigInt;
 }
