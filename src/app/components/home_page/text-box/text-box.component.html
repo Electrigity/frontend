@@ -9,7 +9,7 @@
       </span>
       </p>
       <div *ngIf="tradingInfo.tradingStatus != 'NotTrading'">
-        <p>{{ tradingInfo.tradingStatus + ' ' + tradingInfo.buySellAmount + ' kWh'}} for: ${{ tradingInfo.price }}</p>
+        <p>{{ tradingInfo.tradingStatus + ' ' + tradingInfo.buySellAmount + ' kWh'}} for: {{ tradingInfo.price }} <i>EGY</i></p>
         <p>Expires: {{moment(date).format("DD MMM YYYY, hh:mm A") }}</p>
       </div>
     </div>
@@ -30,7 +30,7 @@
         </p>
         <div>
           <p>{{indirectTradingInfo.isBuyOrder ? 'Buying' : 'Selling'}}
-            {{' ' + indirectTradingInfo.energyAmount + ' kWh'}} for: ${{ indirectTradingInfo.price }}</p>
+            {{' ' + indirectTradingInfo.energyAmount + ' kWh'}} for: {{ indirectTradingInfo.price }} <i>EGY</i></p>
           <div style="display: flex; justify-content: center">
             <p-button label="Cancel Order" (onClick)="cancelOrder()" size="small"></p-button>
           </div>

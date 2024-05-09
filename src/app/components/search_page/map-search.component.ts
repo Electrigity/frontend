@@ -124,7 +124,7 @@ export class MapSearchComponent {
             </p>
             <p>Energy amount: ${activeTrader.energyBalance} kWh</p>
             <p>Transaction valid until: <span id="validDate"></span> </p>
-            <p><span style="color: #04aa04">Price:</span>${activeTrader.price} EGY</p>
+            <p><span style="color: #04aa04">Price:</span>${activeTrader.price} <i>EGY</i></p>
             <div style="display: flex; justify-content: center">
               <button style="cursor: pointer; background: #5c77ff; color: whitesmoke"
               id="confirm-trade-${activeTrader.username}">
