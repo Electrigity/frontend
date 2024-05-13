@@ -2216,7 +2216,10 @@ export class ApiService {
 
   async getTradingInfo(userAddress: string): Promise<UserTradingInfo> {
     let userTradingInfo = await this.userManagerContract.methods['getTradingInfo'](userAddress).call() as UserTradingInfo
-    userTradingInfo.expiryDate = userTradingInfo.expiryDate * BigInt(1000)
+    userTradingInfo.expiryDate = Number(userTradingInfo.expiryDate) * 1000
+    if(Number(userTradingInfo.price) != 0) {
+      userTradingInfo.price = Number(this.web3.utils.fromWei(userTradingInfo.price, 'ether'))
+    }
     return userTradingInfo
   }
 
@@ -2232,7 +2235,7 @@ export class ApiService {
       tradingStatus,
       BigInt(expiryDate/1000),
       BigInt(buySellAmount),
-      BigInt(price),
+      BigInt(this.web3.utils.toWei(price, 'ether')),
     ).send({from: userAddress})
   }
 
@@ -2289,7 +2292,7 @@ export class ApiService {
       activeTraderInfo.latitude = Number(utils.fromWei(trader['latitude'], 'ether'))
       activeTraderInfo.longitude = Number(utils.fromWei(trader['longitude'], 'ether'))
       activeTraderInfo.username = trader['username']
-      activeTraderInfo.price = Number(trader['price'])
+      activeTraderInfo.price = Number(utils.fromWei(trader['price'], 'ether')),
       activeTraderInfo.energyBalance = Number(trader['buySellAmount'])
       activeTraderInfo.tradingStatus = trader['tradingStatus']
       activeTraderInfo.userAddress = trader['userAddress']
